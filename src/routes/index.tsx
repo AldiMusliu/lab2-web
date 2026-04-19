@@ -12,6 +12,9 @@ function App() {
           <p>You may now add components and start building.</p>
           <p>We&apos;ve already added the button component for you.</p>
           <Button className="mt-2">Button</Button>
+          <a href="/dashboard" className="mt-2 inline-block">
+            <Button variant="outline">Open Dashboard</Button>
+          </a>
         </div>
       </div>
     </div>
