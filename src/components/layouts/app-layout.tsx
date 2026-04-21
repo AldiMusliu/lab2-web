@@ -21,9 +21,5 @@ export function AppLayout({ title, subtitle, children }: AppLayoutProps) {
     )
   }
 
-  return (
-    <UserShell title={title} subtitle={subtitle}>
-      {children}
-    </UserShell>
-  )
+  return <UserShell>{children}</UserShell>
 }

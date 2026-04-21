@@ -21,10 +21,10 @@ export function Footer() {
             Smart Library
           </span>
           <div className="space-y-2">
-            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+            <h2 className="text-2xl font-semibold tracking-tight">
               Keep shelves full and workflows calm.
             </h2>
-            <p className="max-w-xl text-sm leading-relaxed text-primary-foreground/80 sm:text-base">
+            <p className="max-w-xl text-sm leading-relaxed text-primary-foreground/80">
               A focused workspace for cataloging books, organizing categories,
               and tracking every borrowing journey from checkout to return.
             </p>
