@@ -9,7 +9,7 @@ type PublicLayoutProps = {
 
 export function PublicLayout({ children }: PublicLayoutProps) {
   return (
-    <div className="flex min-h-svh flex-col bg-background">
+    <div className="flex min-h-svh flex-col bg-secondary">
       <PublicNavbar />
       <main className="flex-1">{children}</main>
       <PublicFooter />

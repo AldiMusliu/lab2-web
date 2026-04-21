@@ -17,7 +17,7 @@ export function Footer() {
 
       <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[1.2fr_1fr] lg:px-8">
         <section className="space-y-4">
-          <span className="inline-flex rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold tracking-[0.16em] text-primary uppercase">
+          <span className="inline-flex rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
             Smart Library
           </span>
           <div className="space-y-2">
@@ -33,7 +33,7 @@ export function Footer() {
 
         <section className="grid gap-8 sm:grid-cols-2">
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold tracking-[0.12em] text-foreground/85 uppercase">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-foreground/80">
               Navigation
             </h3>
             <ul className="space-y-2">
@@ -52,7 +52,7 @@ export function Footer() {
           </div>
 
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold tracking-[0.12em] text-foreground/85 uppercase">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-foreground/80">
               Build
             </h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
@@ -66,7 +66,7 @@ export function Footer() {
 
       <div className="border-t border-border/70 bg-muted/20">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 px-4 py-4 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <p>© {currentYear} Smart Library Management System</p>
+          <p>(c) {currentYear} Smart Library Management System</p>
           <p>Designed for fast catalog and borrowing operations</p>
         </div>
       </div>
