@@ -1,5 +1,5 @@
 import type { Profile } from "@/features/profile/types"
-import { httpClient } from "@/services/http-client"
+import { httpClient } from "@/lib/http-client"
 
 export function getMyProfile() {
   return httpClient.get<Profile>("/profile/me")
