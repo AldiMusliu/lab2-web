@@ -1,12 +1,12 @@
 import type { ReactNode } from "react"
 
-type AppShellProps = {
+type AppLayoutProps = {
   title: string
   subtitle?: string
   children: ReactNode
 }
 
-export function AppShell({ title, subtitle, children }: AppShellProps) {
+export function AppLayout({ title, subtitle, children }: AppLayoutProps) {
   return (
     <div className="min-h-svh bg-background">
       <header className="border-b bg-background/80 backdrop-blur">

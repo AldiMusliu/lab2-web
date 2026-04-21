@@ -9,214 +9,237 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as ProfileIndexRouteImport } from './routes/profile/index'
-import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
-import { Route as CategoriesIndexRouteImport } from './routes/categories/index'
-import { Route as BorrowingsIndexRouteImport } from './routes/borrowings/index'
-import { Route as BooksIndexRouteImport } from './routes/books/index'
-import { Route as AuthRegisterIndexRouteImport } from './routes/auth/register/index'
-import { Route as AuthLoginIndexRouteImport } from './routes/auth/login/index'
+import { Route as ProtectedLayoutRouteImport } from './routes/_protectedLayout'
+import { Route as AuthLayoutRouteImport } from './routes/_authLayout'
+import { Route as AuthLayoutIndexRouteImport } from './routes/_authLayout/index'
+import { Route as AuthLayoutRegisterRouteImport } from './routes/_authLayout/register'
+import { Route as ProtectedLayoutProfileIndexRouteImport } from './routes/_protectedLayout/profile/index'
+import { Route as ProtectedLayoutDashboardIndexRouteImport } from './routes/_protectedLayout/dashboard/index'
+import { Route as ProtectedLayoutCategoriesIndexRouteImport } from './routes/_protectedLayout/categories/index'
+import { Route as ProtectedLayoutBorrowingsIndexRouteImport } from './routes/_protectedLayout/borrowings/index'
+import { Route as ProtectedLayoutBooksIndexRouteImport } from './routes/_protectedLayout/books/index'
 
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const ProtectedLayoutRoute = ProtectedLayoutRouteImport.update({
+  id: '/_protectedLayout',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
+const AuthLayoutRoute = AuthLayoutRouteImport.update({
+  id: '/_authLayout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthLayoutIndexRoute = AuthLayoutIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthLayoutRoute,
 } as any)
-const ProfileIndexRoute = ProfileIndexRouteImport.update({
-  id: '/profile/',
-  path: '/profile/',
-  getParentRoute: () => rootRouteImport,
+const AuthLayoutRegisterRoute = AuthLayoutRegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => AuthLayoutRoute,
 } as any)
-const DashboardIndexRoute = DashboardIndexRouteImport.update({
-  id: '/dashboard/',
-  path: '/dashboard/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CategoriesIndexRoute = CategoriesIndexRouteImport.update({
-  id: '/categories/',
-  path: '/categories/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BorrowingsIndexRoute = BorrowingsIndexRouteImport.update({
-  id: '/borrowings/',
-  path: '/borrowings/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BooksIndexRoute = BooksIndexRouteImport.update({
-  id: '/books/',
-  path: '/books/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRegisterIndexRoute = AuthRegisterIndexRouteImport.update({
-  id: '/auth/register/',
-  path: '/auth/register/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthLoginIndexRoute = AuthLoginIndexRouteImport.update({
-  id: '/auth/login/',
-  path: '/auth/login/',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const ProtectedLayoutProfileIndexRoute =
+  ProtectedLayoutProfileIndexRouteImport.update({
+    id: '/profile/',
+    path: '/profile/',
+    getParentRoute: () => ProtectedLayoutRoute,
+  } as any)
+const ProtectedLayoutDashboardIndexRoute =
+  ProtectedLayoutDashboardIndexRouteImport.update({
+    id: '/dashboard/',
+    path: '/dashboard/',
+    getParentRoute: () => ProtectedLayoutRoute,
+  } as any)
+const ProtectedLayoutCategoriesIndexRoute =
+  ProtectedLayoutCategoriesIndexRouteImport.update({
+    id: '/categories/',
+    path: '/categories/',
+    getParentRoute: () => ProtectedLayoutRoute,
+  } as any)
+const ProtectedLayoutBorrowingsIndexRoute =
+  ProtectedLayoutBorrowingsIndexRouteImport.update({
+    id: '/borrowings/',
+    path: '/borrowings/',
+    getParentRoute: () => ProtectedLayoutRoute,
+  } as any)
+const ProtectedLayoutBooksIndexRoute =
+  ProtectedLayoutBooksIndexRouteImport.update({
+    id: '/books/',
+    path: '/books/',
+    getParentRoute: () => ProtectedLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/books/': typeof BooksIndexRoute
-  '/borrowings/': typeof BorrowingsIndexRoute
-  '/categories/': typeof CategoriesIndexRoute
-  '/dashboard/': typeof DashboardIndexRoute
-  '/profile/': typeof ProfileIndexRoute
-  '/auth/login/': typeof AuthLoginIndexRoute
-  '/auth/register/': typeof AuthRegisterIndexRoute
+  '/': typeof AuthLayoutIndexRoute
+  '/register': typeof AuthLayoutRegisterRoute
+  '/books/': typeof ProtectedLayoutBooksIndexRoute
+  '/borrowings/': typeof ProtectedLayoutBorrowingsIndexRoute
+  '/categories/': typeof ProtectedLayoutCategoriesIndexRoute
+  '/dashboard/': typeof ProtectedLayoutDashboardIndexRoute
+  '/profile/': typeof ProtectedLayoutProfileIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/books': typeof BooksIndexRoute
-  '/borrowings': typeof BorrowingsIndexRoute
-  '/categories': typeof CategoriesIndexRoute
-  '/dashboard': typeof DashboardIndexRoute
-  '/profile': typeof ProfileIndexRoute
-  '/auth/login': typeof AuthLoginIndexRoute
-  '/auth/register': typeof AuthRegisterIndexRoute
+  '/': typeof AuthLayoutIndexRoute
+  '/register': typeof AuthLayoutRegisterRoute
+  '/books': typeof ProtectedLayoutBooksIndexRoute
+  '/borrowings': typeof ProtectedLayoutBorrowingsIndexRoute
+  '/categories': typeof ProtectedLayoutCategoriesIndexRoute
+  '/dashboard': typeof ProtectedLayoutDashboardIndexRoute
+  '/profile': typeof ProtectedLayoutProfileIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/books/': typeof BooksIndexRoute
-  '/borrowings/': typeof BorrowingsIndexRoute
-  '/categories/': typeof CategoriesIndexRoute
-  '/dashboard/': typeof DashboardIndexRoute
-  '/profile/': typeof ProfileIndexRoute
-  '/auth/login/': typeof AuthLoginIndexRoute
-  '/auth/register/': typeof AuthRegisterIndexRoute
+  '/_authLayout': typeof AuthLayoutRouteWithChildren
+  '/_protectedLayout': typeof ProtectedLayoutRouteWithChildren
+  '/_authLayout/register': typeof AuthLayoutRegisterRoute
+  '/_authLayout/': typeof AuthLayoutIndexRoute
+  '/_protectedLayout/books/': typeof ProtectedLayoutBooksIndexRoute
+  '/_protectedLayout/borrowings/': typeof ProtectedLayoutBorrowingsIndexRoute
+  '/_protectedLayout/categories/': typeof ProtectedLayoutCategoriesIndexRoute
+  '/_protectedLayout/dashboard/': typeof ProtectedLayoutDashboardIndexRoute
+  '/_protectedLayout/profile/': typeof ProtectedLayoutProfileIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/register'
     | '/books/'
     | '/borrowings/'
     | '/categories/'
     | '/dashboard/'
     | '/profile/'
-    | '/auth/login/'
-    | '/auth/register/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/register'
     | '/books'
     | '/borrowings'
     | '/categories'
     | '/dashboard'
     | '/profile'
-    | '/auth/login'
-    | '/auth/register'
   id:
     | '__root__'
-    | '/'
-    | '/books/'
-    | '/borrowings/'
-    | '/categories/'
-    | '/dashboard/'
-    | '/profile/'
-    | '/auth/login/'
-    | '/auth/register/'
+    | '/_authLayout'
+    | '/_protectedLayout'
+    | '/_authLayout/register'
+    | '/_authLayout/'
+    | '/_protectedLayout/books/'
+    | '/_protectedLayout/borrowings/'
+    | '/_protectedLayout/categories/'
+    | '/_protectedLayout/dashboard/'
+    | '/_protectedLayout/profile/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  BooksIndexRoute: typeof BooksIndexRoute
-  BorrowingsIndexRoute: typeof BorrowingsIndexRoute
-  CategoriesIndexRoute: typeof CategoriesIndexRoute
-  DashboardIndexRoute: typeof DashboardIndexRoute
-  ProfileIndexRoute: typeof ProfileIndexRoute
-  AuthLoginIndexRoute: typeof AuthLoginIndexRoute
-  AuthRegisterIndexRoute: typeof AuthRegisterIndexRoute
+  AuthLayoutRoute: typeof AuthLayoutRouteWithChildren
+  ProtectedLayoutRoute: typeof ProtectedLayoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
+    '/_protectedLayout': {
+      id: '/_protectedLayout'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ProtectedLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
+    '/_authLayout': {
+      id: '/_authLayout'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authLayout/': {
+      id: '/_authLayout/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthLayoutIndexRouteImport
+      parentRoute: typeof AuthLayoutRoute
     }
-    '/profile/': {
-      id: '/profile/'
+    '/_authLayout/register': {
+      id: '/_authLayout/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof AuthLayoutRegisterRouteImport
+      parentRoute: typeof AuthLayoutRoute
+    }
+    '/_protectedLayout/profile/': {
+      id: '/_protectedLayout/profile/'
       path: '/profile'
       fullPath: '/profile/'
-      preLoaderRoute: typeof ProfileIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof ProtectedLayoutProfileIndexRouteImport
+      parentRoute: typeof ProtectedLayoutRoute
     }
-    '/dashboard/': {
-      id: '/dashboard/'
+    '/_protectedLayout/dashboard/': {
+      id: '/_protectedLayout/dashboard/'
       path: '/dashboard'
       fullPath: '/dashboard/'
-      preLoaderRoute: typeof DashboardIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof ProtectedLayoutDashboardIndexRouteImport
+      parentRoute: typeof ProtectedLayoutRoute
     }
-    '/categories/': {
-      id: '/categories/'
+    '/_protectedLayout/categories/': {
+      id: '/_protectedLayout/categories/'
       path: '/categories'
       fullPath: '/categories/'
-      preLoaderRoute: typeof CategoriesIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof ProtectedLayoutCategoriesIndexRouteImport
+      parentRoute: typeof ProtectedLayoutRoute
     }
-    '/borrowings/': {
-      id: '/borrowings/'
+    '/_protectedLayout/borrowings/': {
+      id: '/_protectedLayout/borrowings/'
       path: '/borrowings'
       fullPath: '/borrowings/'
-      preLoaderRoute: typeof BorrowingsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof ProtectedLayoutBorrowingsIndexRouteImport
+      parentRoute: typeof ProtectedLayoutRoute
     }
-    '/books/': {
-      id: '/books/'
+    '/_protectedLayout/books/': {
+      id: '/_protectedLayout/books/'
       path: '/books'
       fullPath: '/books/'
-      preLoaderRoute: typeof BooksIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth/register/': {
-      id: '/auth/register/'
-      path: '/auth/register'
-      fullPath: '/auth/register/'
-      preLoaderRoute: typeof AuthRegisterIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth/login/': {
-      id: '/auth/login/'
-      path: '/auth/login'
-      fullPath: '/auth/login/'
-      preLoaderRoute: typeof AuthLoginIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof ProtectedLayoutBooksIndexRouteImport
+      parentRoute: typeof ProtectedLayoutRoute
     }
   }
 }
 
+interface AuthLayoutRouteChildren {
+  AuthLayoutRegisterRoute: typeof AuthLayoutRegisterRoute
+  AuthLayoutIndexRoute: typeof AuthLayoutIndexRoute
+}
+
+const AuthLayoutRouteChildren: AuthLayoutRouteChildren = {
+  AuthLayoutRegisterRoute: AuthLayoutRegisterRoute,
+  AuthLayoutIndexRoute: AuthLayoutIndexRoute,
+}
+
+const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
+  AuthLayoutRouteChildren,
+)
+
+interface ProtectedLayoutRouteChildren {
+  ProtectedLayoutBooksIndexRoute: typeof ProtectedLayoutBooksIndexRoute
+  ProtectedLayoutBorrowingsIndexRoute: typeof ProtectedLayoutBorrowingsIndexRoute
+  ProtectedLayoutCategoriesIndexRoute: typeof ProtectedLayoutCategoriesIndexRoute
+  ProtectedLayoutDashboardIndexRoute: typeof ProtectedLayoutDashboardIndexRoute
+  ProtectedLayoutProfileIndexRoute: typeof ProtectedLayoutProfileIndexRoute
+}
+
+const ProtectedLayoutRouteChildren: ProtectedLayoutRouteChildren = {
+  ProtectedLayoutBooksIndexRoute: ProtectedLayoutBooksIndexRoute,
+  ProtectedLayoutBorrowingsIndexRoute: ProtectedLayoutBorrowingsIndexRoute,
+  ProtectedLayoutCategoriesIndexRoute: ProtectedLayoutCategoriesIndexRoute,
+  ProtectedLayoutDashboardIndexRoute: ProtectedLayoutDashboardIndexRoute,
+  ProtectedLayoutProfileIndexRoute: ProtectedLayoutProfileIndexRoute,
+}
+
+const ProtectedLayoutRouteWithChildren = ProtectedLayoutRoute._addFileChildren(
+  ProtectedLayoutRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  BooksIndexRoute: BooksIndexRoute,
-  BorrowingsIndexRoute: BorrowingsIndexRoute,
-  CategoriesIndexRoute: CategoriesIndexRoute,
-  DashboardIndexRoute: DashboardIndexRoute,
-  ProfileIndexRoute: ProfileIndexRoute,
-  AuthLoginIndexRoute: AuthLoginIndexRoute,
-  AuthRegisterIndexRoute: AuthRegisterIndexRoute,
+  AuthLayoutRoute: AuthLayoutRouteWithChildren,
+  ProtectedLayoutRoute: ProtectedLayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
