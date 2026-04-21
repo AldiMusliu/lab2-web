@@ -1,4 +1,6 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router"
+import Lottie from "lottie-react"
+import authAnimation from "@/lotties/books.json"
 
 export const Route = createFileRoute("/_authLayout")({
   component: RouteComponent,
@@ -12,11 +14,14 @@ function RouteComponent() {
           <p className="text-sm font-semibold tracking-[0.12em] text-primary uppercase">
             Smart Library
           </p>
-          <h1 className="mt-3 max-w-md text-3xl font-semibold tracking-tight text-foreground">
+          <h1 className="mt-3 max-w-2xl text-3xl font-semibold tracking-tight text-foreground">
             Public browsing first, protected actions when you sign in.
           </h1>
         </div>
-        <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+        <div className="flex justify-center">
+          <Lottie animationData={authAnimation} className="size-[400px]" />
+        </div>
+        <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
           Explore the catalog on public pages, then continue to borrowing and
           profile management in the protected workspace.
         </p>
