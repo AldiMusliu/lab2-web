@@ -6,7 +6,7 @@ export const Route = createFileRoute("/_authLayout")({
 
 function RouteComponent() {
   return (
-    <div className="grid min-h-svh bg-muted/20 lg:grid-cols-2">
+    <div className="grid min-h-svh bg-secondary lg:grid-cols-2">
       <section className="hidden border-r border-border/60 bg-linear-to-br from-primary/10 via-background to-background p-10 lg:flex lg:flex-col lg:justify-between">
         <div>
           <p className="text-sm font-semibold tracking-[0.12em] text-primary uppercase">
@@ -22,7 +22,7 @@ function RouteComponent() {
         </p>
       </section>
 
-      <section className="flex items-center justify-center px-4 py-10 sm:px-6 lg:px-10">
+      <section className="flex items-center justify-center bg-primary px-4 py-10 sm:px-6 lg:px-10">
         <div className="w-full">
           <Outlet />
         </div>

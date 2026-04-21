@@ -15,7 +15,7 @@ function LoginPage() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-md rounded-2xl border bg-card p-6 text-card-foreground shadow-sm">
+    <div className="mx-auto w-full max-w-md rounded-2xl border bg-white p-6 text-card-foreground shadow-sm">
       <h1 className="text-2xl font-semibold tracking-tight">Welcome back</h1>
       <p className="mt-2 text-sm text-muted-foreground">
         Login form placeholder. Public users can browse pages, then sign in to

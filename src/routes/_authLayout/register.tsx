@@ -15,7 +15,7 @@ function RegisterPage() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-md rounded-2xl border bg-card p-6 text-card-foreground shadow-sm">
+    <div className="mx-auto w-full max-w-md rounded-2xl border bg-white p-6 text-card-foreground shadow-sm">
       <h1 className="text-2xl font-semibold tracking-tight">
         Create an account
       </h1>

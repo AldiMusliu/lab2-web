@@ -34,6 +34,24 @@ export function PublicNavbar() {
             </span>
           </Link>
 
+          <nav
+            aria-label="Public navigation"
+            className="hidden overflow-x-auto pb-1 sm:block"
+          >
+            <ul className="flex min-w-max items-center gap-2">
+              {publicNavigationItems.map((item) => (
+                <li key={item.href}>
+                  <a
+                    href={item.href}
+                    className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-sm font-medium text-primary-foreground/80 transition-colors hover:text-primary-foreground"
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
           <div className="flex items-center gap-2">
             <button
               type="button"
@@ -58,24 +76,6 @@ export function PublicNavbar() {
             </Link>
           </div>
         </div>
-
-        <nav
-          aria-label="Public navigation"
-          className="mt-3 hidden overflow-x-auto pb-1 md:mt-4 sm:block"
-        >
-          <ul className="flex min-w-max items-center gap-2">
-            {publicNavigationItems.map((item) => (
-              <li key={item.href}>
-                <a
-                  href={item.href}
-                  className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-sm font-medium text-primary-foreground/80 transition-colors hover:text-primary-foreground"
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
       </div>
 
       <MobileSlidePanel

@@ -11,7 +11,7 @@ type UserShellProps = {
 
 export function UserShell({ title, subtitle, children }: UserShellProps) {
   return (
-    <div className="flex min-h-svh flex-col bg-background">
+    <div className="flex min-h-svh flex-col bg-secondary">
       <Navbar />
       <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 py-6 sm:px-6 lg:px-8">
         {title ? (

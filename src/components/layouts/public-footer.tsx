@@ -17,13 +17,13 @@ export function PublicFooter() {
             Smart Library
           </p>
           <p className="max-w-sm text-sm leading-relaxed text-primary-foreground/80">
-            Welcome readers, guide members, and present the digital library in
-            a way that feels like part of the institution itself.
+            Welcome readers, guide members, and present the digital library in a
+            way that feels like part of the institution itself.
           </p>
         </section>
 
         <section className="space-y-3">
-          <p className="text-sm font-semibold uppercase tracking-[0.08em]">
+          <p className="text-sm font-semibold tracking-[0.08em] uppercase">
             Explore
           </p>
           <ul className="space-y-2">
@@ -41,7 +41,7 @@ export function PublicFooter() {
         </section>
 
         <section className="space-y-3">
-          <p className="text-sm font-semibold uppercase tracking-[0.08em]">
+          <p className="text-sm font-semibold tracking-[0.08em] uppercase">
             Account
           </p>
           <div className="flex flex-wrap items-center gap-2">
