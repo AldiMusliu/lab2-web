@@ -1,5 +1,6 @@
 import type { ReactNode } from "react"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { createPortal } from "react-dom"
 import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -23,6 +24,16 @@ export function MobileSlidePanel({
   children,
   className,
 }: MobileSlidePanelProps) {
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+
+    return () => {
+      setIsMounted(false)
+    }
+  }, [])
+
   useEffect(() => {
     if (!open) {
       return
@@ -44,10 +55,14 @@ export function MobileSlidePanel({
     }
   }, [open, onClose])
 
-  return (
+  if (!isMounted) {
+    return null
+  }
+
+  return createPortal(
     <div
       className={cn(
-        "fixed inset-0 z-50 transition-all md:hidden",
+        "fixed inset-0 z-[70] transition-all md:hidden",
         open ? "pointer-events-auto" : "pointer-events-none"
       )}
       aria-hidden={!open}
@@ -65,9 +80,7 @@ export function MobileSlidePanel({
       <aside
         className={cn(
           "absolute top-0 h-full w-[min(86vw,22rem)] border-border shadow-2xl transition-transform duration-300 ease-out",
-          side === "left"
-            ? "left-0 border-r"
-            : "right-0 border-l",
+          side === "left" ? "left-0 border-r" : "right-0 border-l",
           side === "left"
             ? open
               ? "translate-x-0"
@@ -99,6 +112,7 @@ export function MobileSlidePanel({
           {children}
         </div>
       </aside>
-    </div>
+    </div>,
+    document.body
   )
 }

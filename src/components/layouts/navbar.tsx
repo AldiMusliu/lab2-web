@@ -64,7 +64,7 @@ export function Navbar() {
   return (
     <header className="border-b border-border/70 bg-background/90 backdrop-blur-xl supports-backdrop-filter:bg-background/75">
       <div className="mx-auto w-full max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-        <div className="relative flex flex-wrap items-center justify-between gap-4 pb-4">
+        <div className="relative flex flex-wrap items-center justify-between gap-4 md:pb-4">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-primary/60 to-transparent" />
           <Link
             to="/"
