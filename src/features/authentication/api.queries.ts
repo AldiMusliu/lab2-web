@@ -1,4 +1,4 @@
-import { httpClient } from "@/services/http-client"
+import { httpClient } from "@/lib/http-client"
 import type { AuthUser } from "@/features/authentication/types"
 
 export function getCurrentUser() {

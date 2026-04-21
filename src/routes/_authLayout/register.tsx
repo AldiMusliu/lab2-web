@@ -1,18 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { AppShell } from "@/components/layouts/app-shell"
+import { AppLayout } from "@/components/layouts/app-layout"
 import { PlaceholderCard } from "@/components/shared/placeholder-card"
 
-export const Route = createFileRoute("/auth/register/")({
+export const Route = createFileRoute("/_authLayout/register")({
   component: RegisterPage,
 })
 
 function RegisterPage() {
   return (
-    <AppShell title="Register" subtitle="Authentication route placeholder">
+    <AppLayout title="Register" subtitle="Authentication route placeholder">
       <PlaceholderCard
         title="Register page"
         description="Use this route as the register entry point."
       />
-    </AppShell>
+    </AppLayout>
   )
 }

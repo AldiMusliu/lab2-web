@@ -1,4 +1,4 @@
-import { httpClient } from "@/services/http-client"
+import { httpClient } from "@/lib/http-client"
 import type { Borrowing, CreateBorrowingInput } from "@/features/borrowings/types"
 
 export function createBorrowing(payload: CreateBorrowingInput) {

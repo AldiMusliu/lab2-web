@@ -1,4 +1,4 @@
-import { httpClient } from "@/services/http-client"
+import { httpClient } from "@/lib/http-client"
 import type { Category, UpsertCategoryInput } from "@/features/categories/types"
 
 export function createCategory(payload: UpsertCategoryInput) {
