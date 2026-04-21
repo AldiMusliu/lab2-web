@@ -4,7 +4,7 @@ import type { ReactNode } from "react"
 export type GlobalDialogOptions = {
   title: ReactNode
   description?: ReactNode
-  content?: ReactNode
+  children?: ReactNode
   confirmLabel?: string
   cancelLabel?: string
   hideCancel?: boolean
