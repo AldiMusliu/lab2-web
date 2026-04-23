@@ -5,5 +5,5 @@ export const Route = createFileRoute("/_publicLayout/our-mission/")({
 })
 
 function RouteComponent() {
-  return <div>Our Missions</div>
+  return <div>Our Mission</div>
 }
