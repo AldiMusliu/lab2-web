@@ -9,17 +9,26 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PublicLayoutRouteImport } from './routes/_publicLayout'
 import { Route as ProtectedLayoutRouteImport } from './routes/_protectedLayout'
 import { Route as AuthLayoutRouteImport } from './routes/_authLayout'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as PublicLayoutIndexRouteImport } from './routes/_publicLayout/index'
 import { Route as AuthLayoutRegisterRouteImport } from './routes/_authLayout/register'
 import { Route as AuthLayoutLoginRouteImport } from './routes/_authLayout/login'
+import { Route as PublicLayoutServicesIndexRouteImport } from './routes/_publicLayout/services/index'
+import { Route as PublicLayoutOurMissionIndexRouteImport } from './routes/_publicLayout/our-mission/index'
+import { Route as PublicLayoutCollectionsIndexRouteImport } from './routes/_publicLayout/collections/index'
+import { Route as PublicLayoutAboutUsIndexRouteImport } from './routes/_publicLayout/about-us/index'
 import { Route as ProtectedLayoutProfileIndexRouteImport } from './routes/_protectedLayout/profile/index'
 import { Route as ProtectedLayoutDashboardIndexRouteImport } from './routes/_protectedLayout/dashboard/index'
 import { Route as ProtectedLayoutCategoriesIndexRouteImport } from './routes/_protectedLayout/categories/index'
 import { Route as ProtectedLayoutBorrowingsIndexRouteImport } from './routes/_protectedLayout/borrowings/index'
 import { Route as ProtectedLayoutBooksIndexRouteImport } from './routes/_protectedLayout/books/index'
 
+const PublicLayoutRoute = PublicLayoutRouteImport.update({
+  id: '/_publicLayout',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProtectedLayoutRoute = ProtectedLayoutRouteImport.update({
   id: '/_protectedLayout',
   getParentRoute: () => rootRouteImport,
@@ -28,10 +37,10 @@ const AuthLayoutRoute = AuthLayoutRouteImport.update({
   id: '/_authLayout',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
+const PublicLayoutIndexRoute = PublicLayoutIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => PublicLayoutRoute,
 } as any)
 const AuthLayoutRegisterRoute = AuthLayoutRegisterRouteImport.update({
   id: '/register',
@@ -43,6 +52,30 @@ const AuthLayoutLoginRoute = AuthLayoutLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => AuthLayoutRoute,
 } as any)
+const PublicLayoutServicesIndexRoute =
+  PublicLayoutServicesIndexRouteImport.update({
+    id: '/services/',
+    path: '/services/',
+    getParentRoute: () => PublicLayoutRoute,
+  } as any)
+const PublicLayoutOurMissionIndexRoute =
+  PublicLayoutOurMissionIndexRouteImport.update({
+    id: '/our-mission/',
+    path: '/our-mission/',
+    getParentRoute: () => PublicLayoutRoute,
+  } as any)
+const PublicLayoutCollectionsIndexRoute =
+  PublicLayoutCollectionsIndexRouteImport.update({
+    id: '/collections/',
+    path: '/collections/',
+    getParentRoute: () => PublicLayoutRoute,
+  } as any)
+const PublicLayoutAboutUsIndexRoute =
+  PublicLayoutAboutUsIndexRouteImport.update({
+    id: '/about-us/',
+    path: '/about-us/',
+    getParentRoute: () => PublicLayoutRoute,
+  } as any)
 const ProtectedLayoutProfileIndexRoute =
   ProtectedLayoutProfileIndexRouteImport.update({
     id: '/profile/',
@@ -75,7 +108,7 @@ const ProtectedLayoutBooksIndexRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof PublicLayoutIndexRoute
   '/login': typeof AuthLayoutLoginRoute
   '/register': typeof AuthLayoutRegisterRoute
   '/books/': typeof ProtectedLayoutBooksIndexRoute
@@ -83,9 +116,13 @@ export interface FileRoutesByFullPath {
   '/categories/': typeof ProtectedLayoutCategoriesIndexRoute
   '/dashboard/': typeof ProtectedLayoutDashboardIndexRoute
   '/profile/': typeof ProtectedLayoutProfileIndexRoute
+  '/about-us/': typeof PublicLayoutAboutUsIndexRoute
+  '/collections/': typeof PublicLayoutCollectionsIndexRoute
+  '/our-mission/': typeof PublicLayoutOurMissionIndexRoute
+  '/services/': typeof PublicLayoutServicesIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/': typeof PublicLayoutIndexRoute
   '/login': typeof AuthLayoutLoginRoute
   '/register': typeof AuthLayoutRegisterRoute
   '/books': typeof ProtectedLayoutBooksIndexRoute
@@ -93,19 +130,28 @@ export interface FileRoutesByTo {
   '/categories': typeof ProtectedLayoutCategoriesIndexRoute
   '/dashboard': typeof ProtectedLayoutDashboardIndexRoute
   '/profile': typeof ProtectedLayoutProfileIndexRoute
+  '/about-us': typeof PublicLayoutAboutUsIndexRoute
+  '/collections': typeof PublicLayoutCollectionsIndexRoute
+  '/our-mission': typeof PublicLayoutOurMissionIndexRoute
+  '/services': typeof PublicLayoutServicesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
   '/_authLayout': typeof AuthLayoutRouteWithChildren
   '/_protectedLayout': typeof ProtectedLayoutRouteWithChildren
+  '/_publicLayout': typeof PublicLayoutRouteWithChildren
   '/_authLayout/login': typeof AuthLayoutLoginRoute
   '/_authLayout/register': typeof AuthLayoutRegisterRoute
+  '/_publicLayout/': typeof PublicLayoutIndexRoute
   '/_protectedLayout/books/': typeof ProtectedLayoutBooksIndexRoute
   '/_protectedLayout/borrowings/': typeof ProtectedLayoutBorrowingsIndexRoute
   '/_protectedLayout/categories/': typeof ProtectedLayoutCategoriesIndexRoute
   '/_protectedLayout/dashboard/': typeof ProtectedLayoutDashboardIndexRoute
   '/_protectedLayout/profile/': typeof ProtectedLayoutProfileIndexRoute
+  '/_publicLayout/about-us/': typeof PublicLayoutAboutUsIndexRoute
+  '/_publicLayout/collections/': typeof PublicLayoutCollectionsIndexRoute
+  '/_publicLayout/our-mission/': typeof PublicLayoutOurMissionIndexRoute
+  '/_publicLayout/services/': typeof PublicLayoutServicesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -118,6 +164,10 @@ export interface FileRouteTypes {
     | '/categories/'
     | '/dashboard/'
     | '/profile/'
+    | '/about-us/'
+    | '/collections/'
+    | '/our-mission/'
+    | '/services/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -128,28 +178,44 @@ export interface FileRouteTypes {
     | '/categories'
     | '/dashboard'
     | '/profile'
+    | '/about-us'
+    | '/collections'
+    | '/our-mission'
+    | '/services'
   id:
     | '__root__'
-    | '/'
     | '/_authLayout'
     | '/_protectedLayout'
+    | '/_publicLayout'
     | '/_authLayout/login'
     | '/_authLayout/register'
+    | '/_publicLayout/'
     | '/_protectedLayout/books/'
     | '/_protectedLayout/borrowings/'
     | '/_protectedLayout/categories/'
     | '/_protectedLayout/dashboard/'
     | '/_protectedLayout/profile/'
+    | '/_publicLayout/about-us/'
+    | '/_publicLayout/collections/'
+    | '/_publicLayout/our-mission/'
+    | '/_publicLayout/services/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   AuthLayoutRoute: typeof AuthLayoutRouteWithChildren
   ProtectedLayoutRoute: typeof ProtectedLayoutRouteWithChildren
+  PublicLayoutRoute: typeof PublicLayoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_publicLayout': {
+      id: '/_publicLayout'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PublicLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_protectedLayout': {
       id: '/_protectedLayout'
       path: ''
@@ -164,12 +230,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
+    '/_publicLayout/': {
+      id: '/_publicLayout/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof PublicLayoutIndexRouteImport
+      parentRoute: typeof PublicLayoutRoute
     }
     '/_authLayout/register': {
       id: '/_authLayout/register'
@@ -184,6 +250,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/login'
       preLoaderRoute: typeof AuthLayoutLoginRouteImport
       parentRoute: typeof AuthLayoutRoute
+    }
+    '/_publicLayout/services/': {
+      id: '/_publicLayout/services/'
+      path: '/services'
+      fullPath: '/services/'
+      preLoaderRoute: typeof PublicLayoutServicesIndexRouteImport
+      parentRoute: typeof PublicLayoutRoute
+    }
+    '/_publicLayout/our-mission/': {
+      id: '/_publicLayout/our-mission/'
+      path: '/our-mission'
+      fullPath: '/our-mission/'
+      preLoaderRoute: typeof PublicLayoutOurMissionIndexRouteImport
+      parentRoute: typeof PublicLayoutRoute
+    }
+    '/_publicLayout/collections/': {
+      id: '/_publicLayout/collections/'
+      path: '/collections'
+      fullPath: '/collections/'
+      preLoaderRoute: typeof PublicLayoutCollectionsIndexRouteImport
+      parentRoute: typeof PublicLayoutRoute
+    }
+    '/_publicLayout/about-us/': {
+      id: '/_publicLayout/about-us/'
+      path: '/about-us'
+      fullPath: '/about-us/'
+      preLoaderRoute: typeof PublicLayoutAboutUsIndexRouteImport
+      parentRoute: typeof PublicLayoutRoute
     }
     '/_protectedLayout/profile/': {
       id: '/_protectedLayout/profile/'
@@ -257,10 +351,30 @@ const ProtectedLayoutRouteWithChildren = ProtectedLayoutRoute._addFileChildren(
   ProtectedLayoutRouteChildren,
 )
 
+interface PublicLayoutRouteChildren {
+  PublicLayoutIndexRoute: typeof PublicLayoutIndexRoute
+  PublicLayoutAboutUsIndexRoute: typeof PublicLayoutAboutUsIndexRoute
+  PublicLayoutCollectionsIndexRoute: typeof PublicLayoutCollectionsIndexRoute
+  PublicLayoutOurMissionIndexRoute: typeof PublicLayoutOurMissionIndexRoute
+  PublicLayoutServicesIndexRoute: typeof PublicLayoutServicesIndexRoute
+}
+
+const PublicLayoutRouteChildren: PublicLayoutRouteChildren = {
+  PublicLayoutIndexRoute: PublicLayoutIndexRoute,
+  PublicLayoutAboutUsIndexRoute: PublicLayoutAboutUsIndexRoute,
+  PublicLayoutCollectionsIndexRoute: PublicLayoutCollectionsIndexRoute,
+  PublicLayoutOurMissionIndexRoute: PublicLayoutOurMissionIndexRoute,
+  PublicLayoutServicesIndexRoute: PublicLayoutServicesIndexRoute,
+}
+
+const PublicLayoutRouteWithChildren = PublicLayoutRoute._addFileChildren(
+  PublicLayoutRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   AuthLayoutRoute: AuthLayoutRouteWithChildren,
   ProtectedLayoutRoute: ProtectedLayoutRouteWithChildren,
+  PublicLayoutRoute: PublicLayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
