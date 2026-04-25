@@ -1,6 +1,15 @@
-import { httpClient } from "@/lib/http-client"
-import type { DashboardStats } from "@/features/dashboard/types"
+import { readMockBookById, readMockBooks } from "@/features/books/mock-store"
 
-export function getDashboardStats() {
-  return httpClient.get<DashboardStats>("/dashboard/stats")
+export function getBooks() {
+  return Promise.resolve(readMockBooks())
+}
+
+export function getBookById(bookId: string) {
+  const book = readMockBookById(bookId)
+
+  if (!book) {
+    return Promise.reject(new Error("Book not found"))
+  }
+
+  return Promise.resolve(book)
 }
