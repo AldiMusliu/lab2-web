@@ -67,10 +67,10 @@ export function AdminShell({ title, subtitle, children }: AdminShellProps) {
   )
 
   return (
-    <div className="flex h-dvh overflow-hidden bg-muted/[0.35]">
+    <div className="flex min-h-dvh bg-muted/[0.35]">
       <aside
         className={cn(
-          "hidden shrink-0 flex-col overflow-hidden bg-primary text-primary-foreground transition-[width] duration-300 lg:flex",
+          "sticky top-0 hidden h-dvh shrink-0 flex-col self-start overflow-hidden bg-primary text-primary-foreground transition-[width] duration-300 lg:flex",
           sidebarCollapsed ? "w-[5.5rem]" : "w-[19rem]"
         )}
       >
@@ -152,7 +152,7 @@ export function AdminShell({ title, subtitle, children }: AdminShellProps) {
         )}
       </aside>
 
-      <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
+      <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-30 border-b bg-background/[0.92] backdrop-blur">
           <div className="flex items-start justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
             <div className="flex items-start gap-3">
@@ -186,7 +186,7 @@ export function AdminShell({ title, subtitle, children }: AdminShellProps) {
           </div>
         </header>
 
-        <main className="min-h-0 flex-1 overflow-y-auto bg-secondary p-4 sm:p-6 lg:p-8">
+        <main className="flex-1 bg-secondary p-4 sm:p-6 lg:p-8">
           {children}
         </main>
       </div>
