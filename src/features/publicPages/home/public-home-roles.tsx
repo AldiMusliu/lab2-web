@@ -1,50 +1,64 @@
-const roleCards = [
-  {
-    title: "User role",
-    description:
-      "Readers can browse books, search categories, borrow titles, return them, and review personal borrowing history.",
-  },
-  {
-    title: "Admin role",
-    description:
-      "Admins manage catalog structure, categories, borrowing records, and the broader library workflow from a dedicated layout.",
-  },
-] as const
+import { HomeCard } from "@/features/publicPages/home/_components/card"
+import {
+  publicHomeContent,
+  type PublicHomeRoleCard,
+} from "@/features/publicPages/home/home-project-data"
+import {
+  createItemVariants,
+  createSectionVariants,
+  getCardHover,
+} from "@/features/publicPages/home/home-motion"
+import { motion, useReducedMotion } from "framer-motion"
+import { ShieldCheck, UserRound, type LucideIcon } from "lucide-react"
+
+const roleIcons: Record<PublicHomeRoleCard["id"], LucideIcon> = {
+  user: UserRound,
+  admin: ShieldCheck,
+}
 
 export function PublicHomeRoles() {
+  const shouldReduceMotion = useReducedMotion()
+  const prefersReducedMotion = Boolean(shouldReduceMotion)
+  const sectionVariants = createSectionVariants(prefersReducedMotion)
+  const itemVariants = createItemVariants(prefersReducedMotion)
+  const cardHover = getCardHover(prefersReducedMotion)
+
   return (
-    <section
+    <motion.section
       id="roles"
       className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={sectionVariants}
     >
-      <div className="max-w-2xl space-y-3">
+      <motion.div variants={itemVariants} className="max-w-2xl space-y-3">
         <p className="text-xs font-semibold tracking-[0.16em] text-primary uppercase">
-          Roles
+          {publicHomeContent.roles.badge}
         </p>
         <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-          Two static roles are ready for the protected area right now.
+          {publicHomeContent.roles.title}
         </h2>
         <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
-          `user` keeps the current member-style top layout, while `admin` opens
-          a more CRM-like interface with sidebar navigation.
+          {publicHomeContent.roles.description}
         </p>
-      </div>
+      </motion.div>
 
       <div className="mt-8 grid gap-5 lg:grid-cols-2">
-        {roleCards.map((role) => (
-          <article
-            key={role.title}
-            className="rounded-3xl border border-border/70 bg-background p-6 shadow-sm"
-          >
-            <h3 className="text-xl font-semibold tracking-tight text-foreground">
-              {role.title}
-            </h3>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              {role.description}
-            </p>
-          </article>
+        {publicHomeContent.roles.cards.map((role) => (
+          <motion.div key={role.title} variants={itemVariants}>
+            <HomeCard
+              icon={roleIcons[role.id]}
+              title={role.title}
+              description={role.description}
+              details={role.points}
+              meta="Protected workspace"
+              hoverEffect={cardHover}
+              className="p-6"
+            />
+          </motion.div>
         ))}
       </div>
-    </section>
+    </motion.section>
   )
 }
