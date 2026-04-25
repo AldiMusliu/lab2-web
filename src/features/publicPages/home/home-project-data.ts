@@ -62,18 +62,27 @@ type PublicHomeContent = {
   }
 }
 
-const activeBorrowings = mockBorrowings.filter((item) => item.returnedAt === null)
-const returnedBorrowings = mockBorrowings.filter((item) => item.returnedAt !== null)
+const activeBorrowings = mockBorrowings.filter(
+  (item) => item.returnedAt === null
+)
+const returnedBorrowings = mockBorrowings.filter(
+  (item) => item.returnedAt !== null
+)
 const overdueBorrowings = activeBorrowings.filter(
-  (item) => new Date(item.dueAt).getTime() < Date.now(),
+  (item) => new Date(item.dueAt).getTime() < Date.now()
 )
 
-const booksByCategory = mockBooks.reduce<Record<string, number>>((acc, book) => {
-  acc[book.categoryId] = (acc[book.categoryId] ?? 0) + 1
-  return acc
-}, {})
+const booksByCategory = mockBooks.reduce<Record<string, number>>(
+  (acc, book) => {
+    acc[book.categoryId] = (acc[book.categoryId] ?? 0) + 1
+    return acc
+  },
+  {}
+)
 
-const topCategoryId = Object.entries(booksByCategory).sort((a, b) => b[1] - a[1])[0]?.[0]
+const topCategoryId = Object.entries(booksByCategory).sort(
+  (a, b) => b[1] - a[1]
+)[0]?.[0]
 const topCategory =
   mockCategories.find((category) => category.id === topCategoryId)?.name ??
   "Category setup in progress"
@@ -82,73 +91,74 @@ const uniqueRoles = new Set(mockUsers.map((user) => user.role))
 
 export const publicHomeContent: PublicHomeContent = {
   hero: {
-    badge: "Smart Library Project",
-    title: "A real project workspace for modern library operations.",
+    badge: "Smart Library",
+    title:
+      "A connected library for faster discovery, borrowing, and community learning.",
     description:
-      "This home page now reads from your current project data and reflects the actual scope: authentication, catalog management, borrowing workflow, profile area, and admin operations in one roadmap.",
+      "Smart Library combines a searchable digital catalogue, member accounts, due-date tracking, and staff tools so readers can spend less time waiting and more time reading.",
     metrics: [
       {
         label: "Books",
         value: String(mockBooks.length),
-        caption: "Catalog records currently available",
+        caption: "Titles available in the catalogue preview",
       },
       {
         label: "Categories",
         value: String(mockCategories.length),
-        caption: "Shelves configured in the dataset",
+        caption: "Organized shelves for guided discovery",
       },
       {
         label: "Borrowings",
         value: String(mockBorrowings.length),
-        caption: "Borrowing records tracked so far",
+        caption: "Loans tracked through the member portal",
       },
       {
         label: "Roles",
         value: String(uniqueRoles.size),
-        caption: "Distinct access roles prepared",
+        caption: "Reader and staff access paths",
       },
     ],
   },
   collection: {
     badge: "Collection",
-    title: "Driven by real records, not placeholder copy.",
+    title: "Find the right book from a catalogue built for daily use.",
     description:
-      "Core cards below are now generated from your current Smart Library datasets so every section reflects live project context.",
+      "Books are grouped by category, linked to borrowing status, and prepared for search-first workflows that match how members actually ask for help.",
     cards: [
       {
         id: "catalog",
         title: "Book catalog",
         description:
-          "Track titles, authors, and category links in a single catalog ready for search and filtering workflows.",
+          "Browse titles, authors, availability, and category links from one clean catalogue experience.",
         meta: `${mockBooks.length} titles indexed`,
       },
       {
         id: "categories",
         title: "Category shelves",
         description:
-          "Group books into structured shelves so readers can discover content quickly and admins can manage taxonomy.",
+          "Use structured shelves to guide readers toward technology, learning, fiction, research, and local-interest material.",
         meta: `Top category: ${topCategory}`,
       },
       {
         id: "borrowings",
         title: "Borrowing health",
         description:
-          "Monitor due dates, active loans, and return flow to keep borrowing operations transparent and predictable.",
+          "Check active loans, due dates, and return status so members and staff share the same view of circulation.",
         meta: `${activeBorrowings.length} active, ${overdueBorrowings.length} overdue`,
       },
     ],
   },
   services: {
     badge: "Services",
-    title: "Mapped to your actual Smart Library scope.",
+    title: "Useful services for members, librarians, and reviewers.",
     description:
-      "These service blocks align with your documented architecture, role flow, and future integration direction.",
+      "The public site explains the service layer clearly while the protected portal handles accounts, catalogue management, and borrowing operations.",
     cards: [
       {
         id: "auth",
         title: "Authentication and protected flow",
         description:
-          "Public visitors can move into protected routes with role-aware navigation for user and admin workspaces.",
+          "Members can sign in to view profile details, borrowing history, and the routes available for their role.",
         audience: "Readers and library staff",
         meta: `${uniqueRoles.size} role paths ready`,
       },
@@ -156,7 +166,7 @@ export const publicHomeContent: PublicHomeContent = {
         id: "catalog",
         title: "Catalog and category management",
         description:
-          "Manage books and categories as the operational core for discovery, organization, and future search improvements.",
+          "Staff can keep the collection organized with book records, category structure, and availability signals.",
         audience: "Librarians and admins",
         meta: `${mockBooks.length} books across ${mockCategories.length} categories`,
       },
@@ -164,7 +174,7 @@ export const publicHomeContent: PublicHomeContent = {
         id: "borrowings",
         title: "Borrow and return lifecycle",
         description:
-          "Cover the full timeline from checkout to return with clear status visibility and due date tracking.",
+          "The system follows each loan from checkout to return with clear due dates and operational status.",
         audience: "Members and circulation desk",
         meta: `${returnedBorrowings.length} returned, ${activeBorrowings.length} active`,
       },
@@ -172,7 +182,7 @@ export const publicHomeContent: PublicHomeContent = {
         id: "architecture",
         title: "Scalable full-stack architecture",
         description:
-          "Frontend is aligned with TanStack Start while backend and database layers are planned for Express, PostgreSQL, and MongoDB.",
+          "The product is designed to grow into recommendations, analytics, and richer integrations without changing the public experience.",
         audience: "Project team and reviewers",
         meta: "AI-ready extension path included",
       },
@@ -180,15 +190,15 @@ export const publicHomeContent: PublicHomeContent = {
   },
   roles: {
     badge: "Roles",
-    title: "User and admin experiences are separated with intent.",
+    title: "Readers and staff get different workspaces for different jobs.",
     description:
-      "Role cards summarize how each path is designed inside the same product while keeping responsibilities clear.",
+      "The same Smart Library product supports member self-service and librarian operations without mixing responsibilities.",
     cards: [
       {
         id: "user",
         title: "User role",
         description:
-          "Readers focus on discovery, borrowing, returning, and reviewing personal activity without admin complexity.",
+          "Readers focus on discovery, borrowing, returns, and their own account history without staff-only tools in the way.",
         points: [
           "Browse books and categories",
           "Borrow and return with due-date awareness",
@@ -199,7 +209,7 @@ export const publicHomeContent: PublicHomeContent = {
         id: "admin",
         title: "Admin role",
         description:
-          "Administrators control library operations through a dedicated layout and management-oriented navigation.",
+          "Administrators manage the catalogue, categories, and borrowing records through a dedicated operational layout.",
         points: [
           "Manage catalog and category structure",
           "Oversee borrowing records and workflow health",
@@ -210,9 +220,9 @@ export const publicHomeContent: PublicHomeContent = {
   },
   cta: {
     badge: "Continue",
-    title: "Open the protected area and test the role-based experience.",
+    title: "Enter the portal to try the member and staff experience.",
     description:
-      "Use login for existing credentials or register a new account to continue validating both user and admin navigation paths.",
+      "Use login for existing credentials or register a new account to explore how Smart Library handles real borrowing workflows.",
     primaryLabel: "Go to login",
     secondaryLabel: "Create account",
   },

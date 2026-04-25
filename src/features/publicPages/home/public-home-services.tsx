@@ -64,7 +64,7 @@ export function PublicHomeServices() {
                   icon={Icon}
                   title={card.title}
                   description={card.description}
-                  meta={`${card.meta} • ${card.audience}`}
+                  meta={`${card.meta} - ${card.audience}`}
                   variant="soft"
                   hoverEffect={cardHover}
                 />

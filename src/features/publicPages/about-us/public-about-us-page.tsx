@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router"
+import { motion, useReducedMotion } from "framer-motion"
 import {
   aboutUsCta,
   aboutUsGuide,
@@ -9,6 +10,11 @@ import {
   aboutUsValues,
   type AboutUsValueIcon,
 } from "@/mocks/mockup-data/public-pages/about-us"
+import {
+  createItemVariants,
+  createSectionVariants,
+  getCardHover,
+} from "@/features/publicPages/home/home-motion"
 import {
   BookMarked,
   HandHeart,
@@ -25,13 +31,24 @@ const valueIcons: Record<AboutUsValueIcon, LucideIcon> = {
 }
 
 export function PublicAboutUsPage() {
+  const shouldReduceMotion = useReducedMotion()
+  const prefersReducedMotion = Boolean(shouldReduceMotion)
+  const sectionVariants = createSectionVariants(prefersReducedMotion)
+  const itemVariants = createItemVariants(prefersReducedMotion)
+  const cardHover = getCardHover(prefersReducedMotion)
+
   return (
     <div className="relative overflow-hidden bg-background">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-96 bg-[radial-gradient(circle_at_15%_10%,rgba(56,189,248,0.24),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(2,132,199,0.2),transparent_34%)]" />
 
-      <section className="relative border-b border-border/60">
+      <motion.section
+        className="relative border-b border-border/60"
+        initial="hidden"
+        animate="visible"
+        variants={sectionVariants}
+      >
         <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:py-24">
-          <div className="space-y-6">
+          <motion.div variants={itemVariants} className="space-y-6">
             <p className="inline-flex rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-semibold tracking-[0.16em] text-primary uppercase">
               {aboutUsHero.badge}
             </p>
@@ -46,8 +63,11 @@ export function PublicAboutUsPage() {
 
             <div className="grid gap-3 sm:max-w-xl sm:grid-cols-3">
               {aboutUsStats.map((stat) => (
-                <div
+                <motion.div
                   key={stat.label}
+                  variants={itemVariants}
+                  whileHover={cardHover}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
                   className="rounded-2xl border border-border/70 bg-card p-4"
                 >
                   <p className="text-xs font-semibold tracking-[0.16em] text-muted-foreground uppercase">
@@ -56,12 +76,15 @@ export function PublicAboutUsPage() {
                   <p className="mt-2 text-2xl font-semibold tracking-tight text-foreground">
                     {stat.value}
                   </p>
-                </div>
+                </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
-          <aside className="rounded-[2rem] border border-border/70 bg-card/95 p-6 shadow-lg shadow-primary/5">
+          <motion.aside
+            variants={itemVariants}
+            className="rounded-[2rem] border border-border/70 bg-card/95 p-6 shadow-lg shadow-primary/5"
+          >
             <div className="flex items-center gap-3">
               <span className="inline-flex size-11 items-center justify-center rounded-2xl bg-primary/12 text-primary">
                 <LibraryBig className="size-5" />
@@ -78,8 +101,11 @@ export function PublicAboutUsPage() {
 
             <ol className="mt-6 space-y-4">
               {aboutUsMilestones.map((item) => (
-                <li
+                <motion.li
                   key={item.year}
+                  variants={itemVariants}
+                  whileHover={cardHover}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
                   className="rounded-2xl border border-border/70 bg-secondary p-4"
                 >
                   <p className="text-xs font-semibold tracking-[0.14em] text-primary uppercase">
@@ -91,16 +117,25 @@ export function PublicAboutUsPage() {
                   <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                     {item.note}
                   </p>
-                </li>
+                </motion.li>
               ))}
             </ol>
-          </aside>
+          </motion.aside>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="border-b border-border/60 bg-secondary/65">
+      <motion.section
+        className="border-b border-border/60 bg-secondary/65"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={sectionVariants}
+      >
         <div className="mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-18">
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <motion.div
+            variants={itemVariants}
+            className="mb-8 flex flex-wrap items-end justify-between gap-4"
+          >
             <div>
               <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
                 {aboutUsGuide.title}
@@ -113,14 +148,17 @@ export function PublicAboutUsPage() {
               <MapPinned className="size-3.5" />
               {aboutUsGuide.districtBadge}
             </div>
-          </div>
+          </motion.div>
 
           <div className="grid gap-4 md:grid-cols-3">
             {aboutUsValues.map((value) => {
               const Icon = valueIcons[value.icon]
               return (
-                <article
+                <motion.article
                   key={value.title}
+                  variants={itemVariants}
+                  whileHover={cardHover}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
                   className="h-full rounded-3xl border border-border/70 bg-card p-6 shadow-sm"
                 >
                   <span className="inline-flex size-10 items-center justify-center rounded-2xl bg-primary/12 text-primary">
@@ -132,15 +170,23 @@ export function PublicAboutUsPage() {
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                     {value.description}
                   </p>
-                </article>
+                </motion.article>
               )
             })}
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      <section>
-        <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-14 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8 lg:py-16">
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={sectionVariants}
+      >
+        <motion.div
+          variants={itemVariants}
+          className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-14 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8 lg:py-16"
+        >
           <div>
             <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
               {aboutUsCta.title}
@@ -164,8 +210,8 @@ export function PublicAboutUsPage() {
               {aboutUsCta.secondaryLabel}
             </Link>
           </div>
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
     </div>
   )
 }
