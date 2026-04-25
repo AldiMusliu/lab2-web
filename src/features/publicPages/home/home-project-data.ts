@@ -25,7 +25,7 @@ export type PublicHomeRoleCard = {
   id: "user" | "admin"
   title: string
   description: string
-  points: string[]
+  points: Array<string>
 }
 
 type PublicHomeContent = {
@@ -33,25 +33,25 @@ type PublicHomeContent = {
     badge: string
     title: string
     description: string
-    metrics: PublicHomeHeroMetric[]
+    metrics: Array<PublicHomeHeroMetric>
   }
   collection: {
     badge: string
     title: string
     description: string
-    cards: PublicHomeCollectionCard[]
+    cards: Array<PublicHomeCollectionCard>
   }
   services: {
     badge: string
     title: string
     description: string
-    cards: PublicHomeServiceCard[]
+    cards: Array<PublicHomeServiceCard>
   }
   roles: {
     badge: string
     title: string
     description: string
-    cards: PublicHomeRoleCard[]
+    cards: Array<PublicHomeRoleCard>
   }
   cta: {
     badge: string
@@ -120,7 +120,7 @@ export const publicHomeContent: PublicHomeContent = {
     ],
   },
   collection: {
-    badge: "Collection",
+    badge: "Catalogue",
     title: "Find the right book from a catalogue built for daily use.",
     description:
       "Books are grouped by category, linked to borrowing status, and prepared for search-first workflows that match how members actually ask for help.",

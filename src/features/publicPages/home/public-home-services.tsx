@@ -65,7 +65,7 @@ export function PublicHomeServices() {
                   title={card.title}
                   description={card.description}
                   meta={`${card.meta} - ${card.audience}`}
-                  variant="soft"
+                  variant="surface"
                   hoverEffect={cardHover}
                 />
               </motion.div>

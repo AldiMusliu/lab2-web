@@ -5,7 +5,7 @@ import { BookOpenText, LibraryBig, Menu } from "lucide-react"
 import { MobileSlidePanel } from "@/components/layouts/mobile-slide-panel"
 
 const publicNavigationItems = [
-  { href: "/collections", label: "Collection" },
+  { href: "/collections", label: "Catalogue" },
   { href: "/services", label: "Services" },
   { href: "/our-mission", label: "Our Mission" },
   { href: "/about-us", label: "About Us" },

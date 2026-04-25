@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router"
 
 const footerLinks = [
-  { href: "/#collection", label: "Collection" },
+  { href: "/collections", label: "Catalogue" },
   { href: "/#services", label: "Services" },
   { href: "/#roles", label: "Roles" },
 ] as const

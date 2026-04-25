@@ -22,8 +22,7 @@ function RouteComponent() {
           <Lottie animationData={authAnimation} className="size-[400px]" />
         </div>
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Explore the catalog on public pages, then continue to borrowing and
-          profile management in the protected workspace.
+          Browse catalog • Log in to borrow & manage your account
         </p>
       </section>
 

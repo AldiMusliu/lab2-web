@@ -57,6 +57,7 @@ type DataTableProps<TData, TValue> = {
   columns: DataTableColumns<TData, TValue>
   data: Array<TData>
   enableSettings?: boolean
+  fillHeight?: boolean
   initialPageSize?: number
   manualPagination?: boolean
   notFoundText?: React.ReactNode
@@ -82,6 +83,7 @@ function DataTable<TData, TValue>({
   columns,
   data,
   enableSettings = true,
+  fillHeight,
   initialPageSize = 10,
   manualPagination,
   notFoundText,
@@ -166,8 +168,9 @@ function DataTable<TData, TValue>({
   return (
     <div
       className={cn(
-        "flex h-full flex-col rounded-lg border bg-card",
-        !paginationEndPosition && "justify-between",
+        "flex min-h-0 flex-col rounded-lg border bg-card",
+        fillHeight && "h-full",
+        fillHeight && !paginationEndPosition && "justify-between",
         className
       )}
     >
