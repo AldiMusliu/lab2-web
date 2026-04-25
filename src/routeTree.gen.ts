@@ -24,6 +24,7 @@ import { Route as ProtectedLayoutDashboardIndexRouteImport } from './routes/_pro
 import { Route as ProtectedLayoutCategoriesIndexRouteImport } from './routes/_protectedLayout/categories/index'
 import { Route as ProtectedLayoutBorrowingsIndexRouteImport } from './routes/_protectedLayout/borrowings/index'
 import { Route as ProtectedLayoutBooksIndexRouteImport } from './routes/_protectedLayout/books/index'
+import { Route as PublicLayoutCollectionsIdIndexRouteImport } from './routes/_publicLayout/collections/$id/index'
 
 const PublicLayoutRoute = PublicLayoutRouteImport.update({
   id: '/_publicLayout',
@@ -106,6 +107,12 @@ const ProtectedLayoutBooksIndexRoute =
     path: '/books/',
     getParentRoute: () => ProtectedLayoutRoute,
   } as any)
+const PublicLayoutCollectionsIdIndexRoute =
+  PublicLayoutCollectionsIdIndexRouteImport.update({
+    id: '/collections/$id/',
+    path: '/collections/$id/',
+    getParentRoute: () => PublicLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicLayoutIndexRoute
@@ -120,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/collections/': typeof PublicLayoutCollectionsIndexRoute
   '/our-mission/': typeof PublicLayoutOurMissionIndexRoute
   '/services/': typeof PublicLayoutServicesIndexRoute
+  '/collections/$id/': typeof PublicLayoutCollectionsIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PublicLayoutIndexRoute
@@ -134,6 +142,7 @@ export interface FileRoutesByTo {
   '/collections': typeof PublicLayoutCollectionsIndexRoute
   '/our-mission': typeof PublicLayoutOurMissionIndexRoute
   '/services': typeof PublicLayoutServicesIndexRoute
+  '/collections/$id': typeof PublicLayoutCollectionsIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -152,6 +161,7 @@ export interface FileRoutesById {
   '/_publicLayout/collections/': typeof PublicLayoutCollectionsIndexRoute
   '/_publicLayout/our-mission/': typeof PublicLayoutOurMissionIndexRoute
   '/_publicLayout/services/': typeof PublicLayoutServicesIndexRoute
+  '/_publicLayout/collections/$id/': typeof PublicLayoutCollectionsIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -168,6 +178,7 @@ export interface FileRouteTypes {
     | '/collections/'
     | '/our-mission/'
     | '/services/'
+    | '/collections/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -182,6 +193,7 @@ export interface FileRouteTypes {
     | '/collections'
     | '/our-mission'
     | '/services'
+    | '/collections/$id'
   id:
     | '__root__'
     | '/_authLayout'
@@ -199,6 +211,7 @@ export interface FileRouteTypes {
     | '/_publicLayout/collections/'
     | '/_publicLayout/our-mission/'
     | '/_publicLayout/services/'
+    | '/_publicLayout/collections/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -314,6 +327,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedLayoutBooksIndexRouteImport
       parentRoute: typeof ProtectedLayoutRoute
     }
+    '/_publicLayout/collections/$id/': {
+      id: '/_publicLayout/collections/$id/'
+      path: '/collections/$id'
+      fullPath: '/collections/$id/'
+      preLoaderRoute: typeof PublicLayoutCollectionsIdIndexRouteImport
+      parentRoute: typeof PublicLayoutRoute
+    }
   }
 }
 
@@ -357,6 +377,7 @@ interface PublicLayoutRouteChildren {
   PublicLayoutCollectionsIndexRoute: typeof PublicLayoutCollectionsIndexRoute
   PublicLayoutOurMissionIndexRoute: typeof PublicLayoutOurMissionIndexRoute
   PublicLayoutServicesIndexRoute: typeof PublicLayoutServicesIndexRoute
+  PublicLayoutCollectionsIdIndexRoute: typeof PublicLayoutCollectionsIdIndexRoute
 }
 
 const PublicLayoutRouteChildren: PublicLayoutRouteChildren = {
@@ -365,6 +386,7 @@ const PublicLayoutRouteChildren: PublicLayoutRouteChildren = {
   PublicLayoutCollectionsIndexRoute: PublicLayoutCollectionsIndexRoute,
   PublicLayoutOurMissionIndexRoute: PublicLayoutOurMissionIndexRoute,
   PublicLayoutServicesIndexRoute: PublicLayoutServicesIndexRoute,
+  PublicLayoutCollectionsIdIndexRoute: PublicLayoutCollectionsIdIndexRoute,
 }
 
 const PublicLayoutRouteWithChildren = PublicLayoutRoute._addFileChildren(
