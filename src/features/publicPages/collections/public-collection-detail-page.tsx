@@ -2,10 +2,7 @@ import { Link } from "@tanstack/react-router"
 import { motion, useReducedMotion } from "framer-motion"
 import {
   ArrowLeft,
-  BookMarked,
-  BookOpenText,
   CalendarDays,
-  CheckCircle2,
   Hash,
   Languages,
   LibraryBig,
@@ -14,14 +11,12 @@ import {
   Tags,
   UserRound,
 } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
 
 import { buttonVariants } from "@/components/ui/button"
-import {
-  BookCover,
-  getAvailabilityLabel,
-  getBookCategory,
-} from "@/features/publicPages/collections/public-collections-page"
+import { BookCover } from "@/features/publicPages/collections/_components/book-cover"
+import { CollectionActionPanel } from "@/features/publicPages/collections/_components/collection-action-panel"
+import { CollectionDetailItem } from "@/features/publicPages/collections/_components/collection-detail-item"
+import { getBookCategory } from "@/features/publicPages/collections/_components/collections-utils"
 import {
   createItemVariants,
   createSectionVariants,
@@ -29,97 +24,6 @@ import {
 } from "@/features/publicPages/home/home-motion"
 import { cn } from "@/lib/utils"
 import { mockBooks } from "@/mocks"
-
-type Book = (typeof mockBooks)[number]
-
-function DetailItem({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: LucideIcon
-  label: string
-  value: string
-}) {
-  return (
-    <div className="rounded-lg border border-border bg-card p-4">
-      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-        <Icon className="size-4" />
-        {label}
-      </div>
-      <p className="mt-2 text-sm leading-6 font-semibold text-foreground">
-        {value}
-      </p>
-    </div>
-  )
-}
-
-function ActionPanel({ book }: { book: Book }) {
-  const isAvailable = book.availableCopies > 0
-
-  return (
-    <aside className="rounded-lg border border-border bg-card p-5 shadow-sm">
-      <div className="flex items-start gap-3">
-        <span
-          className={cn(
-            "inline-flex size-11 items-center justify-center rounded-md",
-            isAvailable
-              ? "bg-emerald-50 text-emerald-700"
-              : "bg-amber-50 text-amber-700"
-          )}
-        >
-          {isAvailable ? (
-            <CheckCircle2 className="size-5" />
-          ) : (
-            <BookMarked className="size-5" />
-          )}
-        </span>
-        <div>
-          <h2 className="text-lg font-semibold text-foreground">
-            {isAvailable ? "Available for borrowing" : "Currently unavailable"}
-          </h2>
-          <p className="mt-1 text-sm leading-6 text-muted-foreground">
-            {getAvailabilityLabel(book)}. Member actions will connect to the
-            borrowing flow when the backend is added.
-          </p>
-        </div>
-      </div>
-
-      <div className="mt-5 grid gap-3">
-        {book.readOnline ? (
-          <Link
-            to="/login"
-            className={cn(
-              buttonVariants({ variant: "outline", size: "lg" }),
-              "h-11 w-full gap-2"
-            )}
-          >
-            <BookOpenText className="size-4" />
-            Read online
-          </Link>
-        ) : (
-          <div className="rounded-md border border-border bg-secondary px-3 py-3 text-sm text-muted-foreground">
-            Online reading is not available for this title.
-          </div>
-        )}
-
-        <Link
-          to="/login"
-          className={cn(
-            buttonVariants({
-              variant: isAvailable ? "default" : "secondary",
-              size: "lg",
-            }),
-            "h-11 w-full gap-2"
-          )}
-        >
-          <BookMarked className="size-4" />
-          {isAvailable ? "Borrow it" : "Join waitlist"}
-        </Link>
-      </div>
-    </aside>
-  )
-}
 
 export function PublicCollectionDetailPage({ bookId }: { bookId: string }) {
   const shouldReduceMotion = useReducedMotion()
@@ -223,7 +127,7 @@ export function PublicCollectionDetailPage({ bookId }: { bookId: string }) {
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <ActionPanel book={book} />
+              <CollectionActionPanel book={book} />
             </motion.div>
           </div>
         </div>
@@ -240,24 +144,28 @@ export function PublicCollectionDetailPage({ bookId }: { bookId: string }) {
             Book details
           </h2>
           <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            <DetailItem icon={UserRound} label="Author" value={book.author} />
-            <DetailItem
+            <CollectionDetailItem
+              icon={UserRound}
+              label="Author"
+              value={book.author}
+            />
+            <CollectionDetailItem
               icon={CalendarDays}
               label="Published"
               value={String(book.publishedYear)}
             />
-            <DetailItem
+            <CollectionDetailItem
               icon={Languages}
               label="Language"
               value={book.language}
             />
-            <DetailItem
+            <CollectionDetailItem
               icon={ScrollText}
               label="Pages"
               value={`${book.pages} pages`}
             />
-            <DetailItem icon={Hash} label="ISBN" value={book.isbn} />
-            <DetailItem
+            <CollectionDetailItem icon={Hash} label="ISBN" value={book.isbn} />
+            <CollectionDetailItem
               icon={MapPin}
               label="Shelf"
               value={book.shelfLocation}
