@@ -1,3 +1,4 @@
+import { PublicServicesPage } from "@/features/publicPages/services/public-services-page"
 import { createFileRoute } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/_publicLayout/services/")({
@@ -5,5 +6,5 @@ export const Route = createFileRoute("/_publicLayout/services/")({
 })
 
 function RouteComponent() {
-  return <div>Hello "/(publicPages)/services/"!</div>
+  return <PublicServicesPage />
 }

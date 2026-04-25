@@ -1,75 +1,86 @@
-import { Clock3, Search, ShieldCheck, UserRound } from "lucide-react"
+import { HomeCard } from "@/features/publicPages/home/_components/card"
+import {
+  publicHomeContent,
+  type PublicHomeServiceCard,
+} from "@/features/publicPages/home/home-project-data"
+import {
+  createItemVariants,
+  createSectionVariants,
+  getCardHover,
+} from "@/features/publicPages/home/home-motion"
+import { motion, useReducedMotion } from "framer-motion"
+import {
+  Blocks,
+  Clock3,
+  ShieldCheck,
+  Sparkles,
+  UserRound,
+  type LucideIcon,
+} from "lucide-react"
 
-const serviceCards = [
-  {
-    title: "Browse and search",
-    description:
-      "Public visitors and members can explore titles, discover categories, and understand the collection quickly.",
-    icon: Search,
-  },
-  {
-    title: "Borrow and return",
-    description:
-      "The platform supports the full borrowing flow, from selecting a book to tracking its return status.",
-    icon: Clock3,
-  },
-  {
-    title: "Protected member area",
-    description:
-      "After login, users reach profile, dashboard, books, categories, and borrowings in a protected workspace.",
-    icon: UserRound,
-  },
-  {
-    title: "Admin operations",
-    description:
-      "Administrators get a more CRM-like layout with a sidebar for managing the library system.",
-    icon: ShieldCheck,
-  },
-] as const
+const serviceIcons: Record<PublicHomeServiceCard["id"], LucideIcon> = {
+  auth: UserRound,
+  catalog: Blocks,
+  borrowings: Clock3,
+  architecture: ShieldCheck,
+}
 
 export function PublicHomeServices() {
+  const shouldReduceMotion = useReducedMotion()
+  const prefersReducedMotion = Boolean(shouldReduceMotion)
+  const sectionVariants = createSectionVariants(prefersReducedMotion)
+  const itemVariants = createItemVariants(prefersReducedMotion)
+  const cardHover = getCardHover(prefersReducedMotion)
+
   return (
-    <section
+    <motion.section
       id="services"
-      className="border-y border-border/50 bg-background/[0.65]"
+      className="border-y border-border/50 bg-secondary/45"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={sectionVariants}
     >
       <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="max-w-2xl space-y-3">
+        <motion.div variants={itemVariants} className="max-w-2xl space-y-3">
           <p className="text-xs font-semibold tracking-[0.16em] text-primary uppercase">
-            Services
+            {publicHomeContent.services.badge}
           </p>
           <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-            Readers and librarians each get the tools they need.
+            {publicHomeContent.services.title}
           </h2>
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
-            The app is structured to support both the member journey and the
-            admin workflow inside the same library system.
+            {publicHomeContent.services.description}
           </p>
-        </div>
+        </motion.div>
 
         <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {serviceCards.map((card) => {
-            const Icon = card.icon
+          {publicHomeContent.services.cards.map((card) => {
+            const Icon = serviceIcons[card.id]
 
             return (
-              <article
-                key={card.title}
-                className="rounded-3xl border border-border/70 bg-secondary p-5 shadow-sm"
-              >
-                <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                  <Icon className="size-5" />
-                </div>
-                <h3 className="mt-4 text-lg font-semibold tracking-tight text-foreground">
-                  {card.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {card.description}
-                </p>
-              </article>
+              <motion.div key={card.title} variants={itemVariants}>
+                <HomeCard
+                  icon={Icon}
+                  title={card.title}
+                  description={card.description}
+                  meta={`${card.meta} • ${card.audience}`}
+                  variant="soft"
+                  hoverEffect={cardHover}
+                />
+              </motion.div>
             )
           })}
         </div>
+
+        <motion.div
+          variants={itemVariants}
+          className="mt-8 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 text-xs font-semibold tracking-[0.12em] text-primary uppercase"
+        >
+          <Sparkles className="size-3.5" />
+          Built from your Smart Library project scope
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   )
 }
