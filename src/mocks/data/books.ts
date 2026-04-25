@@ -1,4 +1,7 @@
-export const mockBooks = [
+import type { Book } from "@/features/books/types"
+import { bookCoverImageDetails } from "@/features/books/types"
+
+export const mockBooks: Array<Book> = [
   {
     id: "book-001",
     title: "Clean Code",
@@ -16,6 +19,7 @@ export const mockBooks = [
     description:
       "A practical guide to writing readable, maintainable software with examples that help developers improve naming, structure, testing, and everyday code quality.",
     tags: ["Refactoring", "Testing", "Best Practices"],
+    coverImage: bookCoverImageDetails["research-stack"].imageUrl,
     coverTone: "teal",
   },
   {
@@ -35,6 +39,7 @@ export const mockBooks = [
     description:
       "A field manual for software craftsmanship, covering pragmatic habits, debugging, automation, communication, and the mindset behind long-lasting engineering work.",
     tags: ["Engineering", "Craft", "Career"],
+    coverImage: bookCoverImageDetails["reading-table"].imageUrl,
     coverTone: "indigo",
   },
   {
@@ -54,6 +59,7 @@ export const mockBooks = [
     description:
       "A deep introduction to the architecture of reliable data systems, including storage engines, distributed systems, replication, partitioning, and stream processing.",
     tags: ["Databases", "Distributed Systems", "Architecture"],
+    coverImage: bookCoverImageDetails["research-stack"].imageUrl,
     coverTone: "slate",
   },
   {
@@ -73,6 +79,7 @@ export const mockBooks = [
     description:
       "A comprehensive AI textbook covering search, knowledge representation, planning, uncertainty, learning, language, perception, and responsible intelligent systems.",
     tags: ["AI", "Machine Learning", "Search"],
+    coverImage: bookCoverImageDetails["digital-pages"].imageUrl,
     coverTone: "emerald",
   },
   {
@@ -92,6 +99,7 @@ export const mockBooks = [
     description:
       "A concise and friendly usability guide that explains how people actually use websites and how to design interfaces that feel clear without extra instruction.",
     tags: ["UX", "Usability", "Web"],
+    coverImage: bookCoverImageDetails["library-shelves"].imageUrl,
     coverTone: "amber",
   },
   {
@@ -111,6 +119,7 @@ export const mockBooks = [
     description:
       "A foundational book about human-centered design, showing how affordances, constraints, feedback, and mental models shape everyday product experiences.",
     tags: ["Design", "Psychology", "Products"],
+    coverImage: bookCoverImageDetails["reading-table"].imageUrl,
     coverTone: "rose",
   },
   {
@@ -130,6 +139,7 @@ export const mockBooks = [
     description:
       "A focused productivity book about protecting attention, building concentration rituals, and making room for demanding creative and analytical work.",
     tags: ["Productivity", "Focus", "Habits"],
+    coverImage: bookCoverImageDetails["reading-table"].imageUrl,
     coverTone: "cyan",
   },
   {
@@ -149,6 +159,7 @@ export const mockBooks = [
     description:
       "A startup and product-development guide built around validated learning, small experiments, fast feedback loops, and responsible iteration.",
     tags: ["Startups", "Product", "Strategy"],
+    coverImage: bookCoverImageDetails["library-shelves"].imageUrl,
     coverTone: "lime",
   },
   {
@@ -168,6 +179,7 @@ export const mockBooks = [
     description:
       "A science-fiction adventure about memory, survival, problem solving, and an urgent mission far from Earth.",
     tags: ["Science Fiction", "Adventure", "Space"],
+    coverImage: bookCoverImageDetails["digital-pages"].imageUrl,
     coverTone: "violet",
   },
   {
@@ -187,6 +199,7 @@ export const mockBooks = [
     description:
       "A reflective novel about observation, care, artificial friends, and what people hope technology can understand about love and loneliness.",
     tags: ["Fiction", "AI Themes", "Literary"],
+    coverImage: bookCoverImageDetails["digital-pages"].imageUrl,
     coverTone: "sky",
   },
   {
@@ -206,6 +219,7 @@ export const mockBooks = [
     description:
       "A hands-on guide to improving existing software through small behavior-preserving changes, cleaner structures, and readable code transformations.",
     tags: ["Refactoring", "Architecture", "JavaScript"],
+    coverImage: bookCoverImageDetails["research-stack"].imageUrl,
     coverTone: "orange",
   },
   {
@@ -225,6 +239,7 @@ export const mockBooks = [
     description:
       "A practical guide to engineering leadership, from mentoring and tech leading to managing teams, managers, and organizational growth.",
     tags: ["Leadership", "Engineering Management", "Teams"],
+    coverImage: bookCoverImageDetails["library-shelves"].imageUrl,
     coverTone: "fuchsia",
   },
 ]

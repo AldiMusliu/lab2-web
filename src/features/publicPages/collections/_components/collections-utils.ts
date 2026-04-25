@@ -1,12 +1,9 @@
-import { mockCategories } from "@/mocks"
-
 import type { Book } from "./collections-types"
+import { mockCategories } from "@/mocks"
 
 const categoryLookup = new Map(
   mockCategories.map((category) => [category.id, category.name])
 )
-
-export const bookCoverToneClass = "from-slate-200 via-white to-slate-900"
 
 export function getVisiblePages(currentPage: number, totalPages: number) {
   const pages = new Set([

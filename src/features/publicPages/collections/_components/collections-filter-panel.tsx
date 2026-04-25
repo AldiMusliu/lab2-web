@@ -1,5 +1,11 @@
 import { ArrowUpDown, Filter, Search, SlidersHorizontal } from "lucide-react"
 
+import { pageSizeOptions } from "./collections-types"
+import type {
+  AvailabilityFilter,
+  PageSizeOption,
+  SortMode,
+} from "./collections-types"
 import { buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -11,13 +17,6 @@ import {
 } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
 import { mockCategories } from "@/mocks"
-
-import {
-  pageSizeOptions,
-  type AvailabilityFilter,
-  type PageSizeOption,
-  type SortMode,
-} from "./collections-types"
 
 type CollectionsFilterPanelProps = {
   searchTerm: string
@@ -82,7 +81,14 @@ export function CollectionsFilterPanel({
             >
               Category
             </label>
-            <Select value={categoryFilter} onValueChange={onCategoryChange}>
+            <Select
+              value={categoryFilter}
+              onValueChange={(value) => {
+                if (value) {
+                  onCategoryChange(value)
+                }
+              }}
+            >
               <SelectTrigger
                 id="catalogue-category"
                 className="mt-2 h-11 w-full"
@@ -109,9 +115,11 @@ export function CollectionsFilterPanel({
             </label>
             <Select
               value={availabilityFilter}
-              onValueChange={(value) =>
-                onAvailabilityChange(value as AvailabilityFilter)
-              }
+              onValueChange={(value) => {
+                if (value) {
+                  onAvailabilityChange(value as AvailabilityFilter)
+                }
+              }}
             >
               <SelectTrigger
                 id="catalogue-availability"
@@ -137,7 +145,11 @@ export function CollectionsFilterPanel({
             </label>
             <Select
               value={sortMode}
-              onValueChange={(value) => onSortChange(value as SortMode)}
+              onValueChange={(value) => {
+                if (value) {
+                  onSortChange(value as SortMode)
+                }
+              }}
             >
               <SelectTrigger id="catalogue-sort" className="mt-2 h-11 w-full">
                 <SelectValue />
@@ -160,9 +172,11 @@ export function CollectionsFilterPanel({
             </label>
             <Select
               value={String(pageSize)}
-              onValueChange={(value) =>
-                onPageSizeChange(Number(value) as PageSizeOption)
-              }
+              onValueChange={(value) => {
+                if (value) {
+                  onPageSizeChange(Number(value) as PageSizeOption)
+                }
+              }}
             >
               <SelectTrigger
                 id="catalogue-page-size"

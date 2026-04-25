@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input"
 import { useSessionStore, type SessionRole } from "@/stores/session.store"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 
-import { AuthEntryCard } from "./_components/auth-entry-card"
+import { AuthEntryCard } from "../../features/authentication/_components/auth-entry-card"
 
 export const Route = createFileRoute("/_authLayout/register")({
   component: RegisterPage,
