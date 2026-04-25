@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router"
+import type { ReactNode } from "react"
 
 import { AuthRoleSwitch } from "./auth-role-switch"
 import type { SessionRole } from "@/stores/session.store"
@@ -12,6 +13,7 @@ type AuthEntryCardProps = {
   helperText: string
   helperLinkLabel: string
   helperLinkTo: "/login" | "/register"
+  fields?: ReactNode
 }
 
 export function AuthEntryCard({
@@ -23,6 +25,7 @@ export function AuthEntryCard({
   helperText,
   helperLinkLabel,
   helperLinkTo,
+  fields,
 }: AuthEntryCardProps) {
   return (
     <div className="mx-auto w-full max-w-md rounded-2xl border border-border bg-card p-6 text-card-foreground shadow-sm sm:p-7">
@@ -30,6 +33,8 @@ export function AuthEntryCard({
       <p className="mt-2 text-sm leading-6 text-muted-foreground">
         {description}
       </p>
+
+      {fields ? <div className="mt-6 space-y-4">{fields}</div> : null}
 
       <div className="mt-6">
         <AuthRoleSwitch
