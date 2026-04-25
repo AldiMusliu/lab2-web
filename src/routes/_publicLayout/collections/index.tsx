@@ -1,9 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { PublicCollectionsPage } from "@/features/publicPages/collections/public-collections-page"
+import { createFileRoute } from "@tanstack/react-router"
 
-export const Route = createFileRoute('/_publicLayout/collections/')({
+export const Route = createFileRoute("/_publicLayout/collections/")({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  return <div>Hello "/_publicLayout/collections/"!</div>
+  return <PublicCollectionsPage />
 }

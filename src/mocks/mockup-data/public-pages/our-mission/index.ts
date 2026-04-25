@@ -2,14 +2,15 @@ export type MissionPillarIcon = "book-heart" | "school" | "lightbulb"
 
 export const missionHero = {
   badge: "Our Mission",
-  title: "We exist to make knowledge practical, local, and shared.",
+  title:
+    "Make library access simpler, smarter, and more useful for the whole community.",
   description:
-    "Smart Library is not only a place to borrow books. Our mission is to help people build lasting learning habits, connect with ideas, and grow together through accessible reading programs.",
+    "Smart Library exists to reduce friction around reading. We connect shelves, member accounts, borrowing history, and learning programs so people can find knowledge and keep coming back to it.",
 } as const
 
 export const missionImpact = {
   title: "Impact goals for 2026",
-  description: "Targets we are actively working toward.",
+  description: "Targets the service is actively working toward.",
   metrics: [
     {
       label: "New members",
@@ -29,26 +30,26 @@ export const missionImpact = {
 export const missionPillarsSection = {
   title: "Mission pillars",
   description:
-    "These priorities help us align library operations, digital tools, and community partnerships.",
+    "These priorities keep the public experience, staff workflows, and future smart features aligned.",
 } as const
 
 export const missionPillars = [
   {
     title: "Reading confidence",
     description:
-      "Help children and adults build consistent reading habits with guided programs and friendly recommendations.",
+      "Help children and adults build consistent reading habits with guided discovery, clear availability, and friendly recommendations.",
     icon: "book-heart",
   },
   {
     title: "Equal learning access",
     description:
-      "Ensure every member can find resources regardless of background, schedule, or experience level.",
+      "Ensure every member can use the collection regardless of background, schedule, language confidence, or technical experience.",
     icon: "school",
   },
   {
     title: "Future-ready literacy",
     description:
-      "Expand from traditional reading support to digital literacy and research skill development.",
+      "Expand traditional reading support into digital literacy, research skills, and responsible use of smart tools.",
     icon: "lightbulb",
   },
 ] as const
@@ -58,31 +59,32 @@ export const missionRoadmap = {
   items: [
     {
       phase: "Now",
-      title: "Strengthen the core collection",
+      title: "Strengthen the catalogue foundation",
       description:
-        "Increase high-demand titles, refresh children shelves, and improve category discoverability.",
+        "Improve book records, category clarity, and availability signals so discovery is useful from day one.",
     },
     {
       phase: "Next 6 months",
-      title: "Launch neighborhood reading circles",
+      title: "Improve member self-service",
       description:
-        "Host small group sessions that connect readers, librarians, and local educators.",
+        "Make profile details, borrowing history, due dates, and account support easier to understand.",
     },
     {
       phase: "Next 12 months",
-      title: "Scale digital member support",
+      title: "Prepare smart recommendations",
       description:
-        "Roll out richer recommendations, better account insights, and easier reservation tracking.",
+        "Use catalogue and borrowing patterns responsibly to suggest relevant books and support staff decisions.",
     },
   ],
 } as const
 
 export const missionStatement = {
   title: "Mission statement",
-  quote: "Every shelf should open a new opportunity for someone in our city.",
+  quote:
+    "Every reader should know what is available, what is due, and where to go next.",
   description:
     "We treat books, programs, and digital access as one continuous learning experience for every member.",
   focusTitle: "Current focus",
   focusDescription:
-    "Expanding family literacy events and improving support for first-time readers.",
+    "Making the borrowing journey transparent while keeping the public catalogue welcoming and easy to scan.",
 } as const

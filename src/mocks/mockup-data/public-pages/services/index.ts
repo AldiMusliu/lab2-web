@@ -6,13 +6,13 @@ export type ServiceIcon =
 
 export const servicesHero = {
   badge: "Services",
-  title: "Library services designed around real member needs.",
+  title: "Smart services for borrowing, discovery, and member support.",
   description:
-    "From borrowing support to learning sessions, we offer practical services that help readers access books and knowledge without friction.",
+    "Smart Library makes common library tasks easier: finding a book, checking availability, managing a member account, tracking due dates, and getting help from staff when it matters.",
 } as const
 
 export const servicesSnapshot = {
-  title: "Service quality snapshot",
+  title: "Service snapshot",
   metrics: [
     {
       label: "Avg wait time",
@@ -32,59 +32,60 @@ export const servicesSnapshot = {
 export const servicesSectionIntro = {
   title: "Core services",
   description:
-    "Built to make every step of the library journey straightforward, fast, and welcoming.",
+    "Each service maps to a real workflow in the public library: discovery, circulation, learning support, and account care.",
 } as const
 
 export const serviceCards = [
   {
-    title: "Borrow & Return Desk",
+    title: "Borrow and return desk",
     description:
-      "Quick checkouts with member ID, due-date reminders, and smooth return tracking.",
+      "Fast checkout with member identification, clear due dates, staff visibility, and return tracking.",
     audience: "Students, teachers, and public members",
     icon: "book-check",
   },
   {
-    title: "Curated Reading Lists",
+    title: "Smart catalogue discovery",
     description:
-      "Monthly collections built around genres, school curriculum needs, and local events.",
-    audience: "Families and book clubs",
+      "Category-led browsing that helps members move from a broad interest to a specific available title.",
+    audience: "Students, families, and book clubs",
     icon: "book-copy",
   },
   {
-    title: "Community Learning Sessions",
+    title: "Community learning sessions",
     description:
-      "Workshops on digital literacy, research basics, and reading habits for all ages.",
+      "Workshops on digital literacy, research basics, reading habits, and responsible use of online resources.",
     audience: "Youth and lifelong learners",
     icon: "calendar-clock",
   },
   {
-    title: "Member Account Assistance",
+    title: "Member account assistance",
     description:
-      "Support for registration, profile updates, borrowing history, and account recovery.",
+      "Help with registration, profile updates, borrowing history, account recovery, and role-based portal access.",
     audience: "New and returning members",
     icon: "shield-check",
   },
 ] as const
 
 export const serviceFlow = {
-  title: "How members usually use our services",
+  title: "How members usually use Smart Library",
   steps: [
     {
       step: "01",
       title: "Discover",
-      description: "Search by title, author, or category to find the right book.",
+      description:
+        "Search or browse by title, author, and category to find a useful book faster.",
     },
     {
       step: "02",
-      title: "Reserve or borrow",
+      title: "Borrow with visibility",
       description:
-        "Reserve online or borrow at the desk with transparent availability and due dates.",
+        "Borrow through the desk or portal with availability, due date, and account status clearly visible.",
     },
     {
       step: "03",
-      title: "Stay informed",
+      title: "Stay on track",
       description:
-        "Receive gentle reminders and updates for returns, extensions, and new arrivals.",
+        "Follow borrowing history, return status, and upcoming due dates from the member workspace.",
     },
   ],
 } as const
@@ -92,7 +93,7 @@ export const serviceFlow = {
 export const serviceHours = {
   title: "Service hours",
   description:
-    "We balance day-time and evening availability so members can visit after school or work.",
+    "The branch keeps daytime and evening coverage so students, staff, and working families can use the service without rearranging the whole day.",
   slots: [
     {
       label: "Monday to Friday",
