@@ -17,9 +17,7 @@ import { cn } from "@/lib/utils"
 
 const navigationItems = [
   { to: "/", label: "Home", icon: House },
-  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/books", label: "Books", icon: BookCopy },
-  { to: "/categories", label: "Categories", icon: Tags },
+  { to: "/collections", label: "Books", icon: BookCopy },
   { to: "/borrowings", label: "Borrowings", icon: BookCheck },
   { to: "/profile", label: "Profile", icon: UserRound },
 ] as const

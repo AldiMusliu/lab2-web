@@ -1,7 +1,7 @@
-import type { ReactNode } from "react"
 import { useState } from "react"
 import { Link, useLocation } from "@tanstack/react-router"
 import { ChevronLeft, ChevronRight, LibraryBig, Menu } from "lucide-react"
+import type { ReactNode } from "react"
 
 import { MobileSlidePanel } from "@/components/layouts/mobile-slide-panel"
 import { protectedNavigationItems } from "@/components/layouts/protected-navigation"
@@ -67,7 +67,7 @@ export function AdminShell({ title, subtitle, children }: AdminShellProps) {
   )
 
   return (
-    <div className="flex h-svh overflow-hidden bg-muted/[0.35]">
+    <div className="flex h-dvh overflow-hidden bg-muted/[0.35]">
       <aside
         className={cn(
           "hidden shrink-0 flex-col overflow-hidden bg-primary text-primary-foreground transition-[width] duration-300 lg:flex",
