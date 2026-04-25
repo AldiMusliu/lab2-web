@@ -25,6 +25,8 @@ import { Route as ProtectedLayoutCategoriesIndexRouteImport } from './routes/_pr
 import { Route as ProtectedLayoutBorrowingsIndexRouteImport } from './routes/_protectedLayout/borrowings/index'
 import { Route as ProtectedLayoutBooksIndexRouteImport } from './routes/_protectedLayout/books/index'
 import { Route as PublicLayoutCollectionsIdIndexRouteImport } from './routes/_publicLayout/collections/$id/index'
+import { Route as ProtectedLayoutBooksAddIndexRouteImport } from './routes/_protectedLayout/books/add/index'
+import { Route as ProtectedLayoutBooksIdIndexRouteImport } from './routes/_protectedLayout/books/$id/index'
 
 const PublicLayoutRoute = PublicLayoutRouteImport.update({
   id: '/_publicLayout',
@@ -113,6 +115,18 @@ const PublicLayoutCollectionsIdIndexRoute =
     path: '/collections/$id/',
     getParentRoute: () => PublicLayoutRoute,
   } as any)
+const ProtectedLayoutBooksAddIndexRoute =
+  ProtectedLayoutBooksAddIndexRouteImport.update({
+    id: '/books/add/',
+    path: '/books/add/',
+    getParentRoute: () => ProtectedLayoutRoute,
+  } as any)
+const ProtectedLayoutBooksIdIndexRoute =
+  ProtectedLayoutBooksIdIndexRouteImport.update({
+    id: '/books/$id/',
+    path: '/books/$id/',
+    getParentRoute: () => ProtectedLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicLayoutIndexRoute
@@ -127,6 +141,8 @@ export interface FileRoutesByFullPath {
   '/collections/': typeof PublicLayoutCollectionsIndexRoute
   '/our-mission/': typeof PublicLayoutOurMissionIndexRoute
   '/services/': typeof PublicLayoutServicesIndexRoute
+  '/books/$id/': typeof ProtectedLayoutBooksIdIndexRoute
+  '/books/add/': typeof ProtectedLayoutBooksAddIndexRoute
   '/collections/$id/': typeof PublicLayoutCollectionsIdIndexRoute
 }
 export interface FileRoutesByTo {
@@ -142,6 +158,8 @@ export interface FileRoutesByTo {
   '/collections': typeof PublicLayoutCollectionsIndexRoute
   '/our-mission': typeof PublicLayoutOurMissionIndexRoute
   '/services': typeof PublicLayoutServicesIndexRoute
+  '/books/$id': typeof ProtectedLayoutBooksIdIndexRoute
+  '/books/add': typeof ProtectedLayoutBooksAddIndexRoute
   '/collections/$id': typeof PublicLayoutCollectionsIdIndexRoute
 }
 export interface FileRoutesById {
@@ -161,6 +179,8 @@ export interface FileRoutesById {
   '/_publicLayout/collections/': typeof PublicLayoutCollectionsIndexRoute
   '/_publicLayout/our-mission/': typeof PublicLayoutOurMissionIndexRoute
   '/_publicLayout/services/': typeof PublicLayoutServicesIndexRoute
+  '/_protectedLayout/books/$id/': typeof ProtectedLayoutBooksIdIndexRoute
+  '/_protectedLayout/books/add/': typeof ProtectedLayoutBooksAddIndexRoute
   '/_publicLayout/collections/$id/': typeof PublicLayoutCollectionsIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -178,6 +198,8 @@ export interface FileRouteTypes {
     | '/collections/'
     | '/our-mission/'
     | '/services/'
+    | '/books/$id/'
+    | '/books/add/'
     | '/collections/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -193,6 +215,8 @@ export interface FileRouteTypes {
     | '/collections'
     | '/our-mission'
     | '/services'
+    | '/books/$id'
+    | '/books/add'
     | '/collections/$id'
   id:
     | '__root__'
@@ -211,6 +235,8 @@ export interface FileRouteTypes {
     | '/_publicLayout/collections/'
     | '/_publicLayout/our-mission/'
     | '/_publicLayout/services/'
+    | '/_protectedLayout/books/$id/'
+    | '/_protectedLayout/books/add/'
     | '/_publicLayout/collections/$id/'
   fileRoutesById: FileRoutesById
 }
@@ -334,6 +360,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicLayoutCollectionsIdIndexRouteImport
       parentRoute: typeof PublicLayoutRoute
     }
+    '/_protectedLayout/books/add/': {
+      id: '/_protectedLayout/books/add/'
+      path: '/books/add'
+      fullPath: '/books/add/'
+      preLoaderRoute: typeof ProtectedLayoutBooksAddIndexRouteImport
+      parentRoute: typeof ProtectedLayoutRoute
+    }
+    '/_protectedLayout/books/$id/': {
+      id: '/_protectedLayout/books/$id/'
+      path: '/books/$id'
+      fullPath: '/books/$id/'
+      preLoaderRoute: typeof ProtectedLayoutBooksIdIndexRouteImport
+      parentRoute: typeof ProtectedLayoutRoute
+    }
   }
 }
 
@@ -357,6 +397,8 @@ interface ProtectedLayoutRouteChildren {
   ProtectedLayoutCategoriesIndexRoute: typeof ProtectedLayoutCategoriesIndexRoute
   ProtectedLayoutDashboardIndexRoute: typeof ProtectedLayoutDashboardIndexRoute
   ProtectedLayoutProfileIndexRoute: typeof ProtectedLayoutProfileIndexRoute
+  ProtectedLayoutBooksIdIndexRoute: typeof ProtectedLayoutBooksIdIndexRoute
+  ProtectedLayoutBooksAddIndexRoute: typeof ProtectedLayoutBooksAddIndexRoute
 }
 
 const ProtectedLayoutRouteChildren: ProtectedLayoutRouteChildren = {
@@ -365,6 +407,8 @@ const ProtectedLayoutRouteChildren: ProtectedLayoutRouteChildren = {
   ProtectedLayoutCategoriesIndexRoute: ProtectedLayoutCategoriesIndexRoute,
   ProtectedLayoutDashboardIndexRoute: ProtectedLayoutDashboardIndexRoute,
   ProtectedLayoutProfileIndexRoute: ProtectedLayoutProfileIndexRoute,
+  ProtectedLayoutBooksIdIndexRoute: ProtectedLayoutBooksIdIndexRoute,
+  ProtectedLayoutBooksAddIndexRoute: ProtectedLayoutBooksAddIndexRoute,
 }
 
 const ProtectedLayoutRouteWithChildren = ProtectedLayoutRoute._addFileChildren(

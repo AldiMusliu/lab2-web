@@ -1,3 +1,4 @@
+import { DataTable } from "@/components/molecules/data-table"
 import { createFileRoute } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/_protectedLayout/books/")({
@@ -5,5 +6,9 @@ export const Route = createFileRoute("/_protectedLayout/books/")({
 })
 
 function BooksPage() {
-  return <div>Books Page</div>
+  return (
+    <div>
+      <DataTable />
+    </div>
+  )
 }
