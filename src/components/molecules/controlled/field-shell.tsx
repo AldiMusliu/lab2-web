@@ -35,7 +35,7 @@ function ControlledFieldShell({
     <label
       htmlFor={htmlFor}
       className={cn(
-        "text-sm leading-none font-medium group-has-disabled/field:cursor-not-allowed group-has-disabled/field:opacity-70",
+        "text-xs leading-none font-medium group-has-disabled/field:cursor-not-allowed group-has-disabled/field:opacity-70",
         labelClassName
       )}
     >
@@ -46,14 +46,14 @@ function ControlledFieldShell({
   const descriptionNode = description ? (
     <p
       id={descriptionId}
-      className={cn("text-sm text-muted-foreground", descriptionClassName)}
+      className={cn("text-xs text-muted-foreground", descriptionClassName)}
     >
       {description}
     </p>
   ) : null
 
   const errorNode = error ? (
-    <p id={errorId} className={cn("text-sm text-destructive", errorClassName)}>
+    <p id={errorId} className={cn("text-xs text-destructive", errorClassName)}>
       {error}
     </p>
   ) : null

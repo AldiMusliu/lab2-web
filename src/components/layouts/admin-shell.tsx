@@ -123,15 +123,6 @@ export function AdminShell({ title, subtitle, children }: AdminShellProps) {
               )}
             </button>
           </div>
-
-          {!sidebarCollapsed ? (
-            <div className="mt-5 space-y-2">
-              <p className="text-xs font-semibold tracking-[0.16em] text-white/70 uppercase">
-                Demo role
-              </p>
-              <ProtectedRoleSwitch tone="primary" />
-            </div>
-          ) : null}
         </div>
 
         <div
@@ -144,8 +135,11 @@ export function AdminShell({ title, subtitle, children }: AdminShellProps) {
         </div>
 
         {!sidebarCollapsed ? (
-          <div className="border-t border-white/10 px-6 py-5 text-sm text-white/70">
-            CRM-style admin layout for managing catalog and operations.
+          <div className="flex flex-col justify-end gap-2 px-4 py-4">
+            <hr className="border-white/20" />
+            <div className="flex justify-end">
+              <ProtectedRoleSwitch tone="primary" />
+            </div>
           </div>
         ) : (
           <div className="border-t border-white/10 px-2 py-4" />
@@ -179,10 +173,6 @@ export function AdminShell({ title, subtitle, children }: AdminShellProps) {
                 ) : null}
               </div>
             </div>
-
-            <div className="hidden lg:block">
-              <ProtectedRoleSwitch />
-            </div>
           </div>
         </header>
 
@@ -195,14 +185,14 @@ export function AdminShell({ title, subtitle, children }: AdminShellProps) {
         open={mobileNavOpen}
         onClose={() => setMobileNavOpen(false)}
         title="Admin navigation"
-        description="Switch sections and test the static demo roles."
+        description="Switch sections and manage the signed-in session."
         side="left"
         className="border-white/10 bg-primary text-primary-foreground"
       >
         <div className="space-y-5">
           <div>
             <p className="mb-2 text-xs font-semibold tracking-[0.16em] text-white/70 uppercase">
-              Demo role
+              Session
             </p>
             <ProtectedRoleSwitch tone="primary" />
           </div>

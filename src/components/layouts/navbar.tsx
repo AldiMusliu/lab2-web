@@ -4,10 +4,8 @@ import {
   BookCheck,
   BookCopy,
   House,
-  LayoutDashboard,
   LibraryBig,
   Menu,
-  Tags,
   UserRound,
 } from "lucide-react"
 
@@ -125,7 +123,7 @@ export function Navbar() {
         <div className="space-y-5">
           <div className="space-y-2">
             <p className="text-xs font-semibold tracking-[0.16em] text-muted-foreground uppercase">
-              Demo role
+              Session
             </p>
             <ProtectedRoleSwitch />
           </div>

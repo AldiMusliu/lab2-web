@@ -1,12 +1,50 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router"
+import {
+  createFileRoute,
+  Outlet,
+  redirect,
+  useNavigate,
+} from "@tanstack/react-router"
 import Lottie from "lottie-react"
+import { useEffect } from "react"
+
 import authAnimation from "@/lotties/books.json"
+import { getStoredAccessToken, useSessionStore } from "@/stores/session.store"
 
 export const Route = createFileRoute("/_authLayout")({
+  beforeLoad: () => {
+    const { isAuthenticated, role } = useSessionStore.getState()
+    const hasToken = isAuthenticated || Boolean(getStoredAccessToken())
+
+    if (!hasToken) {
+      return
+    }
+
+    throw redirect({
+      to: role === "admin" ? "/dashboard" : "/profile",
+    })
+  },
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const navigate = useNavigate()
+  const accessToken = useSessionStore((state) => state.accessToken)
+  const isAuthenticated = useSessionStore((state) => state.isAuthenticated)
+  const role = useSessionStore((state) => state.role)
+  const hasToken =
+    isAuthenticated || Boolean(accessToken || getStoredAccessToken())
+  const redirectTo = role === "admin" ? "/dashboard" : "/profile"
+
+  useEffect(() => {
+    if (hasToken) {
+      void navigate({ to: redirectTo, replace: true })
+    }
+  }, [hasToken, navigate, redirectTo])
+
+  if (hasToken) {
+    return null
+  }
+
   return (
     <div className="grid min-h-svh bg-secondary lg:grid-cols-2">
       <section className="hidden border-r border-border/60 bg-linear-to-br from-primary/10 via-background to-background p-10 lg:flex lg:flex-col lg:justify-between">

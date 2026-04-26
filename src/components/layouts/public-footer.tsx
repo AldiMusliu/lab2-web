@@ -1,4 +1,10 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Link } from "@tanstack/react-router"
+import { useNavigate } from "@tanstack/react-router"
+import { LayoutDashboard, Loader2, LogOut } from "lucide-react"
+
+import { logout } from "@/features/authentication/api.mutation"
+import { useSessionStore } from "@/stores/session.store"
 
 const footerLinks = [
   { href: "/collections", label: "Catalogue" },
@@ -8,6 +14,19 @@ const footerLinks = [
 
 export function PublicFooter() {
   const currentYear = new Date().getFullYear()
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
+  const isAuthenticated = useSessionStore((state) => state.isAuthenticated)
+  const resetSession = useSessionStore((state) => state.reset)
+
+  const logoutMutation = useMutation({
+    mutationFn: logout,
+    onSettled: () => {
+      resetSession()
+      queryClient.clear()
+      void navigate({ to: "/" })
+    },
+  })
 
   return (
     <footer className="border-t border-primary/70 bg-primary text-primary-foreground">
@@ -45,18 +64,48 @@ export function PublicFooter() {
             Account
           </p>
           <div className="flex flex-wrap items-center gap-2">
-            <Link
-              to="/login"
-              className="rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-white/20"
-            >
-              Login
-            </Link>
-            <Link
-              to="/register"
-              className="rounded-full bg-white px-3 py-1.5 text-sm font-semibold text-primary transition-opacity hover:opacity-90"
-            >
-              Create account
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link
+                  to="/dashboard"
+                  className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-white/20"
+                >
+                  <LayoutDashboard className="size-4" aria-hidden="true" />
+                  Dashboard
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => logoutMutation.mutate()}
+                  disabled={logoutMutation.isPending}
+                  className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-sm font-semibold text-primary transition-opacity hover:opacity-90 disabled:pointer-events-none disabled:opacity-60"
+                >
+                  {logoutMutation.isPending ? (
+                    <Loader2
+                      className="size-4 animate-spin"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <LogOut className="size-4" aria-hidden="true" />
+                  )}
+                  Log out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-white/20"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="rounded-full bg-white px-3 py-1.5 text-sm font-semibold text-primary transition-opacity hover:opacity-90"
+                >
+                  Create account
+                </Link>
+              </>
+            )}
           </div>
         </section>
       </div>

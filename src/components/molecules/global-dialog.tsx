@@ -71,22 +71,28 @@ function GlobalDialog() {
             ) : null}
           </DrawerHeader>
 
-          {options?.children ? <div className="px-4 pb-4 text-sm">{options.children}</div> : null}
+          {options?.children ? (
+            <div className="px-4 pb-4 text-sm">{options.children}</div>
+          ) : null}
 
-          <DrawerFooter>
-            {options?.hideCancel ? null : (
-              <Button
-                variant="outline"
-                onClick={() => handleOpenChange(false)}
-                disabled={isSubmitting}
-              >
-                {options?.cancelLabel ?? "Cancel"}
+          {options?.hideFooter ? null : (
+            <DrawerFooter>
+              {options?.hideCancel ? null : (
+                <Button
+                  variant="outline"
+                  onClick={() => handleOpenChange(false)}
+                  disabled={isSubmitting}
+                >
+                  {options?.cancelLabel ?? "Cancel"}
+                </Button>
+              )}
+              <Button onClick={handleConfirm} disabled={isSubmitting}>
+                {isSubmitting
+                  ? "Please wait..."
+                  : (options?.confirmLabel ?? "Confirm")}
               </Button>
-            )}
-            <Button onClick={handleConfirm} disabled={isSubmitting}>
-              {isSubmitting ? "Please wait..." : options?.confirmLabel ?? "Confirm"}
-            </Button>
-          </DrawerFooter>
+            </DrawerFooter>
+          )}
         </DrawerContent>
       </Drawer>
     )
@@ -102,22 +108,28 @@ function GlobalDialog() {
           ) : null}
         </DialogHeader>
 
-        {options?.children ? <div className="text-sm">{options.children}</div> : null}
+        {options?.children ? (
+          <div className="text-sm">{options.children}</div>
+        ) : null}
 
-        <DialogFooter>
-          {options?.hideCancel ? null : (
-            <Button
-              variant="outline"
-              onClick={() => handleOpenChange(false)}
-              disabled={isSubmitting}
-            >
-              {options?.cancelLabel ?? "Cancel"}
+        {options?.hideFooter ? null : (
+          <DialogFooter>
+            {options?.hideCancel ? null : (
+              <Button
+                variant="outline"
+                onClick={() => handleOpenChange(false)}
+                disabled={isSubmitting}
+              >
+                {options?.cancelLabel ?? "Cancel"}
+              </Button>
+            )}
+            <Button onClick={handleConfirm} disabled={isSubmitting}>
+              {isSubmitting
+                ? "Please wait..."
+                : (options?.confirmLabel ?? "Confirm")}
             </Button>
-          )}
-          <Button onClick={handleConfirm} disabled={isSubmitting}>
-            {isSubmitting ? "Please wait..." : options?.confirmLabel ?? "Confirm"}
-          </Button>
-        </DialogFooter>
+          </DialogFooter>
+        )}
       </DialogContent>
     </Dialog>
   )

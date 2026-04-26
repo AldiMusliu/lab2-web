@@ -48,7 +48,7 @@ export function PublicCollectionDetailPage({ bookId }: { bookId: string }) {
           to="/collections"
           className={cn(
             buttonVariants({ variant: "default", size: "lg" }),
-            "mt-6 h-11 gap-2"
+            "mt-6 h-10 gap-2"
           )}
         >
           <ArrowLeft className="size-4" />
@@ -77,7 +77,7 @@ export function PublicCollectionDetailPage({ bookId }: { bookId: string }) {
           <motion.div variants={itemVariants}>
             <Link
               to="/collections"
-              className="inline-flex h-11 items-center gap-2 rounded-lg px-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
+              className="inline-flex h-10 items-center gap-2 rounded-lg px-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
             >
               <ArrowLeft className="size-4" />
               Back to catalogue
@@ -248,7 +248,7 @@ export function PublicCollectionDetailPage({ bookId }: { bookId: string }) {
                     params={{ id: relatedBook.id }}
                     className={cn(
                       buttonVariants({ variant: "outline", size: "lg" }),
-                      "mt-4 h-11 w-full"
+                      "mt-4 h-10 w-full"
                     )}
                   >
                     View details

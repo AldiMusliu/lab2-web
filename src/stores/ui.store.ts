@@ -8,6 +8,7 @@ export type GlobalDialogOptions = {
   confirmLabel?: string
   cancelLabel?: string
   hideCancel?: boolean
+  hideFooter?: boolean
   onConfirm?: () => void | Promise<void>
   onCancel?: () => void
 }

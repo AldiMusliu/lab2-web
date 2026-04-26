@@ -8,6 +8,7 @@ import type { ReactNode } from "react"
 import { GlobalDialog } from "@/components/molecules/global-dialog"
 import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { AuthSessionBootstrap } from "@/features/authentication/_components/auth-session-bootstrap"
 import { createQueryClient } from "@/lib/query-client"
 
 function AppProviders({ children }: { children: ReactNode }) {
@@ -16,6 +17,7 @@ function AppProviders({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
+        <AuthSessionBootstrap />
         {children}
         <GlobalDialog />
         <Toaster />

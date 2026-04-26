@@ -1,19 +1,36 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Link } from "@tanstack/react-router"
+import { useNavigate } from "@tanstack/react-router"
 import { motion, useReducedMotion } from "framer-motion"
-import { LibraryBig } from "lucide-react"
+import { LayoutDashboard, LibraryBig, Loader2, LogOut } from "lucide-react"
 import { publicHomeContent } from "@/features/publicPages/home/home-project-data"
 import {
   createItemVariants,
   createSectionVariants,
   getCardHover,
 } from "@/features/publicPages/home/home-motion"
+import { logout } from "@/features/authentication/api.mutation"
+import { useSessionStore } from "@/stores/session.store"
 
 export function PublicHomeHero() {
   const shouldReduceMotion = useReducedMotion()
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
+  const isAuthenticated = useSessionStore((state) => state.isAuthenticated)
+  const resetSession = useSessionStore((state) => state.reset)
   const prefersReducedMotion = Boolean(shouldReduceMotion)
   const sectionVariants = createSectionVariants(prefersReducedMotion)
   const itemVariants = createItemVariants(prefersReducedMotion)
   const cardHover = getCardHover(prefersReducedMotion)
+
+  const logoutMutation = useMutation({
+    mutationFn: logout,
+    onSettled: () => {
+      resetSession()
+      queryClient.clear()
+      void navigate({ to: "/" })
+    },
+  })
 
   return (
     <section className="relative overflow-hidden border-b border-border/60 bg-[radial-gradient(circle_at_10%_0%,rgba(2,132,199,0.2),transparent_32%),radial-gradient(circle_at_82%_8%,rgba(34,197,94,0.16),transparent_36%),linear-gradient(180deg,var(--color-secondary),var(--color-background))]">
@@ -44,12 +61,40 @@ export function PublicHomeHero() {
             >
               Explore catalogue
             </Link>
-            <Link
-              to="/login"
-              className="rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
-            >
-              Login to continue
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link
+                  to="/dashboard"
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                >
+                  <LayoutDashboard className="size-4" aria-hidden="true" />
+                  Dashboard
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => logoutMutation.mutate()}
+                  disabled={logoutMutation.isPending}
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted disabled:pointer-events-none disabled:opacity-60"
+                >
+                  {logoutMutation.isPending ? (
+                    <Loader2
+                      className="size-4 animate-spin"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <LogOut className="size-4" aria-hidden="true" />
+                  )}
+                  Log out
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/login"
+                className="rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+              >
+                Login to continue
+              </Link>
+            )}
           </div>
         </motion.div>
 

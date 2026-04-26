@@ -42,7 +42,7 @@ export function CollectionsPagination({
           disabled={currentPage === 1}
           className={cn(
             buttonVariants({ variant: "outline", size: "lg" }),
-            "h-11 gap-2"
+            "h-10 gap-2"
           )}
         >
           <ChevronLeft className="size-4" />
@@ -82,7 +82,7 @@ export function CollectionsPagination({
           disabled={currentPage === totalPages}
           className={cn(
             buttonVariants({ variant: "outline", size: "lg" }),
-            "h-11 gap-2"
+            "h-10 gap-2"
           )}
         >
           Next

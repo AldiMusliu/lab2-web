@@ -6,7 +6,8 @@ type ToasterProps = ComponentProps<typeof Sonner>
 function Toaster(props: ToasterProps) {
   return (
     <Sonner
-      closeButton
+      closeButton={false}
+      duration={4000}
       position="top-right"
       richColors
       toastOptions={{

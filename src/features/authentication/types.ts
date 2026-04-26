@@ -1,8 +1,12 @@
+export type UserRole = "admin" | "user"
+
 export type AuthUser = {
   id: string
   fullName: string
+  firstName: string
+  lastName: string
   email: string
-  role: "admin" | "user"
+  role: UserRole
 }
 
 export type LoginRequest = {
@@ -11,13 +15,15 @@ export type LoginRequest = {
 }
 
 export type RegisterRequest = {
-  fullName: string
+  firstName: string
+  lastName: string
   email: string
   password: string
 }
 
-export type AuthTokenResponse = {
+export type AuthResponse = {
   accessToken: string
-  refreshToken?: string
   user: AuthUser
 }
+
+export type AuthTokenResponse = AuthResponse

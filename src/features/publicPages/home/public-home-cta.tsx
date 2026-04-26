@@ -1,16 +1,35 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Link } from "@tanstack/react-router"
+import { useNavigate } from "@tanstack/react-router"
 import { motion, useReducedMotion } from "framer-motion"
+import { LayoutDashboard, Loader2, LogOut } from "lucide-react"
+
+import { logout } from "@/features/authentication/api.mutation"
 import { publicHomeContent } from "@/features/publicPages/home/home-project-data"
 import {
   createItemVariants,
   createSectionVariants,
 } from "@/features/publicPages/home/home-motion"
+import { useSessionStore } from "@/stores/session.store"
 
 export function PublicHomeCta() {
   const shouldReduceMotion = useReducedMotion()
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
+  const isAuthenticated = useSessionStore((state) => state.isAuthenticated)
+  const resetSession = useSessionStore((state) => state.reset)
   const prefersReducedMotion = Boolean(shouldReduceMotion)
   const sectionVariants = createSectionVariants(prefersReducedMotion)
   const itemVariants = createItemVariants(prefersReducedMotion)
+
+  const logoutMutation = useMutation({
+    mutationFn: logout,
+    onSettled: () => {
+      resetSession()
+      queryClient.clear()
+      void navigate({ to: "/" })
+    },
+  })
 
   return (
     <motion.section
@@ -34,18 +53,45 @@ export function PublicHomeCta() {
           {publicHomeContent.cta.description}
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link
-            to="/login"
-            className="inline-flex rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
-          >
-            {publicHomeContent.cta.primaryLabel}
-          </Link>
-          <Link
-            to="/register"
-            className="inline-flex rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
-          >
-            {publicHomeContent.cta.secondaryLabel}
-          </Link>
+          {isAuthenticated ? (
+            <>
+              <Link
+                to="/dashboard"
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+              >
+                <LayoutDashboard className="size-4" aria-hidden="true" />
+                Dashboard
+              </Link>
+              <button
+                type="button"
+                onClick={() => logoutMutation.mutate()}
+                disabled={logoutMutation.isPending}
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted disabled:pointer-events-none disabled:opacity-60"
+              >
+                {logoutMutation.isPending ? (
+                  <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+                ) : (
+                  <LogOut className="size-4" aria-hidden="true" />
+                )}
+                Log out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="inline-flex rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+              >
+                {publicHomeContent.cta.primaryLabel}
+              </Link>
+              <Link
+                to="/register"
+                className="inline-flex rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+              >
+                {publicHomeContent.cta.secondaryLabel}
+              </Link>
+            </>
+          )}
         </div>
       </motion.div>
     </motion.section>
