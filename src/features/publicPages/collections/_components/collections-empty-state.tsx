@@ -23,7 +23,7 @@ export function CollectionsEmptyState({
         onClick={onResetFilters}
         className={cn(
           buttonVariants({ variant: "default", size: "lg" }),
-          "mt-5 h-11"
+          "mt-5 h-10"
         )}
       >
         Clear filters

@@ -105,7 +105,7 @@ export function BookCard({
               params={{ id: book.id }}
               className={cn(
                 buttonVariants({ variant: "outline", size: "lg" }),
-                "h-11 w-full gap-2"
+                "h-10 w-full gap-2"
               )}
             >
               <BookOpenText className="size-4" />
@@ -118,7 +118,7 @@ export function BookCard({
                   variant: isAvailable ? "default" : "secondary",
                   size: "lg",
                 }),
-                "h-11 w-full gap-2"
+                "h-10 w-full gap-2"
               )}
             >
               <BookMarked className="size-4" />

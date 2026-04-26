@@ -94,7 +94,7 @@ export function LoginPage() {
           type="submit"
           size="lg"
           disabled={mutation.isPending}
-          className="h-11 w-full"
+          className="h-10 w-full"
         >
           {mutation.isPending ? (
             <Loader2 className="size-4 animate-spin" aria-hidden="true" />

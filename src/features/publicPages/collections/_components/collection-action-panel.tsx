@@ -44,7 +44,7 @@ export function CollectionActionPanel({ book }: { book: Book }) {
             to="/login"
             className={cn(
               buttonVariants({ variant: "outline", size: "lg" }),
-              "h-11 w-full gap-2"
+              "h-10 w-full gap-2"
             )}
           >
             <BookOpenText className="size-4" />
@@ -63,7 +63,7 @@ export function CollectionActionPanel({ book }: { book: Book }) {
               variant: isAvailable ? "default" : "secondary",
               size: "lg",
             }),
-            "h-11 w-full gap-2"
+            "h-10 w-full gap-2"
           )}
         >
           <BookMarked className="size-4" />

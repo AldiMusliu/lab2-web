@@ -68,7 +68,7 @@ export function CollectionsFilterPanel({
               value={searchTerm}
               onChange={(event) => onSearchChange(event.target.value)}
               placeholder="Search title, author, topic..."
-              className="h-11 pl-9"
+              className="h-10 pl-9"
             />
           </div>
         </div>
@@ -91,7 +91,7 @@ export function CollectionsFilterPanel({
             >
               <SelectTrigger
                 id="catalogue-category"
-                className="mt-2 h-11 w-full"
+                className="mt-2 h-10 w-full"
               >
                 <SelectValue />
               </SelectTrigger>
@@ -123,7 +123,7 @@ export function CollectionsFilterPanel({
             >
               <SelectTrigger
                 id="catalogue-availability"
-                className="mt-2 h-11 w-full"
+                className="mt-2 h-10 w-full"
               >
                 <SelectValue />
               </SelectTrigger>
@@ -151,7 +151,7 @@ export function CollectionsFilterPanel({
                 }
               }}
             >
-              <SelectTrigger id="catalogue-sort" className="mt-2 h-11 w-full">
+              <SelectTrigger id="catalogue-sort" className="mt-2 h-10 w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -180,7 +180,7 @@ export function CollectionsFilterPanel({
             >
               <SelectTrigger
                 id="catalogue-page-size"
-                className="mt-2 h-11 w-full"
+                className="mt-2 h-10 w-full"
               >
                 <SelectValue />
               </SelectTrigger>
@@ -213,7 +213,7 @@ export function CollectionsFilterPanel({
           onClick={onResetFilters}
           className={cn(
             buttonVariants({ variant: "ghost", size: "lg" }),
-            "h-11 gap-2"
+            "h-10 gap-2"
           )}
         >
           <SlidersHorizontal className="size-4" />

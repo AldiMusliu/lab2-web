@@ -64,6 +64,7 @@ export function ProfilePasswordForm() {
           label="Current password"
           type="password"
           autoComplete="current-password"
+          className="col-span-2"
         />
         <ControlledInput
           control={form.control}
@@ -78,7 +79,6 @@ export function ProfilePasswordForm() {
           label="Confirm new password"
           type="password"
           autoComplete="new-password"
-          className="md:col-span-2"
         />
       </div>
 
