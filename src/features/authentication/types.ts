@@ -2,7 +2,7 @@ export type AuthUser = {
   id: string
   fullName: string
   email: string
-  role: "admin" | "member"
+  role: "admin" | "user"
 }
 
 export type LoginRequest = {
