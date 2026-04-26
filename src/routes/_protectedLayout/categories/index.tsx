@@ -1,9 +1,10 @@
+import { CategoriesPage } from "@/features/categories/_components/categories-page"
 import { createFileRoute } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/_protectedLayout/categories/")({
-  component: CategoriesPage,
+  component: RouteComponent,
 })
 
-function CategoriesPage() {
-  return <div>Categories</div>
+function RouteComponent() {
+  return <CategoriesPage />
 }

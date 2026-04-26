@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Link, useNavigate } from "@tanstack/react-router"
 import { ArrowLeft, ImageUp, Loader2, Save } from "lucide-react"
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import type { ChangeEvent } from "react"
@@ -12,13 +12,13 @@ import type { BookFormat } from "@/features/books/types"
 import { bookFormats } from "@/features/books/types"
 import { createBook, updateBook } from "@/features/books/api.mutation"
 import { getBookById } from "@/features/books/api.queries"
+import { getCategories } from "@/features/categories/api.queries"
 import {
   bookToFormValues,
   defaultBookFormValues,
   formValuesToBookInput,
   upsertBookSchema,
 } from "@/features/books/schemas"
-import { mockCategories } from "@/mocks"
 import {
   ControlledCheckbox,
   ControlledInput,
@@ -28,11 +28,6 @@ import {
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
-
-const categoryOptions = mockCategories.map((category) => ({
-  label: category.name,
-  value: category.id,
-}))
 
 function BooksForm({ id }: { id?: string }) {
   const navigate = useNavigate()
@@ -53,6 +48,20 @@ function BooksForm({ id }: { id?: string }) {
     queryFn: () => getBookById(id!),
     enabled: isEditing,
   })
+
+  const { data: categories = [] } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategories,
+  })
+
+  const categoryOptions = useMemo(
+    () =>
+      categories.map((category) => ({
+        label: category.name,
+        value: category.id,
+      })),
+    [categories]
+  )
 
   useEffect(() => {
     if (book) {

@@ -5,3 +5,13 @@ export const upsertCategorySchema = z.object({
 })
 
 export type UpsertCategoryFormValues = z.infer<typeof upsertCategorySchema>
+
+export const defaultCategoryFormValues: UpsertCategoryFormValues = {
+  name: "",
+}
+
+export function formValuesToCategoryInput(values: UpsertCategoryFormValues) {
+  return {
+    name: values.name.trim(),
+  }
+}

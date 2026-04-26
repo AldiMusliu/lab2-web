@@ -1,31 +1,22 @@
 import { Link } from "@tanstack/react-router"
 import type { ReactNode } from "react"
 
-import { AuthRoleSwitch } from "./auth-role-switch"
-import type { SessionRole } from "@/stores/session.store"
-
 type AuthEntryCardProps = {
   title: string
   description: string
-  userActionLabel: string
-  adminActionLabel: string
-  onSelectRole: (role: SessionRole) => void
   helperText: string
   helperLinkLabel: string
   helperLinkTo: "/login" | "/register"
-  fields?: ReactNode
+  children: ReactNode
 }
 
 export function AuthEntryCard({
   title,
   description,
-  userActionLabel,
-  adminActionLabel,
-  onSelectRole,
   helperText,
   helperLinkLabel,
   helperLinkTo,
-  fields,
+  children,
 }: AuthEntryCardProps) {
   return (
     <div className="mx-auto w-full max-w-md rounded-2xl border border-border bg-card p-6 text-card-foreground shadow-sm sm:p-7">
@@ -34,15 +25,7 @@ export function AuthEntryCard({
         {description}
       </p>
 
-      {fields ? <div className="mt-6 space-y-4">{fields}</div> : null}
-
-      <div className="mt-6">
-        <AuthRoleSwitch
-          userLabel={userActionLabel}
-          adminLabel={adminActionLabel}
-          onSelectRole={onSelectRole}
-        />
-      </div>
+      <div className="mt-6">{children}</div>
 
       <p className="mt-5 text-center text-sm text-muted-foreground">
         {helperText}{" "}

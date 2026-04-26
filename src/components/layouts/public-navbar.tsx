@@ -1,8 +1,18 @@
 import { useState } from "react"
-import { Link } from "@tanstack/react-router"
-import { BookOpenText, LibraryBig, Menu } from "lucide-react"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { Link, useNavigate } from "@tanstack/react-router"
+import {
+  BookOpenText,
+  LayoutDashboard,
+  LibraryBig,
+  Loader2,
+  LogOut,
+  Menu,
+} from "lucide-react"
 
 import { MobileSlidePanel } from "@/components/layouts/mobile-slide-panel"
+import { logout } from "@/features/authentication/api.mutation"
+import { useSessionStore } from "@/stores/session.store"
 
 const publicNavigationItems = [
   { href: "/collections", label: "Catalogue" },
@@ -13,6 +23,25 @@ const publicNavigationItems = [
 
 export function PublicNavbar() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
+  const isAuthenticated = useSessionStore((state) => state.isAuthenticated)
+  const user = useSessionStore((state) => state.user)
+  const resetSession = useSessionStore((state) => state.reset)
+
+  const logoutMutation = useMutation({
+    mutationFn: logout,
+    onSettled: () => {
+      resetSession()
+      queryClient.clear()
+      setMobileNavOpen(false)
+      void navigate({ to: "/" })
+    },
+  })
+
+  const handleLogout = () => {
+    logoutMutation.mutate()
+  }
 
   return (
     <header className="sticky top-0 z-40 border-b border-primary/70 bg-primary text-primary-foreground shadow-sm">
@@ -62,19 +91,49 @@ export function PublicNavbar() {
             >
               <Menu className="size-4" />
             </button>
-            <Link
-              to="/login"
-              className="hidden rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-white/20 sm:inline-flex"
-            >
-              Login
-            </Link>
-            <Link
-              to="/register"
-              className="hidden items-center gap-1 rounded-full bg-white px-4 py-2 text-sm font-semibold text-primary transition-opacity hover:opacity-90 sm:inline-flex"
-            >
-              <BookOpenText className="size-4" />
-              Join now
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link
+                  to="/dashboard"
+                  className="hidden items-center gap-1 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-white/20 sm:inline-flex"
+                >
+                  <LayoutDashboard className="size-4" aria-hidden="true" />
+                  Dashboard
+                </Link>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  disabled={logoutMutation.isPending}
+                  className="hidden items-center gap-1 rounded-full bg-white px-4 py-2 text-sm font-semibold text-primary transition-opacity hover:opacity-90 disabled:pointer-events-none disabled:opacity-60 sm:inline-flex"
+                >
+                  {logoutMutation.isPending ? (
+                    <Loader2
+                      className="size-4 animate-spin"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <LogOut className="size-4" aria-hidden="true" />
+                  )}
+                  Log out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="hidden rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-white/20 sm:inline-flex"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="hidden items-center gap-1 rounded-full bg-white px-4 py-2 text-sm font-semibold text-primary transition-opacity hover:opacity-90 sm:inline-flex"
+                >
+                  <BookOpenText className="size-4" />
+                  Join now
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -101,22 +160,53 @@ export function PublicNavbar() {
             ))}
           </nav>
 
-          <div className="grid gap-2">
-            <Link
-              to="/login"
-              onClick={() => setMobileNavOpen(false)}
-              className="inline-flex justify-center rounded-full border border-white/20 bg-white/10 px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-white/20"
-            >
-              Login
-            </Link>
-            <Link
-              to="/register"
-              onClick={() => setMobileNavOpen(false)}
-              className="inline-flex justify-center rounded-full bg-white px-4 py-2.5 text-sm font-semibold text-primary transition-opacity hover:opacity-90"
-            >
-              Join now
-            </Link>
-          </div>
+          {isAuthenticated ? (
+            <div className="grid gap-2">
+              {user ? (
+                <p className="rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-sm font-medium text-primary-foreground/90">
+                  {user.fullName}
+                </p>
+              ) : null}
+              <Link
+                to="/dashboard"
+                onClick={() => setMobileNavOpen(false)}
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-white/20"
+              >
+                <LayoutDashboard className="size-4" aria-hidden="true" />
+                Dashboard
+              </Link>
+              <button
+                type="button"
+                onClick={handleLogout}
+                disabled={logoutMutation.isPending}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm font-semibold text-primary transition-opacity hover:opacity-90 disabled:pointer-events-none disabled:opacity-60"
+              >
+                {logoutMutation.isPending ? (
+                  <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+                ) : (
+                  <LogOut className="size-4" aria-hidden="true" />
+                )}
+                Log out
+              </button>
+            </div>
+          ) : (
+            <div className="grid gap-2">
+              <Link
+                to="/login"
+                onClick={() => setMobileNavOpen(false)}
+                className="inline-flex justify-center rounded-full border border-white/20 bg-white/10 px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-white/20"
+              >
+                Login
+              </Link>
+              <Link
+                to="/register"
+                onClick={() => setMobileNavOpen(false)}
+                className="inline-flex justify-center rounded-full bg-white px-4 py-2.5 text-sm font-semibold text-primary transition-opacity hover:opacity-90"
+              >
+                Join now
+              </Link>
+            </div>
+          )}
         </div>
       </MobileSlidePanel>
     </header>
