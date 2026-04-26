@@ -45,7 +45,11 @@ export function RegisterPage() {
       toast.success("Account created", {
         description: `Welcome, ${response.user.fullName}.`,
       })
-      await navigate({ to: "/dashboard" })
+      if (response.user.role === "admin") {
+        await navigate({ to: "/dashboard" })
+      } else {
+        await navigate({ to: "/profile" })
+      }
     },
     onError: (error) => {
       toast.error("Could not create account", {

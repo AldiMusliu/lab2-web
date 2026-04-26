@@ -42,7 +42,11 @@ export function LoginPage() {
       toast.success("Signed in", {
         description: `Welcome back, ${response.user.fullName}.`,
       })
-      await navigate({ to: "/dashboard" })
+      if (response.user.role === "admin") {
+        await navigate({ to: "/dashboard" })
+      } else {
+        await navigate({ to: "/profile" })
+      }
     },
     onError: (error) => {
       toast.error("Could not sign in", {
