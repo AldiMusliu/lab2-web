@@ -14,11 +14,29 @@ export const bookKeys = {
 function toQueryString(filters: BookFilters = {}) {
   const params = new URLSearchParams()
 
-  Object.entries(filters).forEach(([key, value]) => {
-    if (value !== undefined && value !== null && value !== "") {
-      params.set(key, String(value))
-    }
-  })
+  if (filters.q) {
+    params.set("q", filters.q)
+  }
+
+  if (filters.categoryId) {
+    params.set("categoryId", filters.categoryId)
+  }
+
+  if (filters.availability) {
+    params.set("availability", filters.availability)
+  }
+
+  if (filters.sort) {
+    params.set("sort", filters.sort)
+  }
+
+  if (filters.page !== undefined) {
+    params.set("page", String(filters.page))
+  }
+
+  if (filters.pageSize !== undefined) {
+    params.set("pageSize", String(filters.pageSize))
+  }
 
   const query = params.toString()
 
@@ -26,7 +44,7 @@ function toQueryString(filters: BookFilters = {}) {
 }
 
 export function getBooks(filters?: BookFilters) {
-  return httpClient.get<Book[]>(`/books${toQueryString(filters)}`)
+  return httpClient.get<Array<Book>>(`/books${toQueryString(filters)}`)
 }
 
 export function getBookById(bookId: string) {

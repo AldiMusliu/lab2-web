@@ -2,14 +2,13 @@ import { Link } from "@tanstack/react-router"
 import { motion } from "framer-motion"
 import { BookMarked, BookOpenText, CheckCircle2 } from "lucide-react"
 
-import { buttonVariants } from "@/components/ui/button"
-import { getCardHover } from "@/features/publicPages/home/home-motion"
-import { cn } from "@/lib/utils"
-
 import { BookCover } from "./book-cover"
 import { getAvailabilityLabel, getBookCategory } from "./collections-utils"
 import type { Book } from "./collections-types"
 import type { Category } from "@/features/categories/types"
+import type { getCardHover } from "@/features/publicPages/home/home-motion"
+import { buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
 export function BookCard({
   book,

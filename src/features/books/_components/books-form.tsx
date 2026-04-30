@@ -147,7 +147,7 @@ function BooksForm({ id }: { id?: string }) {
     },
   })
 
-  const selectedFormats = form.watch("formats") ?? []
+  const selectedFormats = form.watch("formats")
   const selectedCoverImage = form.watch("coverImage")
   const availableCopiesValue = form.watch("availableCopies")
   const totalCopiesValue = form.watch("totalCopies")

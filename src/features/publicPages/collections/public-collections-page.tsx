@@ -3,19 +3,19 @@ import { useQuery } from "@tanstack/react-query"
 import { motion, useReducedMotion } from "framer-motion"
 import { Loader2 } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
 import type { BookFilters } from "@/features/books/types"
+import type {
+  AvailabilityFilter,
+  PageSizeOption,
+  SortMode,
+} from "@/features/publicPages/collections/_components/collections-types"
+import { Button } from "@/components/ui/button"
 import { bookKeys, getBooks } from "@/features/books/api.queries"
 import { getCategories } from "@/features/categories/api.queries"
 import { BookCard } from "@/features/publicPages/collections/_components/book-card"
 import { CollectionsEmptyState } from "@/features/publicPages/collections/_components/collections-empty-state"
 import { CollectionsFilterPanel } from "@/features/publicPages/collections/_components/collections-filter-panel"
 import { CollectionsPagination } from "@/features/publicPages/collections/_components/collections-pagination"
-import {
-  type AvailabilityFilter,
-  type PageSizeOption,
-  type SortMode,
-} from "@/features/publicPages/collections/_components/collections-types"
 import { getVisiblePages } from "@/features/publicPages/collections/_components/collections-utils"
 import {
   createItemVariants,

@@ -6,6 +6,7 @@ import type {
   PageSizeOption,
   SortMode,
 } from "./collections-types"
+import type { Category } from "@/features/categories/types"
 import { buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -15,7 +16,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import type { Category } from "@/features/categories/types"
 import { cn } from "@/lib/utils"
 
 type CollectionsFilterPanelProps = {
@@ -119,7 +119,7 @@ export function CollectionsFilterPanel({
               value={availabilityFilter}
               onValueChange={(value) => {
                 if (value) {
-                  onAvailabilityChange(value as AvailabilityFilter)
+                  onAvailabilityChange(value)
                 }
               }}
             >
@@ -149,7 +149,7 @@ export function CollectionsFilterPanel({
               value={sortMode}
               onValueChange={(value) => {
                 if (value) {
-                  onSortChange(value as SortMode)
+                  onSortChange(value)
                 }
               }}
             >
