@@ -1,16 +1,16 @@
 "use client"
 
 import { useId } from "react"
-import type { ReactNode } from "react"
-import {
-  useController,
-  type FieldPath,
-  type FieldValues,
-  type UseControllerProps,
-} from "react-hook-form"
+import { useController } from "react-hook-form"
 
 import { ControlledFieldShell, getFieldDescribedBy } from "./field-shell"
 
+import type { ReactNode } from "react"
+import type {
+  FieldPath,
+  FieldValues,
+  UseControllerProps,
+} from "react-hook-form"
 import {
   Select,
   SelectContent,
@@ -37,7 +37,7 @@ type ControlledSelectProps<
   id?: string
   label?: ReactNode
   labelClassName?: string
-  options: ControlledSelectOption[]
+  options: Array<ControlledSelectOption>
   placeholder?: string
   triggerClassName?: string
 }
@@ -99,6 +99,7 @@ function ControlledSelect<
       <Select
         disabled={disabled}
         inputRef={field.ref}
+        items={options}
         name={field.name}
         value={value}
         onValueChange={(nextValue) => {

@@ -3,6 +3,7 @@ import { BookCopy } from "lucide-react"
 import { getBookCategory } from "./collections-utils"
 import type { Book } from "./collections-types"
 import type { Category } from "@/features/categories/types"
+import { resolveBookCoverImageSrc } from "@/features/books/cover-image"
 import { bookCoverImageDetails } from "@/features/books/types"
 import { cn } from "@/lib/utils"
 
@@ -16,7 +17,8 @@ export function BookCover({
   compact?: boolean
 }) {
   const coverImageUrl =
-    book.coverImage || bookCoverImageDetails["library-shelves"].imageUrl
+    resolveBookCoverImageSrc(book.coverImage) ||
+    bookCoverImageDetails["library-shelves"].imageUrl
 
   return (
     <div

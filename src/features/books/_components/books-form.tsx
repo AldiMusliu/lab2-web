@@ -18,6 +18,11 @@ import type { BookFormat } from "@/features/books/types"
 import { bookCoverTones, bookFormats } from "@/features/books/types"
 import { createBook, updateBook } from "@/features/books/api.mutation"
 import { bookKeys, getBookById } from "@/features/books/api.queries"
+import {
+  createCoverImagePath,
+  registerLocalBookCoverPreview,
+  resolveBookCoverImageSrc,
+} from "@/features/books/cover-image"
 import { getCategories } from "@/features/categories/api.queries"
 import {
   bookToFormValues,
@@ -160,6 +165,10 @@ function BooksForm({ id }: { id?: string }) {
     Number.isFinite(totalCopies) &&
     availableCopies > totalCopies
   const formatError = form.formState.errors.formats?.message
+  const coverImageError = form.formState.errors.coverImage?.message
+  const selectedCoverImageSrc = selectedCoverImage
+    ? resolveBookCoverImageSrc(selectedCoverImage)
+    : ""
 
   function toggleFormat(format: BookFormat) {
     const nextFormats = selectedFormats.includes(format)
@@ -193,18 +202,13 @@ function BooksForm({ id }: { id?: string }) {
       return
     }
 
-    const reader = new FileReader()
+    const coverImagePath = createCoverImagePath(file)
 
-    reader.onload = () => {
-      if (typeof reader.result === "string") {
-        form.setValue("coverImage", reader.result, {
-          shouldDirty: true,
-          shouldValidate: true,
-        })
-      }
-    }
-
-    reader.readAsDataURL(file)
+    registerLocalBookCoverPreview(coverImagePath, file)
+    form.setValue("coverImage", coverImagePath, {
+      shouldDirty: true,
+      shouldValidate: true,
+    })
   }
 
   if (!isAdmin) {
@@ -434,28 +438,29 @@ function BooksForm({ id }: { id?: string }) {
           <h3 className="text-base font-semibold text-foreground">Discovery</h3>
           <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_280px]">
             <div className="grid gap-4">
-              <ControlledInput
-                control={form.control}
-                name="coverImage"
-                label="Cover image URL *"
-                placeholder="https://example.com/cover.jpg"
-              />
               <div className="grid gap-2">
                 <label
                   htmlFor="cover-image-upload"
                   className="text-sm leading-none font-medium"
                 >
-                  Upload cover image
+                  Cover image *
                 </label>
                 <Input
                   id="cover-image-upload"
                   type="file"
                   accept="image/*"
                   onChange={handleCoverImageChange}
+                  aria-invalid={Boolean(coverImageError)}
                 />
-                <p className="text-sm text-muted-foreground">
-                  JPG, PNG, or WebP.
-                </p>
+                {coverImageError ? (
+                  <p className="text-sm text-destructive">
+                    {String(coverImageError)}
+                  </p>
+                ) : (
+                  <p className="text-sm text-muted-foreground">
+                    Upload a JPG, PNG, or WebP cover image.
+                  </p>
+                )}
               </div>
               <ControlledTextarea
                 control={form.control}
@@ -473,9 +478,9 @@ function BooksForm({ id }: { id?: string }) {
               />
             </div>
             <div className="overflow-hidden rounded-lg border bg-muted">
-              {selectedCoverImage ? (
+              {selectedCoverImageSrc ? (
                 <img
-                  src={selectedCoverImage}
+                  src={selectedCoverImageSrc}
                   alt="Cover preview"
                   className="h-44 w-full object-cover"
                 />
@@ -490,7 +495,8 @@ function BooksForm({ id }: { id?: string }) {
                   Cover preview
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  The selected image is used in catalogue cards.
+                  The image file is previewed here; the backend stores its
+                  cover path.
                 </p>
               </div>
             </div>
