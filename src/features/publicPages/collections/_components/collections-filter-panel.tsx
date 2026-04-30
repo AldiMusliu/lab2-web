@@ -15,12 +15,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import type { Category } from "@/features/categories/types"
 import { cn } from "@/lib/utils"
-import { mockCategories } from "@/mocks"
 
 type CollectionsFilterPanelProps = {
   searchTerm: string
   categoryFilter: string
+  categories: Array<Category>
   availabilityFilter: AvailabilityFilter
   sortMode: SortMode
   pageSize: PageSizeOption
@@ -38,6 +39,7 @@ type CollectionsFilterPanelProps = {
 export function CollectionsFilterPanel({
   searchTerm,
   categoryFilter,
+  categories,
   availabilityFilter,
   sortMode,
   pageSize,
@@ -97,7 +99,7 @@ export function CollectionsFilterPanel({
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All categories</SelectItem>
-                {mockCategories.map((category) => (
+                {categories.map((category) => (
                   <SelectItem key={category.id} value={category.id}>
                     {category.name}
                   </SelectItem>

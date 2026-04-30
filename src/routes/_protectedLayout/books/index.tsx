@@ -35,7 +35,7 @@ function BooksPage() {
     refetch,
   } = useQuery({
     queryKey: bookKeys.list(),
-    queryFn: getBooks,
+    queryFn: () => getBooks(),
   })
 
   const { data: categories = [] } = useQuery({

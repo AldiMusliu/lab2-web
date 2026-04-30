@@ -3,13 +3,16 @@ import { BookCopy } from "lucide-react"
 import { getBookCategory } from "./collections-utils"
 import type { Book } from "./collections-types"
 import { bookCoverImageDetails } from "@/features/books/types"
+import type { Category } from "@/features/categories/types"
 import { cn } from "@/lib/utils"
 
 export function BookCover({
   book,
+  categories,
   compact = false,
 }: {
   book: Book
+  categories: Array<Category>
   compact?: boolean
 }) {
   const coverImageUrl =
@@ -38,7 +41,7 @@ export function BookCover({
         </div>
         <div>
           <p className="text-xs font-semibold uppercase">
-            {getBookCategory(book)}
+            {getBookCategory(book, categories)}
           </p>
           <p className="mt-2 max-w-40 text-xl leading-tight font-semibold">
             {book.title}
