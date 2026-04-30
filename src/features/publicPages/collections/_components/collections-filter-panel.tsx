@@ -6,6 +6,7 @@ import type {
   PageSizeOption,
   SortMode,
 } from "./collections-types"
+import type { Category } from "@/features/categories/types"
 import { buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -16,11 +17,11 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
-import { mockCategories } from "@/mocks"
 
 type CollectionsFilterPanelProps = {
   searchTerm: string
   categoryFilter: string
+  categories: Array<Category>
   availabilityFilter: AvailabilityFilter
   sortMode: SortMode
   pageSize: PageSizeOption
@@ -35,9 +36,29 @@ type CollectionsFilterPanelProps = {
   onResetFilters: () => void
 }
 
+const availabilityOptions = [
+  { label: "All access", value: "all" },
+  { label: "Borrowable", value: "available" },
+  { label: "Read online", value: "online" },
+  { label: "Waitlist", value: "waitlist" },
+] satisfies Array<{ label: string; value: AvailabilityFilter }>
+
+const sortOptions = [
+  { label: "Title A-Z", value: "title" },
+  { label: "Author A-Z", value: "author" },
+  { label: "Newest first", value: "newest" },
+  { label: "Most copies", value: "copies" },
+] satisfies Array<{ label: string; value: SortMode }>
+
+const pageSizeSelectOptions = pageSizeOptions.map((option) => ({
+  label: `${option} books`,
+  value: String(option),
+}))
+
 export function CollectionsFilterPanel({
   searchTerm,
   categoryFilter,
+  categories,
   availabilityFilter,
   sortMode,
   pageSize,
@@ -51,6 +72,14 @@ export function CollectionsFilterPanel({
   onPageSizeChange,
   onResetFilters,
 }: CollectionsFilterPanelProps) {
+  const categoryOptions = [
+    { label: "All categories", value: "all" },
+    ...categories.map((category) => ({
+      label: category.name,
+      value: category.id,
+    })),
+  ]
+
   return (
     <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end">
@@ -82,12 +111,9 @@ export function CollectionsFilterPanel({
               Category
             </label>
             <Select
+              items={categoryOptions}
               value={categoryFilter}
-              onValueChange={(value) => {
-                if (value) {
-                  onCategoryChange(value)
-                }
-              }}
+              onValueChange={(value) => onCategoryChange(value ?? "all")}
             >
               <SelectTrigger
                 id="catalogue-category"
@@ -96,10 +122,9 @@ export function CollectionsFilterPanel({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All categories</SelectItem>
-                {mockCategories.map((category) => (
-                  <SelectItem key={category.id} value={category.id}>
-                    {category.name}
+                {categoryOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -114,12 +139,9 @@ export function CollectionsFilterPanel({
               Availability
             </label>
             <Select
+              items={availabilityOptions}
               value={availabilityFilter}
-              onValueChange={(value) => {
-                if (value) {
-                  onAvailabilityChange(value as AvailabilityFilter)
-                }
-              }}
+              onValueChange={(value) => onAvailabilityChange(value ?? "all")}
             >
               <SelectTrigger
                 id="catalogue-availability"
@@ -128,10 +150,11 @@ export function CollectionsFilterPanel({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All access</SelectItem>
-                <SelectItem value="available">Borrowable</SelectItem>
-                <SelectItem value="online">Read online</SelectItem>
-                <SelectItem value="waitlist">Waitlist</SelectItem>
+                {availabilityOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -144,21 +167,19 @@ export function CollectionsFilterPanel({
               Sort
             </label>
             <Select
+              items={sortOptions}
               value={sortMode}
-              onValueChange={(value) => {
-                if (value) {
-                  onSortChange(value as SortMode)
-                }
-              }}
+              onValueChange={(value) => onSortChange(value ?? "title")}
             >
               <SelectTrigger id="catalogue-sort" className="mt-2 h-10 w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="title">Title A-Z</SelectItem>
-                <SelectItem value="author">Author A-Z</SelectItem>
-                <SelectItem value="newest">Newest first</SelectItem>
-                <SelectItem value="copies">Most copies</SelectItem>
+                {sortOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -171,11 +192,10 @@ export function CollectionsFilterPanel({
               Per page
             </label>
             <Select
+              items={pageSizeSelectOptions}
               value={String(pageSize)}
               onValueChange={(value) => {
-                if (value) {
-                  onPageSizeChange(Number(value) as PageSizeOption)
-                }
+                onPageSizeChange(Number(value ?? pageSize) as PageSizeOption)
               }}
             >
               <SelectTrigger
@@ -185,9 +205,9 @@ export function CollectionsFilterPanel({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {pageSizeOptions.map((option) => (
-                  <SelectItem key={option} value={String(option)}>
-                    {option} books
+                {pageSizeSelectOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
                   </SelectItem>
                 ))}
               </SelectContent>

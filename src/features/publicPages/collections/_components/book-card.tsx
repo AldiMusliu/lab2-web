@@ -2,23 +2,25 @@ import { Link } from "@tanstack/react-router"
 import { motion } from "framer-motion"
 import { BookMarked, BookOpenText, CheckCircle2 } from "lucide-react"
 
-import { buttonVariants } from "@/components/ui/button"
-import { getCardHover } from "@/features/publicPages/home/home-motion"
-import { cn } from "@/lib/utils"
-
 import { BookCover } from "./book-cover"
 import { getAvailabilityLabel, getBookCategory } from "./collections-utils"
 import type { Book } from "./collections-types"
+import type { Category } from "@/features/categories/types"
+import type { getCardHover } from "@/features/publicPages/home/home-motion"
+import { buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
 export function BookCard({
   book,
+  categories,
   hoverEffect,
 }: {
   book: Book
+  categories: Array<Category>
   hoverEffect: ReturnType<typeof getCardHover>
 }) {
   const isAvailable = book.availableCopies > 0
-  const category = getBookCategory(book)
+  const category = getBookCategory(book, categories)
 
   return (
     <motion.article
@@ -32,7 +34,7 @@ export function BookCard({
         className="block p-3 outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
         aria-label={`Open details for ${book.title}`}
       >
-        <BookCover book={book} />
+        <BookCover book={book} categories={categories} />
       </Link>
 
       <div className="flex flex-1 flex-col px-5 pb-5">

@@ -1,9 +1,13 @@
-import { mockBooks } from "@/mocks"
+import type {
+  Book,
+  BookAvailability,
+  BookSort,
+} from "@/features/books/types"
 
-export type Book = (typeof mockBooks)[number]
+export type { Book }
 
-export type AvailabilityFilter = "all" | "available" | "online" | "waitlist"
-export type SortMode = "title" | "author" | "newest" | "copies"
+export type AvailabilityFilter = BookAvailability
+export type SortMode = BookSort
 
 export const pageSizeOptions = [6, 9, 12] as const
 export type PageSizeOption = (typeof pageSizeOptions)[number]

@@ -1,9 +1,5 @@
 import type { Book } from "./collections-types"
-import { mockCategories } from "@/mocks"
-
-const categoryLookup = new Map(
-  mockCategories.map((category) => [category.id, category.name])
-)
+import type { Category } from "@/features/categories/types"
 
 export function getVisiblePages(currentPage: number, totalPages: number) {
   const pages = new Set([
@@ -19,8 +15,11 @@ export function getVisiblePages(currentPage: number, totalPages: number) {
     .sort((a, b) => a - b)
 }
 
-export function getBookCategory(book: Book) {
-  return categoryLookup.get(book.categoryId) ?? "Unsorted"
+export function getBookCategory(book: Book, categories: Array<Category>) {
+  return (
+    categories.find((category) => category.id === book.categoryId)?.name ??
+    "Unsorted"
+  )
 }
 
 export function getAvailabilityLabel(book: Book) {

@@ -2,6 +2,19 @@ export const bookFormats = ["Print", "E-book", "Audiobook"] as const
 
 export type BookFormat = (typeof bookFormats)[number]
 
+export const bookAvailabilities = [
+  "available",
+  "online",
+  "waitlist",
+  "all",
+] as const
+
+export type BookAvailability = (typeof bookAvailabilities)[number]
+
+export const bookSorts = ["title", "author", "newest", "copies"] as const
+
+export type BookSort = (typeof bookSorts)[number]
+
 export const bookCoverImageDetails = {
   "library-shelves": {
     label: "Library shelves",
@@ -59,10 +72,35 @@ export type Book = {
   description: string
   tags: Array<string>
   coverImage: string
-  coverTone: BookCoverTone
+  coverTone: string
 }
 
-export type UpsertBookInput = Omit<
-  Book,
-  "coverTone" | "id" | "isbn" | "shelfLocation"
->
+export type BookBody = {
+  title: string
+  author: string
+  categoryId: string
+  availableCopies: number
+  totalCopies: number
+  publishedYear: number
+  language: string
+  pages: number
+  isbn?: string
+  shelfLocation?: string
+  formats: Array<BookFormat>
+  readOnline?: boolean
+  description: string
+  tags?: Array<string>
+  coverImage: string
+  coverTone?: string
+}
+
+export type BookFilters = {
+  q?: string
+  categoryId?: string
+  availability?: BookAvailability
+  sort?: BookSort
+  page?: number
+  pageSize?: number
+}
+
+export type UpsertBookInput = BookBody

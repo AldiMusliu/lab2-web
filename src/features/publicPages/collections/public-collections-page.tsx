@@ -1,25 +1,27 @@
 import { useMemo, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 import { motion, useReducedMotion } from "framer-motion"
+import { Loader2 } from "lucide-react"
 
+import type { BookFilters } from "@/features/books/types"
+import type {
+  AvailabilityFilter,
+  PageSizeOption,
+  SortMode,
+} from "@/features/publicPages/collections/_components/collections-types"
+import { Button } from "@/components/ui/button"
+import { bookKeys, getBooks } from "@/features/books/api.queries"
+import { getCategories } from "@/features/categories/api.queries"
 import { BookCard } from "@/features/publicPages/collections/_components/book-card"
 import { CollectionsEmptyState } from "@/features/publicPages/collections/_components/collections-empty-state"
 import { CollectionsFilterPanel } from "@/features/publicPages/collections/_components/collections-filter-panel"
 import { CollectionsPagination } from "@/features/publicPages/collections/_components/collections-pagination"
-import {
-  type AvailabilityFilter,
-  type PageSizeOption,
-  type SortMode,
-} from "@/features/publicPages/collections/_components/collections-types"
-import {
-  getBookCategory,
-  getVisiblePages,
-} from "@/features/publicPages/collections/_components/collections-utils"
+import { getVisiblePages } from "@/features/publicPages/collections/_components/collections-utils"
 import {
   createItemVariants,
   createSectionVariants,
   getCardHover,
 } from "@/features/publicPages/home/home-motion"
-import { mockBooks } from "@/mocks"
 
 export function PublicCollectionsPage() {
   const shouldReduceMotion = useReducedMotion()
@@ -36,54 +38,40 @@ export function PublicCollectionsPage() {
   const [pageSize, setPageSize] = useState<PageSizeOption>(6)
   const [page, setPage] = useState(1)
 
-  const filteredBooks = useMemo(() => {
-    const normalizedSearch = searchTerm.trim().toLowerCase()
+  const bookFilters = useMemo<BookFilters>(
+    () => ({
+      availability: availabilityFilter,
+      categoryId: categoryFilter === "all" ? undefined : categoryFilter,
+      q: searchTerm.trim() || undefined,
+      sort: sortMode,
+    }),
+    [availabilityFilter, categoryFilter, searchTerm, sortMode]
+  )
 
-    return mockBooks
-      .filter((book) => {
-        const haystack = [
-          book.title,
-          book.author,
-          getBookCategory(book),
-          book.description,
-          ...book.tags,
-        ]
-          .join(" ")
-          .toLowerCase()
+  const {
+    data: books = [],
+    isError: booksIsError,
+    isLoading: booksLoading,
+    refetch: refetchBooks,
+  } = useQuery({
+    queryKey: bookKeys.list(bookFilters),
+    queryFn: () => getBooks(bookFilters),
+  })
 
-        const matchesSearch =
-          normalizedSearch.length === 0 || haystack.includes(normalizedSearch)
-        const matchesCategory =
-          categoryFilter === "all" || book.categoryId === categoryFilter
-        const matchesAvailability =
-          availabilityFilter === "all" ||
-          (availabilityFilter === "available" && book.availableCopies > 0) ||
-          (availabilityFilter === "online" && book.readOnline) ||
-          (availabilityFilter === "waitlist" && book.availableCopies === 0)
+  const {
+    data: categories = [],
+    isError: categoriesIsError,
+    isLoading: categoriesLoading,
+    refetch: refetchCategories,
+  } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategories,
+  })
 
-        return matchesSearch && matchesCategory && matchesAvailability
-      })
-      .sort((firstBook, secondBook) => {
-        if (sortMode === "author") {
-          return firstBook.author.localeCompare(secondBook.author)
-        }
-
-        if (sortMode === "newest") {
-          return secondBook.publishedYear - firstBook.publishedYear
-        }
-
-        if (sortMode === "copies") {
-          return secondBook.availableCopies - firstBook.availableCopies
-        }
-
-        return firstBook.title.localeCompare(secondBook.title)
-      })
-  }, [availabilityFilter, categoryFilter, searchTerm, sortMode])
-
-  const totalPages = Math.max(1, Math.ceil(filteredBooks.length / pageSize))
+  const totalPages = Math.max(1, Math.ceil(books.length / pageSize))
   const currentPage = Math.min(page, totalPages)
   const visiblePages = getVisiblePages(currentPage, totalPages)
-  const paginatedBooks = filteredBooks.slice(
+  const paginatedBooks = books.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   )
@@ -94,6 +82,45 @@ export function PublicCollectionsPage() {
     setAvailabilityFilter("all")
     setSortMode("title")
     setPage(1)
+  }
+
+  function retryCatalogue() {
+    if (booksIsError) {
+      void refetchBooks()
+    }
+
+    if (categoriesIsError) {
+      void refetchCategories()
+    }
+  }
+
+  if (booksLoading || categoriesLoading) {
+    return (
+      <main className="flex min-h-96 items-center justify-center bg-background">
+        <Loader2 className="size-5 animate-spin text-muted-foreground" />
+      </main>
+    )
+  }
+
+  if (booksIsError || categoriesIsError) {
+    return (
+      <main className="mx-auto w-full max-w-3xl px-4 py-16 text-center sm:px-6 lg:px-8">
+        <h1 className="text-3xl font-semibold text-foreground">
+          Catalogue unavailable
+        </h1>
+        <p className="mt-3 text-muted-foreground">
+          We could not load the current collection.
+        </p>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={retryCatalogue}
+          className="mt-6"
+        >
+          Retry
+        </Button>
+      </main>
+    )
   }
 
   return (
@@ -108,10 +135,11 @@ export function PublicCollectionsPage() {
           <CollectionsFilterPanel
             searchTerm={searchTerm}
             categoryFilter={categoryFilter}
+            categories={categories}
             availabilityFilter={availabilityFilter}
             sortMode={sortMode}
             pageSize={pageSize}
-            filteredBooksCount={filteredBooks.length}
+            filteredBooksCount={books.length}
             currentPage={currentPage}
             totalPages={totalPages}
             onSearchChange={(value) => {
@@ -142,7 +170,11 @@ export function PublicCollectionsPage() {
           <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {paginatedBooks.map((book) => (
               <motion.div key={book.id} variants={itemVariants}>
-                <BookCard book={book} hoverEffect={cardHover} />
+                <BookCard
+                  book={book}
+                  categories={categories}
+                  hoverEffect={cardHover}
+                />
               </motion.div>
             ))}
           </div>
@@ -156,7 +188,7 @@ export function PublicCollectionsPage() {
           currentPage={currentPage}
           totalPages={totalPages}
           visiblePages={visiblePages}
-          filteredBooksCount={filteredBooks.length}
+          filteredBooksCount={books.length}
           pageSize={pageSize}
           paginatedBooksCount={paginatedBooks.length}
           onPrevious={() => setPage((current) => Math.max(1, current - 1))}

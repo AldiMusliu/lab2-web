@@ -1,7 +1,11 @@
 import { z } from "zod"
 
 import type { Book, UpsertBookInput } from "@/features/books/types"
-import { bookFormats } from "@/features/books/types"
+import {
+  bookAvailabilities,
+  bookFormats,
+  bookSorts,
+} from "@/features/books/types"
 
 const nextPublishedYear = new Date().getFullYear() + 1
 
@@ -32,18 +36,14 @@ export const upsertBookSchema = z
     ),
     language: z.string().trim().min(1, "Language is required"),
     pages: wholeNumberString("Pages", 1),
+    isbn: z.string().trim(),
+    shelfLocation: z.string().trim(),
     formats: z.array(z.enum(bookFormats)).min(1, "Select at least one format"),
     readOnline: z.boolean(),
     description: z.string().trim().min(1, "Description is required"),
-    tags: z
-      .string()
-      .trim()
-      .min(1, "Tags are required")
-      .refine(
-        (value) => value.split(",").some((tag) => tag.trim().length > 0),
-        "Add at least one tag"
-      ),
+    tags: z.string().trim(),
     coverImage: z.string().trim().min(1, "Cover image is required"),
+    coverTone: z.string().trim(),
   })
   .superRefine((values, ctx) => {
     const availableCopies = Number(values.availableCopies)
@@ -68,16 +68,19 @@ export const defaultBookFormValues: UpsertBookFormValues = {
   title: "",
   author: "",
   categoryId: "",
-  availableCopies: "0",
+  availableCopies: "1",
   totalCopies: "1",
   publishedYear: String(new Date().getFullYear()),
   language: "English",
-  pages: "",
+  pages: "1",
+  isbn: "",
+  shelfLocation: "",
   formats: ["Print"],
   readOnline: false,
   description: "",
   tags: "",
   coverImage: "",
+  coverTone: "",
 }
 
 export function bookToFormValues(book: Book): UpsertBookFormValues {
@@ -90,17 +93,28 @@ export function bookToFormValues(book: Book): UpsertBookFormValues {
     publishedYear: String(book.publishedYear),
     language: book.language,
     pages: String(book.pages),
+    isbn: book.isbn,
+    shelfLocation: book.shelfLocation,
     formats: book.formats,
     readOnline: book.readOnline,
     description: book.description,
     tags: book.tags.join(", "),
     coverImage: book.coverImage,
+    coverTone: book.coverTone,
   }
 }
 
 export function formValuesToBookInput(
   values: UpsertBookFormValues
 ): UpsertBookInput {
+  const isbn = values.isbn.trim()
+  const shelfLocation = values.shelfLocation.trim()
+  const coverTone = values.coverTone.trim()
+  const tags = values.tags
+    .split(",")
+    .map((tag) => tag.trim())
+    .filter(Boolean)
+
   return {
     title: values.title.trim(),
     author: values.author.trim(),
@@ -110,20 +124,24 @@ export function formValuesToBookInput(
     publishedYear: Number(values.publishedYear),
     language: values.language.trim(),
     pages: Number(values.pages),
+    ...(isbn ? { isbn } : {}),
+    ...(shelfLocation ? { shelfLocation } : {}),
     formats: values.formats,
     readOnline: values.readOnline,
     description: values.description.trim(),
-    tags: values.tags
-      .split(",")
-      .map((tag) => tag.trim())
-      .filter(Boolean),
+    ...(tags.length > 0 ? { tags } : {}),
     coverImage: values.coverImage.trim(),
+    ...(coverTone ? { coverTone } : {}),
   }
 }
 
 export const bookSearchSchema = z.object({
   q: z.string().optional(),
   categoryId: z.string().optional(),
+  availability: z.enum(bookAvailabilities).optional(),
+  sort: z.enum(bookSorts).optional(),
+  page: z.coerce.number().int().min(1).optional(),
+  pageSize: z.coerce.number().int().min(1).optional(),
 })
 
 export type BookSearchInput = z.infer<typeof bookSearchSchema>
