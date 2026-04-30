@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router"
+import { useQuery } from "@tanstack/react-query"
 import { motion, useReducedMotion } from "framer-motion"
 import {
   ArrowLeft,
@@ -6,13 +7,16 @@ import {
   Hash,
   Languages,
   LibraryBig,
+  Loader2,
   MapPin,
   ScrollText,
   Tags,
   UserRound,
 } from "lucide-react"
 
-import { buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
+import { bookKeys, getBookById, getBooks } from "@/features/books/api.queries"
+import { getCategories } from "@/features/categories/api.queries"
 import { BookCover } from "@/features/publicPages/collections/_components/book-cover"
 import { CollectionActionPanel } from "@/features/publicPages/collections/_components/collection-action-panel"
 import { CollectionDetailItem } from "@/features/publicPages/collections/_components/collection-detail-item"
@@ -23,7 +27,6 @@ import {
   getCardHover,
 } from "@/features/publicPages/home/home-motion"
 import { cn } from "@/lib/utils"
-import { mockBooks } from "@/mocks"
 
 export function PublicCollectionDetailPage({ bookId }: { bookId: string }) {
   const shouldReduceMotion = useReducedMotion()
@@ -32,9 +35,40 @@ export function PublicCollectionDetailPage({ bookId }: { bookId: string }) {
   const itemVariants = createItemVariants(prefersReducedMotion)
   const cardHover = getCardHover(prefersReducedMotion)
 
-  const book = mockBooks.find((item) => item.id === bookId)
+  const {
+    data: book,
+    isError,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: bookKeys.detail(bookId),
+    queryFn: () => getBookById(bookId),
+    retry: false,
+  })
 
-  if (!book) {
+  const { data: categories = [], isLoading: categoriesLoading } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategories,
+  })
+
+  const relatedCategoryId = book?.categoryId
+  const { data: relatedBooksData = [] } = useQuery({
+    queryKey: bookKeys.list(
+      relatedCategoryId ? { categoryId: relatedCategoryId } : undefined
+    ),
+    queryFn: () => getBooks({ categoryId: relatedCategoryId! }),
+    enabled: Boolean(relatedCategoryId),
+  })
+
+  if (isLoading || categoriesLoading) {
+    return (
+      <main className="flex min-h-96 items-center justify-center bg-background">
+        <Loader2 className="size-5 animate-spin text-muted-foreground" />
+      </main>
+    )
+  }
+
+  if (isError || !book) {
     return (
       <main className="mx-auto w-full max-w-3xl px-4 py-16 text-center sm:px-6 lg:px-8">
         <LibraryBig className="mx-auto size-11 text-muted-foreground" />
@@ -44,11 +78,19 @@ export function PublicCollectionDetailPage({ bookId }: { bookId: string }) {
         <p className="mt-3 text-muted-foreground">
           This catalogue item may have been moved or removed.
         </p>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => void refetch()}
+          className="mt-6"
+        >
+          Retry
+        </Button>
         <Link
           to="/collections"
           className={cn(
             buttonVariants({ variant: "default", size: "lg" }),
-            "mt-6 h-10 gap-2"
+            "mt-3 h-10 gap-2"
           )}
         >
           <ArrowLeft className="size-4" />
@@ -58,11 +100,9 @@ export function PublicCollectionDetailPage({ bookId }: { bookId: string }) {
     )
   }
 
-  const category = getBookCategory(book)
-  const relatedBooks = mockBooks
-    .filter(
-      (item) => item.categoryId === book.categoryId && item.id !== book.id
-    )
+  const category = getBookCategory(book, categories)
+  const relatedBooks = relatedBooksData
+    .filter((item) => item.categoryId === book.categoryId && item.id !== book.id)
     .slice(0, 3)
 
   return (
@@ -86,7 +126,7 @@ export function PublicCollectionDetailPage({ bookId }: { bookId: string }) {
 
           <div className="mt-6 grid gap-8 lg:grid-cols-[330px_1fr_360px] lg:items-start">
             <motion.div variants={itemVariants}>
-              <BookCover book={book} compact />
+              <BookCover book={book} categories={categories} compact />
             </motion.div>
 
             <motion.div variants={itemVariants} className="min-w-0">
