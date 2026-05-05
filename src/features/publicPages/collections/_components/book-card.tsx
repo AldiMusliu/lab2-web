@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router"
 import { motion } from "framer-motion"
 import { BookMarked, BookOpenText, CheckCircle2 } from "lucide-react"
 
+import { BorrowBookButton } from "@/features/borrowings/_components/borrow-book-button"
 import { BookCover } from "./book-cover"
 import { getAvailabilityLabel, getBookCategory } from "./collections-utils"
 import type { Book } from "./collections-types"
@@ -113,19 +114,7 @@ export function BookCard({
               <BookOpenText className="size-4" />
               {book.readOnline ? "Read online" : "Details"}
             </Link>
-            <Link
-              to="/login"
-              className={cn(
-                buttonVariants({
-                  variant: isAvailable ? "default" : "secondary",
-                  size: "lg",
-                }),
-                "h-10 w-full gap-2"
-              )}
-            >
-              <BookMarked className="size-4" />
-              {isAvailable ? "Borrow it" : "Join waitlist"}
-            </Link>
+            <BorrowBookButton book={book} className="h-10 w-full" />
           </div>
 
           <p className="mt-3 text-xs text-muted-foreground">

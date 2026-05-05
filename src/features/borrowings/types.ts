@@ -1,8 +1,16 @@
 export type BorrowingStatus = "active" | "returned" | "overdue"
 
+export type BorrowingUser = {
+  id: string
+  firstName: string
+  lastName: string
+  name: string
+}
+
 export type Borrowing = {
   id: string
   userId: string
+  user?: BorrowingUser | null
   bookId: string
   borrowedAt: string
   dueAt: string
@@ -11,7 +19,7 @@ export type Borrowing = {
 }
 
 export type CreateBorrowingInput = {
-  userId: string
   bookId: string
   dueAt: string
+  userId?: string
 }
