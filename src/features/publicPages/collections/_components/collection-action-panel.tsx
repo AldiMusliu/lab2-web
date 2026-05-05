@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router"
 import { BookMarked, BookOpenText, CheckCircle2 } from "lucide-react"
 
+import { BorrowBookButton } from "@/features/borrowings/_components/borrow-book-button"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -32,8 +33,7 @@ export function CollectionActionPanel({ book }: { book: Book }) {
             {isAvailable ? "Available for borrowing" : "Currently unavailable"}
           </h2>
           <p className="mt-1 text-sm leading-6 text-muted-foreground">
-            {getAvailabilityLabel(book)}. Member actions will connect to the
-            borrowing flow when the backend is added.
+            {getAvailabilityLabel(book)}. Standard borrowing period is 14 days.
           </p>
         </div>
       </div>
@@ -56,19 +56,7 @@ export function CollectionActionPanel({ book }: { book: Book }) {
           </div>
         )}
 
-        <Link
-          to="/login"
-          className={cn(
-            buttonVariants({
-              variant: isAvailable ? "default" : "secondary",
-              size: "lg",
-            }),
-            "h-10 w-full gap-2"
-          )}
-        >
-          <BookMarked className="size-4" />
-          {isAvailable ? "Borrow it" : "Join waitlist"}
-        </Link>
+        <BorrowBookButton book={book} className="h-10 w-full" />
       </div>
     </aside>
   )

@@ -36,10 +36,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import {
-  DataTableSettings,
-  loadTableSettings,
-} from "@/lib/data-table-settings"
+import { DataTableSettings, loadTableSettings } from "@/lib/data-table-settings"
 import { cn } from "@/lib/utils"
 
 export type DataTableActions<TData> = Record<
@@ -58,6 +55,7 @@ type DataTableProps<TData, TValue> = {
   data: Array<TData>
   enableSettings?: boolean
   fillHeight?: boolean
+  getRowClassName?: (row: TData) => string | undefined
   initialPageSize?: number
   manualPagination?: boolean
   notFoundText?: React.ReactNode
@@ -84,6 +82,7 @@ function DataTable<TData, TValue>({
   data,
   enableSettings = true,
   fillHeight,
+  getRowClassName,
   initialPageSize = 10,
   manualPagination,
   notFoundText,
@@ -104,12 +103,14 @@ function DataTable<TData, TValue>({
     [actions, columns]
   )
   const isManualPagination =
-    manualPagination ?? (pageCount !== undefined || totalItemCount !== undefined)
+    manualPagination ??
+    (pageCount !== undefined || totalItemCount !== undefined)
 
   const [settingsOpen, setSettingsOpen] = React.useState(false)
   const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] =
-    React.useState<ColumnFiltersState>([])
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  )
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [columnOrder, setColumnOrder] = React.useState<ColumnOrderState>([])
@@ -178,7 +179,10 @@ function DataTable<TData, TValue>({
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup, headerGroupIndex) => (
-              <TableRow key={headerGroup.id} className="border-none hover:bg-transparent">
+              <TableRow
+                key={headerGroup.id}
+                className="border-none hover:bg-transparent"
+              >
                 {headerGroup.headers.map((header, headerIndex) => {
                   const isFirst = headerGroupIndex === 0 && headerIndex === 0
                   const isLast =
@@ -193,8 +197,10 @@ function DataTable<TData, TValue>({
                         "relative z-10 bg-muted/70 px-3 py-3",
                         isFirst && "rounded-l-lg",
                         isLast && "rounded-r-lg",
-                        pinned === "left" && "sticky left-0 shadow-[1px_0_0_0_var(--border)]",
-                        pinned === "right" && "sticky right-0 shadow-[-1px_0_0_0_var(--border)]"
+                        pinned === "left" &&
+                          "sticky left-0 shadow-[1px_0_0_0_var(--border)]",
+                        pinned === "right" &&
+                          "sticky right-0 shadow-[-1px_0_0_0_var(--border)]"
                       )}
                     >
                       {header.isPlaceholder ? null : (
@@ -217,40 +223,49 @@ function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() ? "selected" : undefined}
-                  onClick={() => onClick?.(row.original)}
-                  onDoubleClick={() => onRowDoubleClick?.(row.original)}
-                  className={cn(
-                    "cursor-default",
-                    (onRowDoubleClick || onClick) && "cursor-pointer"
-                  )}
-                >
-                  {row.getVisibleCells().map((cell) => {
-                    const pinned = cell.column.getIsPinned()
+              table.getRowModel().rows.map((row) => {
+                const rowClassName = getRowClassName?.(row.original)
+                const hasCustomRowClassName = Boolean(rowClassName)
 
-                    return (
-                      <TableCell
-                        key={cell.id}
-                        className={cn(
-                          "relative z-0 bg-card px-3 py-3",
-                          pinned === "left" &&
-                            "sticky left-0 z-10 shadow-[1px_0_0_0_var(--border)]",
-                          pinned === "right" &&
-                            "sticky right-0 z-10 shadow-[-1px_0_0_0_var(--border)]"
-                        )}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    )
-                  })}
-                </TableRow>
-              ))
+                return (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() ? "selected" : undefined}
+                    onClick={() => onClick?.(row.original)}
+                    onDoubleClick={() => onRowDoubleClick?.(row.original)}
+                    className={cn(
+                      "cursor-default",
+                      (onRowDoubleClick || onClick) && "cursor-pointer",
+                      rowClassName
+                    )}
+                  >
+                    {row.getVisibleCells().map((cell) => {
+                      const pinned = cell.column.getIsPinned()
+
+                      return (
+                        <TableCell
+                          key={cell.id}
+                          className={cn(
+                            "relative z-0 px-3 py-3",
+                            hasCustomRowClassName
+                              ? "bg-transparent"
+                              : "bg-card",
+                            pinned === "left" &&
+                              "sticky left-0 z-10 shadow-[1px_0_0_0_var(--border)]",
+                            pinned === "right" &&
+                              "sticky right-0 z-10 shadow-[-1px_0_0_0_var(--border)]"
+                          )}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      )
+                    })}
+                  </TableRow>
+                )
+              })
             ) : (
               <TableRow className="hover:bg-transparent">
                 <TableCell
