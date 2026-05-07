@@ -96,6 +96,8 @@ export const columns =
           const isCurrentUser = row.original.id === currentUserId
           const displayName = getUserDisplayName(row.original)
 
+          const isAdmin = row.original.role === "admin"
+
           return (
             <div className="flex min-w-32 justify-end gap-1 pr-6">
               <Button
@@ -110,39 +112,43 @@ export const columns =
               >
                 <Edit3 className="size-4" aria-hidden="true" />
               </Button>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon-sm"
-                aria-label={`Reset password for ${displayName}`}
-                onClick={(event) => {
-                  event.stopPropagation()
-                  actions.resetPassword(row.original)
-                }}
-              >
-                <KeyRound className="size-4" aria-hidden="true" />
-              </Button>
-              <Button
-                type="button"
-                variant="destructive"
-                size="icon-sm"
-                aria-label={`Delete ${displayName}`}
-                disabled={isCurrentUser}
-                title={
-                  isCurrentUser
-                    ? "You cannot delete your own account"
-                    : undefined
-                }
-                onClick={(event) => {
-                  event.stopPropagation()
-
-                  if (!isCurrentUser) {
-                    actions.delete(row.original)
+              {!isAdmin && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon-sm"
+                  aria-label={`Reset password for ${displayName}`}
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    actions.resetPassword(row.original)
+                  }}
+                >
+                  <KeyRound className="size-4" aria-hidden="true" />
+                </Button>
+              )}
+              {!isAdmin && (
+                <Button
+                  type="button"
+                  variant="destructive"
+                  size="icon-sm"
+                  aria-label={`Delete ${displayName}`}
+                  disabled={isCurrentUser}
+                  title={
+                    isCurrentUser
+                      ? "You cannot delete your own account"
+                      : undefined
                   }
-                }}
-              >
-                <Trash2 className="size-4" aria-hidden="true" />
-              </Button>
+                  onClick={(event) => {
+                    event.stopPropagation()
+
+                    if (!isCurrentUser) {
+                      actions.delete(row.original)
+                    }
+                  }}
+                >
+                  <Trash2 className="size-4" aria-hidden="true" />
+                </Button>
+              )}
             </div>
           )
         },
