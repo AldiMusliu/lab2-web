@@ -19,6 +19,7 @@ import { Route as PublicLayoutServicesIndexRouteImport } from './routes/_publicL
 import { Route as PublicLayoutOurMissionIndexRouteImport } from './routes/_publicLayout/our-mission/index'
 import { Route as PublicLayoutCollectionsIndexRouteImport } from './routes/_publicLayout/collections/index'
 import { Route as PublicLayoutAboutUsIndexRouteImport } from './routes/_publicLayout/about-us/index'
+import { Route as ProtectedLayoutUsersIndexRouteImport } from './routes/_protectedLayout/users/index'
 import { Route as ProtectedLayoutProfileIndexRouteImport } from './routes/_protectedLayout/profile/index'
 import { Route as ProtectedLayoutDashboardIndexRouteImport } from './routes/_protectedLayout/dashboard/index'
 import { Route as ProtectedLayoutCategoriesIndexRouteImport } from './routes/_protectedLayout/categories/index'
@@ -79,6 +80,12 @@ const PublicLayoutAboutUsIndexRoute =
     path: '/about-us/',
     getParentRoute: () => PublicLayoutRoute,
   } as any)
+const ProtectedLayoutUsersIndexRoute =
+  ProtectedLayoutUsersIndexRouteImport.update({
+    id: '/users/',
+    path: '/users/',
+    getParentRoute: () => ProtectedLayoutRoute,
+  } as any)
 const ProtectedLayoutProfileIndexRoute =
   ProtectedLayoutProfileIndexRouteImport.update({
     id: '/profile/',
@@ -137,6 +144,7 @@ export interface FileRoutesByFullPath {
   '/categories/': typeof ProtectedLayoutCategoriesIndexRoute
   '/dashboard/': typeof ProtectedLayoutDashboardIndexRoute
   '/profile/': typeof ProtectedLayoutProfileIndexRoute
+  '/users/': typeof ProtectedLayoutUsersIndexRoute
   '/about-us/': typeof PublicLayoutAboutUsIndexRoute
   '/collections/': typeof PublicLayoutCollectionsIndexRoute
   '/our-mission/': typeof PublicLayoutOurMissionIndexRoute
@@ -154,6 +162,7 @@ export interface FileRoutesByTo {
   '/categories': typeof ProtectedLayoutCategoriesIndexRoute
   '/dashboard': typeof ProtectedLayoutDashboardIndexRoute
   '/profile': typeof ProtectedLayoutProfileIndexRoute
+  '/users': typeof ProtectedLayoutUsersIndexRoute
   '/about-us': typeof PublicLayoutAboutUsIndexRoute
   '/collections': typeof PublicLayoutCollectionsIndexRoute
   '/our-mission': typeof PublicLayoutOurMissionIndexRoute
@@ -175,6 +184,7 @@ export interface FileRoutesById {
   '/_protectedLayout/categories/': typeof ProtectedLayoutCategoriesIndexRoute
   '/_protectedLayout/dashboard/': typeof ProtectedLayoutDashboardIndexRoute
   '/_protectedLayout/profile/': typeof ProtectedLayoutProfileIndexRoute
+  '/_protectedLayout/users/': typeof ProtectedLayoutUsersIndexRoute
   '/_publicLayout/about-us/': typeof PublicLayoutAboutUsIndexRoute
   '/_publicLayout/collections/': typeof PublicLayoutCollectionsIndexRoute
   '/_publicLayout/our-mission/': typeof PublicLayoutOurMissionIndexRoute
@@ -194,6 +204,7 @@ export interface FileRouteTypes {
     | '/categories/'
     | '/dashboard/'
     | '/profile/'
+    | '/users/'
     | '/about-us/'
     | '/collections/'
     | '/our-mission/'
@@ -211,6 +222,7 @@ export interface FileRouteTypes {
     | '/categories'
     | '/dashboard'
     | '/profile'
+    | '/users'
     | '/about-us'
     | '/collections'
     | '/our-mission'
@@ -231,6 +243,7 @@ export interface FileRouteTypes {
     | '/_protectedLayout/categories/'
     | '/_protectedLayout/dashboard/'
     | '/_protectedLayout/profile/'
+    | '/_protectedLayout/users/'
     | '/_publicLayout/about-us/'
     | '/_publicLayout/collections/'
     | '/_publicLayout/our-mission/'
@@ -318,6 +331,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicLayoutAboutUsIndexRouteImport
       parentRoute: typeof PublicLayoutRoute
     }
+    '/_protectedLayout/users/': {
+      id: '/_protectedLayout/users/'
+      path: '/users'
+      fullPath: '/users/'
+      preLoaderRoute: typeof ProtectedLayoutUsersIndexRouteImport
+      parentRoute: typeof ProtectedLayoutRoute
+    }
     '/_protectedLayout/profile/': {
       id: '/_protectedLayout/profile/'
       path: '/profile'
@@ -397,6 +417,7 @@ interface ProtectedLayoutRouteChildren {
   ProtectedLayoutCategoriesIndexRoute: typeof ProtectedLayoutCategoriesIndexRoute
   ProtectedLayoutDashboardIndexRoute: typeof ProtectedLayoutDashboardIndexRoute
   ProtectedLayoutProfileIndexRoute: typeof ProtectedLayoutProfileIndexRoute
+  ProtectedLayoutUsersIndexRoute: typeof ProtectedLayoutUsersIndexRoute
   ProtectedLayoutBooksIdIndexRoute: typeof ProtectedLayoutBooksIdIndexRoute
   ProtectedLayoutBooksAddIndexRoute: typeof ProtectedLayoutBooksAddIndexRoute
 }
@@ -407,6 +428,7 @@ const ProtectedLayoutRouteChildren: ProtectedLayoutRouteChildren = {
   ProtectedLayoutCategoriesIndexRoute: ProtectedLayoutCategoriesIndexRoute,
   ProtectedLayoutDashboardIndexRoute: ProtectedLayoutDashboardIndexRoute,
   ProtectedLayoutProfileIndexRoute: ProtectedLayoutProfileIndexRoute,
+  ProtectedLayoutUsersIndexRoute: ProtectedLayoutUsersIndexRoute,
   ProtectedLayoutBooksIdIndexRoute: ProtectedLayoutBooksIdIndexRoute,
   ProtectedLayoutBooksAddIndexRoute: ProtectedLayoutBooksAddIndexRoute,
 }

@@ -6,6 +6,7 @@ import type { ReactNode } from "react"
 import { MobileSlidePanel } from "@/components/layouts/mobile-slide-panel"
 import { protectedNavigationItems } from "@/components/layouts/protected-navigation"
 import { ProtectedRoleSwitch } from "@/components/layouts/protected-role-switch"
+import { NotificationMenu } from "@/features/notifications/_components/notification-menu"
 import { cn } from "@/lib/utils"
 
 type AdminShellProps = {
@@ -173,6 +174,8 @@ export function AdminShell({ title, subtitle, children }: AdminShellProps) {
                 ) : null}
               </div>
             </div>
+
+            <NotificationMenu />
           </div>
         </header>
 

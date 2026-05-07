@@ -7,6 +7,7 @@ import type {
 import { bookKeys } from "@/features/books/api.queries"
 import { borrowingKeys } from "@/features/borrowings/api.queries"
 import { invalidateDashboardStats } from "@/features/dashboard/api.mutation"
+import { invalidateNotifications } from "@/features/notifications/api.mutation"
 import { httpClient } from "@/lib/http-client"
 
 export function createBorrowing(payload: CreateBorrowingInput) {
@@ -28,6 +29,7 @@ export function useCreateBorrowing() {
       void queryClient.invalidateQueries({ queryKey: bookKeys.all })
       void queryClient.invalidateQueries({ queryKey: borrowingKeys.all })
       void invalidateDashboardStats(queryClient)
+      void invalidateNotifications(queryClient)
     },
   })
 }
@@ -41,6 +43,7 @@ export function useReturnBorrowing() {
       void queryClient.invalidateQueries({ queryKey: bookKeys.all })
       void queryClient.invalidateQueries({ queryKey: borrowingKeys.all })
       void invalidateDashboardStats(queryClient)
+      void invalidateNotifications(queryClient)
       queryClient.setQueryData(borrowingKeys.detail(borrowing.id), borrowing)
     },
   })
