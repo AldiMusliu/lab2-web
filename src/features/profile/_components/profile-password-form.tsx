@@ -4,12 +4,12 @@ import { KeyRound, Loader2, Save } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
+import type { UpdatePasswordFormValues } from "@/features/profile/schemas"
 import { updateMyPassword } from "@/features/profile/api.mutation"
 import {
   defaultPasswordFormValues,
   formValuesToPasswordInput,
   updatePasswordSchema,
-  type UpdatePasswordFormValues,
 } from "@/features/profile/schemas"
 import { ControlledInput } from "@/components/molecules/controlled"
 import { Button } from "@/components/ui/button"
@@ -24,9 +24,11 @@ export function ProfilePasswordForm() {
   const mutation = useMutation({
     mutationFn: (values: UpdatePasswordFormValues) =>
       updateMyPassword(formValuesToPasswordInput(values)),
-    onSuccess: () => {
+    onSuccess: (response) => {
       form.reset(defaultPasswordFormValues)
-      toast.success("Password updated")
+      toast.success("Password updated", {
+        description: response.message,
+      })
     },
     onError: (error) => {
       toast.error("Could not update password", {

@@ -1,5 +1,21 @@
 import { z } from "zod"
 
+export const profileSchema = z.object({
+  id: z.string().min(1),
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
+  email: z.string().email(),
+})
+
+export const changePasswordResponseSchema = z.object({
+  message: z.string().min(1),
+})
+
+export type Profile = z.infer<typeof profileSchema>
+export type ChangePasswordResponse = z.infer<
+  typeof changePasswordResponseSchema
+>
+
 export const updateProfileSchema = z.object({
   firstName: z.string().trim().min(1, "First name is required"),
   lastName: z.string().trim().min(1, "Last name is required"),

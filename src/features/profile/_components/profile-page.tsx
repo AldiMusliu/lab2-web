@@ -5,19 +5,29 @@ import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
+import type { UpdateProfileFormValues } from "@/features/profile/schemas"
 import { ProfilePasswordForm } from "@/features/profile/_components/profile-password-form"
 import { updateMyProfile } from "@/features/profile/api.mutation"
-import { getMyProfile } from "@/features/profile/api.queries"
+import { getProfile, profileKeys } from "@/features/profile/api.queries"
 import {
   defaultProfileFormValues,
   formValuesToProfileInput,
   updateProfileSchema,
-  type UpdateProfileFormValues,
 } from "@/features/profile/schemas"
 import { ControlledInput } from "@/components/molecules/controlled"
 import { Button } from "@/components/ui/button"
 import { getHttpErrorMessage } from "@/lib/http-client"
 import { useSessionStore } from "@/stores/session.store"
+
+function getProfileDisplayName(profile: {
+  firstName: string
+  lastName: string
+}) {
+  return [profile.firstName, profile.lastName]
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .join(" ")
+}
 
 export function ProfilePage() {
   const queryClient = useQueryClient()
@@ -35,8 +45,8 @@ export function ProfilePage() {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["profile", "me"],
-    queryFn: getMyProfile,
+    queryKey: profileKeys.me(),
+    queryFn: getProfile,
   })
 
   useEffect(() => {
@@ -52,20 +62,21 @@ export function ProfilePage() {
     mutationFn: (values: UpdateProfileFormValues) =>
       updateMyProfile(formValuesToProfileInput(values)),
     onSuccess: async (savedProfile) => {
-      await queryClient.invalidateQueries({ queryKey: ["profile", "me"] })
+      await queryClient.invalidateQueries({ queryKey: profileKeys.me() })
+
+      const fullName = getProfileDisplayName(savedProfile)
 
       if (currentUser) {
         setUser({
           ...currentUser,
           email: savedProfile.email,
           firstName: savedProfile.firstName,
-          fullName: savedProfile.fullName,
           lastName: savedProfile.lastName,
         })
       }
 
       toast.success("Profile updated", {
-        description: savedProfile.fullName,
+        description: fullName,
       })
     },
     onError: (error) => {
@@ -81,6 +92,8 @@ export function ProfilePage() {
   function handleSubmit(values: UpdateProfileFormValues) {
     mutation.mutate(values)
   }
+
+  const profileDisplayName = profile ? getProfileDisplayName(profile) : ""
 
   if (isLoading) {
     return (
@@ -171,7 +184,7 @@ export function ProfilePage() {
           <UserRound className="size-6" aria-hidden="true" />
         </div>
         <h3 className="mt-4 text-lg font-semibold text-foreground">
-          {profile?.fullName}
+          {profileDisplayName}
         </h3>
         <div className="mt-3 flex items-center gap-2 text-sm text-muted-foreground">
           <Mail className="size-4" aria-hidden="true" />

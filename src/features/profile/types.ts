@@ -1,10 +1,7 @@
-export type Profile = {
-  id: string
-  fullName: string
-  firstName: string
-  lastName: string
-  email: string
-}
+export type {
+  ChangePasswordResponse,
+  Profile,
+} from "@/features/profile/schemas"
 
 export type UpdateProfileInput = {
   firstName: string
