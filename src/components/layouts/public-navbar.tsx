@@ -164,7 +164,7 @@ export function PublicNavbar() {
             <div className="grid gap-2">
               {user ? (
                 <p className="rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-sm font-medium text-primary-foreground/90">
-                  {user.fullName}
+                  {`${user.firstName} ${user.lastName}`}
                 </p>
               ) : null}
               <Link

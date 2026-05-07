@@ -8,6 +8,7 @@ import { CategoryForm } from "@/features/categories/_components/category-form"
 import { columns } from "@/features/categories/_components/columns"
 import { deleteCategory } from "@/features/categories/api.mutation"
 import { getCategories } from "@/features/categories/api.queries"
+import { invalidateDashboardStats } from "@/features/dashboard/api.mutation"
 import { DataTable } from "@/components/molecules/data-table"
 import { NoData } from "@/components/molecules/no-data"
 import { Button } from "@/components/ui/button"
@@ -36,6 +37,7 @@ export function CategoriesPage() {
     mutationFn: deleteCategory,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["categories"] })
+      await invalidateDashboardStats(queryClient)
       toast.success("Category deleted")
     },
     onError: (error) => {

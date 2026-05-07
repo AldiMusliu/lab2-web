@@ -22,7 +22,7 @@ export function ProtectedRoleSwitch({
   const user = useSessionStore((state) => state.user)
   const reset = useSessionStore((state) => state.reset)
   const roleLabel = role === "admin" ? "Admin" : "User"
-  const displayName = user?.fullName ?? roleLabel
+  const displayName = `${user?.firstName} ${user?.lastName}` || roleLabel
 
   const logoutMutation = useMutation({
     mutationFn: logout,

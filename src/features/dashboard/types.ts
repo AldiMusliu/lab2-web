@@ -1,6 +1,5 @@
-export type DashboardStats = {
-  totalBooks: number
-  totalBorrowings: number
-  activeUsers: number
-  overdueBorrowings: number
-}
+export type {
+  AdminDashboardStats,
+  DashboardStats,
+  UserDashboardStats,
+} from "@/features/dashboard/schemas"

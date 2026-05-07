@@ -6,15 +6,16 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
 import type { Category } from "@/features/categories/types"
+import type { UpsertCategoryFormValues } from "@/features/categories/schemas"
 import {
   createCategory,
   updateCategory,
 } from "@/features/categories/api.mutation"
+import { invalidateDashboardStats } from "@/features/dashboard/api.mutation"
 import {
   defaultCategoryFormValues,
   formValuesToCategoryInput,
   upsertCategorySchema,
-  type UpsertCategoryFormValues,
 } from "@/features/categories/schemas"
 import { ControlledInput } from "@/components/molecules/controlled"
 import { Button } from "@/components/ui/button"
@@ -56,6 +57,7 @@ export function CategoryForm({
     },
     onSuccess: async (savedCategory) => {
       await queryClient.invalidateQueries({ queryKey: ["categories"] })
+      await invalidateDashboardStats(queryClient)
       toast.success(isEditing ? "Category updated" : "Category created", {
         description: savedCategory.name,
       })

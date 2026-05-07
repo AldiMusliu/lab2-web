@@ -49,7 +49,8 @@ function normalizeStoredUser(value: unknown): AuthUser | null {
 
   if (
     typeof user.id !== "string" ||
-    typeof user.fullName !== "string" ||
+    typeof user.firstName !== "string" ||
+    typeof user.lastName !== "string" ||
     typeof user.email !== "string" ||
     !isSessionRole(user.role)
   ) {
@@ -57,11 +58,11 @@ function normalizeStoredUser(value: unknown): AuthUser | null {
   }
 
   const [fallbackFirstName = "", ...fallbackLastNameParts] =
-    user.fullName.split(" ")
+    user.firstName.split(" ")
 
   return {
     id: user.id,
-    fullName: user.fullName,
+    fullName: `${user.firstName} ${user.lastName}`,
     firstName:
       typeof user.firstName === "string" ? user.firstName : fallbackFirstName,
     lastName:

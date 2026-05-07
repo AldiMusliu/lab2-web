@@ -4,6 +4,7 @@ import {
   BookCheck,
   BookCopy,
   House,
+  LayoutDashboard,
   LibraryBig,
   Menu,
   UserRound,
@@ -15,6 +16,7 @@ import { cn } from "@/lib/utils"
 
 const navigationItems = [
   { to: "/", label: "Home", icon: House },
+  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/collections", label: "Books", icon: BookCopy },
   { to: "/borrowings", label: "Borrowings", icon: BookCheck },
   { to: "/profile", label: "Profile", icon: UserRound },
