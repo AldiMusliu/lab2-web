@@ -12,6 +12,7 @@ import {
 
 import { MobileSlidePanel } from "@/components/layouts/mobile-slide-panel"
 import { ProtectedRoleSwitch } from "@/components/layouts/protected-role-switch"
+import { NotificationMenu } from "@/features/notifications/_components/notification-menu"
 import { cn } from "@/lib/utils"
 
 const navigationItems = [
@@ -90,7 +91,12 @@ export function Navbar() {
                 />
                 <span>Library member workspace</span>
               </div>
+              <NotificationMenu />
               <ProtectedRoleSwitch />
+            </div>
+
+            <div className="md:hidden">
+              <NotificationMenu />
             </div>
 
             <button
