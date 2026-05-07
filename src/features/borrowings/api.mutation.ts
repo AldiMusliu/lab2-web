@@ -1,12 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-import { bookKeys } from "@/features/books/api.queries"
-import { borrowingKeys } from "@/features/borrowings/api.queries"
-import { httpClient } from "@/lib/http-client"
 import type {
   Borrowing,
   CreateBorrowingInput,
 } from "@/features/borrowings/types"
+import { bookKeys } from "@/features/books/api.queries"
+import { borrowingKeys } from "@/features/borrowings/api.queries"
+import { invalidateDashboardStats } from "@/features/dashboard/api.mutation"
+import { httpClient } from "@/lib/http-client"
 
 export function createBorrowing(payload: CreateBorrowingInput) {
   return httpClient.post<Borrowing>("/borrowings", payload)
@@ -26,6 +27,7 @@ export function useCreateBorrowing() {
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: bookKeys.all })
       void queryClient.invalidateQueries({ queryKey: borrowingKeys.all })
+      void invalidateDashboardStats(queryClient)
     },
   })
 }
@@ -38,6 +40,7 @@ export function useReturnBorrowing() {
     onSuccess: (borrowing) => {
       void queryClient.invalidateQueries({ queryKey: bookKeys.all })
       void queryClient.invalidateQueries({ queryKey: borrowingKeys.all })
+      void invalidateDashboardStats(queryClient)
       queryClient.setQueryData(borrowingKeys.detail(borrowing.id), borrowing)
     },
   })

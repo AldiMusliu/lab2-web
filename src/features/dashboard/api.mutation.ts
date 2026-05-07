@@ -1,7 +1,7 @@
-import { httpClient } from "@/lib/http-client"
-import type { DashboardFilterInput } from "@/features/dashboard/schemas"
-import type { DashboardStats } from "@/features/dashboard/types"
+import type { QueryClient } from "@tanstack/react-query"
 
-export function refreshDashboardStats(payload: DashboardFilterInput) {
-  return httpClient.post<DashboardStats>("/dashboard/stats/refresh", payload)
+import { dashboardKeys } from "@/features/dashboard/api.queries"
+
+export function invalidateDashboardStats(queryClient: QueryClient) {
+  return queryClient.invalidateQueries({ queryKey: dashboardKeys.all })
 }
