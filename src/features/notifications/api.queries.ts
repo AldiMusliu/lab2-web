@@ -45,8 +45,6 @@ export function useNotifications(query?: NotificationQuery) {
   return useQuery({
     queryKey: notificationKeys.list(query),
     queryFn: () => getNotifications(query),
- refetchInterval: 2000,
- 
   })
 }
 

@@ -4,6 +4,7 @@ import {
   LayoutDashboard,
   Tags,
   UserRound,
+  UsersRound,
 } from "lucide-react"
 
 export const protectedNavigationItems = [
@@ -24,6 +25,12 @@ export const protectedNavigationItems = [
     label: "Categories",
     description: "Organize the collection",
     icon: Tags,
+  },
+  {
+    to: "/users",
+    label: "Users",
+    description: "Manage member accounts",
+    icon: UsersRound,
   },
   {
     to: "/borrowings",
