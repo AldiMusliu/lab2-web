@@ -201,12 +201,11 @@ export function NotificationCreateForm({
 }
 
 function getUserSelectLabel(user: User) {
-  const fullName = user.fullName?.trim()
   const splitName = [user.firstName, user.lastName]
     .map((value) => value?.trim())
     .filter(Boolean)
     .join(" ")
-  const displayName = fullName || splitName || user.email || user.id
+  const displayName = splitName || user.email || user.id
 
   if (user.email && user.email !== displayName) {
     return `${displayName} (${user.email})`
