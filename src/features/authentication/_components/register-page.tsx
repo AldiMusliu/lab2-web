@@ -5,12 +5,10 @@ import { Loader2, UserPlus } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
+import type { RegisterFormValues } from "@/features/authentication/schemas"
 import { AuthEntryCard } from "@/features/authentication/_components/auth-entry-card"
 import { register } from "@/features/authentication/api.mutation"
-import {
-  registerFormSchema,
-  type RegisterFormValues,
-} from "@/features/authentication/schemas"
+import { registerFormSchema } from "@/features/authentication/schemas"
 import { ControlledInput } from "@/components/molecules/controlled"
 import { Button } from "@/components/ui/button"
 import { getHttpErrorMessage } from "@/lib/http-client"
@@ -43,13 +41,9 @@ export function RegisterPage() {
       })
       await queryClient.invalidateQueries()
       toast.success("Account created", {
-        description: `Welcome, ${response.user.fullName}.`,
+        description: `Welcome, ${response.user.firstName} ${response.user.lastName}.`,
       })
-      if (response.user.role === "admin") {
-        await navigate({ to: "/dashboard" })
-      } else {
-        await navigate({ to: "/profile" })
-      }
+      await navigate({ to: "/dashboard" })
     },
     onError: (error) => {
       toast.error("Could not create account", {

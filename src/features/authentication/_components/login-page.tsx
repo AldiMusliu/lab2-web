@@ -5,12 +5,10 @@ import { Loader2, LogIn } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
+import type { LoginFormValues } from "@/features/authentication/schemas"
 import { AuthEntryCard } from "@/features/authentication/_components/auth-entry-card"
 import { login } from "@/features/authentication/api.mutation"
-import {
-  loginFormSchema,
-  type LoginFormValues,
-} from "@/features/authentication/schemas"
+import { loginFormSchema } from "@/features/authentication/schemas"
 import { ControlledInput } from "@/components/molecules/controlled"
 import { Button } from "@/components/ui/button"
 import { getHttpErrorMessage } from "@/lib/http-client"
@@ -40,13 +38,9 @@ export function LoginPage() {
       })
       await queryClient.invalidateQueries()
       toast.success("Signed in", {
-        description: `Welcome back, ${response.user.fullName}.`,
+        description: `Welcome back, ${response.user.firstName} ${response.user.lastName}.`,
       })
-      if (response.user.role === "admin") {
-        await navigate({ to: "/dashboard" })
-      } else {
-        await navigate({ to: "/profile" })
-      }
+      await navigate({ to: "/dashboard" })
     },
     onError: (error) => {
       toast.error("Could not sign in", {

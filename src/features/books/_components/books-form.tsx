@@ -1,13 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Link, useNavigate } from "@tanstack/react-router"
-import {
-  ArrowLeft,
-  ImageUp,
-  Loader2,
-  Save,
-  ShieldAlert,
-} from "lucide-react"
+import { ArrowLeft, ImageUp, Loader2, Save, ShieldAlert } from "lucide-react"
 import { useEffect, useMemo } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -18,6 +12,7 @@ import type { BookFormat } from "@/features/books/types"
 import { bookCoverTones, bookFormats } from "@/features/books/types"
 import { createBook, updateBook } from "@/features/books/api.mutation"
 import { bookKeys, getBookById } from "@/features/books/api.queries"
+import { invalidateDashboardStats } from "@/features/dashboard/api.mutation"
 import {
   createCoverImagePath,
   registerLocalBookCoverPreview,
@@ -133,6 +128,7 @@ function BooksForm({ id }: { id?: string }) {
     },
     onSuccess: async (savedBook) => {
       await queryClient.invalidateQueries({ queryKey: bookKeys.all })
+      await invalidateDashboardStats(queryClient)
       queryClient.setQueryData(bookKeys.detail(savedBook.id), savedBook)
       toast.success(isEditing ? "Book updated" : "Book added", {
         description: savedBook.title,
@@ -495,8 +491,8 @@ function BooksForm({ id }: { id?: string }) {
                   Cover preview
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  The image file is previewed here; the backend stores its
-                  cover path.
+                  The image file is previewed here; the backend stores its cover
+                  path.
                 </p>
               </div>
             </div>

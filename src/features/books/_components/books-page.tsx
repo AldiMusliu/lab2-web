@@ -32,6 +32,7 @@ import { columns } from "@/features/books/_components/columns"
 import { deleteBook } from "@/features/books/api.mutation"
 import { bookKeys, getBooks } from "@/features/books/api.queries"
 import { getCategories } from "@/features/categories/api.queries"
+import { invalidateDashboardStats } from "@/features/dashboard/api.mutation"
 import { getHttpErrorMessage } from "@/lib/http-client"
 import { cn } from "@/lib/utils"
 import { useSessionStore } from "@/stores/session.store"
@@ -105,6 +106,7 @@ export function BooksPage() {
     mutationFn: deleteBook,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: bookKeys.all })
+      await invalidateDashboardStats(queryClient)
       toast.success("Book deleted")
     },
     onError: (error) => {
@@ -283,7 +285,10 @@ export function BooksPage() {
                   setCategoryFilter(nextValue ?? "all")
                 }
               >
-                <SelectTrigger id="book-category-filter" className="h-10 w-full">
+                <SelectTrigger
+                  id="book-category-filter"
+                  className="h-10 w-full"
+                >
                   <SelectValue placeholder="All categories" />
                 </SelectTrigger>
                 <SelectContent align="start">
@@ -336,9 +341,7 @@ export function BooksPage() {
               <Select
                 items={sortOptions}
                 value={sortMode}
-                onValueChange={(nextValue) =>
-                  setSortMode(nextValue ?? "title")
-                }
+                onValueChange={(nextValue) => setSortMode(nextValue ?? "title")}
               >
                 <SelectTrigger id="book-sort-filter" className="h-10 w-full">
                   <SelectValue placeholder="Title" />

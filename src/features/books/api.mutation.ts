@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import type { Book, UpsertBookInput } from "@/features/books/types"
 import { bookKeys } from "@/features/books/api.queries"
+import { invalidateDashboardStats } from "@/features/dashboard/api.mutation"
 import { httpClient } from "@/lib/http-client"
 
 export function createBook(payload: UpsertBookInput) {
@@ -23,6 +24,7 @@ export function useCreateBook() {
     mutationFn: createBook,
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: bookKeys.all })
+      void invalidateDashboardStats(queryClient)
     },
   })
 }
@@ -40,6 +42,7 @@ export function useUpdateBook() {
     }) => updateBook(bookId, payload),
     onSuccess: (book) => {
       void queryClient.invalidateQueries({ queryKey: bookKeys.all })
+      void invalidateDashboardStats(queryClient)
       queryClient.setQueryData(bookKeys.detail(book.id), book)
     },
   })
@@ -52,6 +55,7 @@ export function useDeleteBook() {
     mutationFn: deleteBook,
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: bookKeys.all })
+      void invalidateDashboardStats(queryClient)
     },
   })
 }
