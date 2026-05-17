@@ -256,10 +256,28 @@ function DataTable<TData, TValue>({
                               "sticky right-0 z-10 shadow-[-1px_0_0_0_var(--border)]"
                           )}
                         >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
+                          {(() => {
+                            const content = flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )
+
+                            // Truncate long description text to keep table layout stable.
+                            // Applies to columns with id 'description' or accessorKey 'description'.
+                            const colId = cell.column.id
+                            const accessorKey = (cell.column.columnDef as any)
+                              .accessorKey
+                            const isDescriptionCol =
+                              colId === 'description' || accessorKey === 'description'
+
+                            return isDescriptionCol ? (
+                              <div className="max-w-[60ch] max-h-28 overflow-auto p-2 rounded-md border bg-muted/50 text-sm whitespace-pre-wrap break-words">
+                                {content}
+                              </div>
+                            ) : (
+                              content
+                            )
+                          })()}
                         </TableCell>
                       )
                     })}

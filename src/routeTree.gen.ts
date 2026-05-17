@@ -20,7 +20,10 @@ import { Route as PublicLayoutOurMissionIndexRouteImport } from './routes/_publi
 import { Route as PublicLayoutCollectionsIndexRouteImport } from './routes/_publicLayout/collections/index'
 import { Route as PublicLayoutAboutUsIndexRouteImport } from './routes/_publicLayout/about-us/index'
 import { Route as ProtectedLayoutUsersIndexRouteImport } from './routes/_protectedLayout/users/index'
+import { Route as ProtectedLayoutShkollaIndexRouteImport } from './routes/_protectedLayout/shkolla/index'
 import { Route as ProtectedLayoutProfileIndexRouteImport } from './routes/_protectedLayout/profile/index'
+import { Route as ProtectedLayoutGroupIndexRouteImport } from './routes/_protectedLayout/group/index'
+import { Route as ProtectedLayoutDepartmentIndexRouteImport } from './routes/_protectedLayout/department/index'
 import { Route as ProtectedLayoutDashboardIndexRouteImport } from './routes/_protectedLayout/dashboard/index'
 import { Route as ProtectedLayoutCategoriesIndexRouteImport } from './routes/_protectedLayout/categories/index'
 import { Route as ProtectedLayoutBorrowingsIndexRouteImport } from './routes/_protectedLayout/borrowings/index'
@@ -86,10 +89,28 @@ const ProtectedLayoutUsersIndexRoute =
     path: '/users/',
     getParentRoute: () => ProtectedLayoutRoute,
   } as any)
+const ProtectedLayoutShkollaIndexRoute =
+  ProtectedLayoutShkollaIndexRouteImport.update({
+    id: '/shkolla/',
+    path: '/shkolla/',
+    getParentRoute: () => ProtectedLayoutRoute,
+  } as any)
 const ProtectedLayoutProfileIndexRoute =
   ProtectedLayoutProfileIndexRouteImport.update({
     id: '/profile/',
     path: '/profile/',
+    getParentRoute: () => ProtectedLayoutRoute,
+  } as any)
+const ProtectedLayoutGroupIndexRoute =
+  ProtectedLayoutGroupIndexRouteImport.update({
+    id: '/group/',
+    path: '/group/',
+    getParentRoute: () => ProtectedLayoutRoute,
+  } as any)
+const ProtectedLayoutDepartmentIndexRoute =
+  ProtectedLayoutDepartmentIndexRouteImport.update({
+    id: '/department/',
+    path: '/department/',
     getParentRoute: () => ProtectedLayoutRoute,
   } as any)
 const ProtectedLayoutDashboardIndexRoute =
@@ -143,7 +164,10 @@ export interface FileRoutesByFullPath {
   '/borrowings/': typeof ProtectedLayoutBorrowingsIndexRoute
   '/categories/': typeof ProtectedLayoutCategoriesIndexRoute
   '/dashboard/': typeof ProtectedLayoutDashboardIndexRoute
+  '/department/': typeof ProtectedLayoutDepartmentIndexRoute
+  '/group/': typeof ProtectedLayoutGroupIndexRoute
   '/profile/': typeof ProtectedLayoutProfileIndexRoute
+  '/shkolla/': typeof ProtectedLayoutShkollaIndexRoute
   '/users/': typeof ProtectedLayoutUsersIndexRoute
   '/about-us/': typeof PublicLayoutAboutUsIndexRoute
   '/collections/': typeof PublicLayoutCollectionsIndexRoute
@@ -161,7 +185,10 @@ export interface FileRoutesByTo {
   '/borrowings': typeof ProtectedLayoutBorrowingsIndexRoute
   '/categories': typeof ProtectedLayoutCategoriesIndexRoute
   '/dashboard': typeof ProtectedLayoutDashboardIndexRoute
+  '/department': typeof ProtectedLayoutDepartmentIndexRoute
+  '/group': typeof ProtectedLayoutGroupIndexRoute
   '/profile': typeof ProtectedLayoutProfileIndexRoute
+  '/shkolla': typeof ProtectedLayoutShkollaIndexRoute
   '/users': typeof ProtectedLayoutUsersIndexRoute
   '/about-us': typeof PublicLayoutAboutUsIndexRoute
   '/collections': typeof PublicLayoutCollectionsIndexRoute
@@ -183,7 +210,10 @@ export interface FileRoutesById {
   '/_protectedLayout/borrowings/': typeof ProtectedLayoutBorrowingsIndexRoute
   '/_protectedLayout/categories/': typeof ProtectedLayoutCategoriesIndexRoute
   '/_protectedLayout/dashboard/': typeof ProtectedLayoutDashboardIndexRoute
+  '/_protectedLayout/department/': typeof ProtectedLayoutDepartmentIndexRoute
+  '/_protectedLayout/group/': typeof ProtectedLayoutGroupIndexRoute
   '/_protectedLayout/profile/': typeof ProtectedLayoutProfileIndexRoute
+  '/_protectedLayout/shkolla/': typeof ProtectedLayoutShkollaIndexRoute
   '/_protectedLayout/users/': typeof ProtectedLayoutUsersIndexRoute
   '/_publicLayout/about-us/': typeof PublicLayoutAboutUsIndexRoute
   '/_publicLayout/collections/': typeof PublicLayoutCollectionsIndexRoute
@@ -203,7 +233,10 @@ export interface FileRouteTypes {
     | '/borrowings/'
     | '/categories/'
     | '/dashboard/'
+    | '/department/'
+    | '/group/'
     | '/profile/'
+    | '/shkolla/'
     | '/users/'
     | '/about-us/'
     | '/collections/'
@@ -221,7 +254,10 @@ export interface FileRouteTypes {
     | '/borrowings'
     | '/categories'
     | '/dashboard'
+    | '/department'
+    | '/group'
     | '/profile'
+    | '/shkolla'
     | '/users'
     | '/about-us'
     | '/collections'
@@ -242,7 +278,10 @@ export interface FileRouteTypes {
     | '/_protectedLayout/borrowings/'
     | '/_protectedLayout/categories/'
     | '/_protectedLayout/dashboard/'
+    | '/_protectedLayout/department/'
+    | '/_protectedLayout/group/'
     | '/_protectedLayout/profile/'
+    | '/_protectedLayout/shkolla/'
     | '/_protectedLayout/users/'
     | '/_publicLayout/about-us/'
     | '/_publicLayout/collections/'
@@ -338,11 +377,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedLayoutUsersIndexRouteImport
       parentRoute: typeof ProtectedLayoutRoute
     }
+    '/_protectedLayout/shkolla/': {
+      id: '/_protectedLayout/shkolla/'
+      path: '/shkolla'
+      fullPath: '/shkolla/'
+      preLoaderRoute: typeof ProtectedLayoutShkollaIndexRouteImport
+      parentRoute: typeof ProtectedLayoutRoute
+    }
     '/_protectedLayout/profile/': {
       id: '/_protectedLayout/profile/'
       path: '/profile'
       fullPath: '/profile/'
       preLoaderRoute: typeof ProtectedLayoutProfileIndexRouteImport
+      parentRoute: typeof ProtectedLayoutRoute
+    }
+    '/_protectedLayout/group/': {
+      id: '/_protectedLayout/group/'
+      path: '/group'
+      fullPath: '/group/'
+      preLoaderRoute: typeof ProtectedLayoutGroupIndexRouteImport
+      parentRoute: typeof ProtectedLayoutRoute
+    }
+    '/_protectedLayout/department/': {
+      id: '/_protectedLayout/department/'
+      path: '/department'
+      fullPath: '/department/'
+      preLoaderRoute: typeof ProtectedLayoutDepartmentIndexRouteImport
       parentRoute: typeof ProtectedLayoutRoute
     }
     '/_protectedLayout/dashboard/': {
@@ -416,7 +476,10 @@ interface ProtectedLayoutRouteChildren {
   ProtectedLayoutBorrowingsIndexRoute: typeof ProtectedLayoutBorrowingsIndexRoute
   ProtectedLayoutCategoriesIndexRoute: typeof ProtectedLayoutCategoriesIndexRoute
   ProtectedLayoutDashboardIndexRoute: typeof ProtectedLayoutDashboardIndexRoute
+  ProtectedLayoutDepartmentIndexRoute: typeof ProtectedLayoutDepartmentIndexRoute
+  ProtectedLayoutGroupIndexRoute: typeof ProtectedLayoutGroupIndexRoute
   ProtectedLayoutProfileIndexRoute: typeof ProtectedLayoutProfileIndexRoute
+  ProtectedLayoutShkollaIndexRoute: typeof ProtectedLayoutShkollaIndexRoute
   ProtectedLayoutUsersIndexRoute: typeof ProtectedLayoutUsersIndexRoute
   ProtectedLayoutBooksIdIndexRoute: typeof ProtectedLayoutBooksIdIndexRoute
   ProtectedLayoutBooksAddIndexRoute: typeof ProtectedLayoutBooksAddIndexRoute
@@ -427,7 +490,10 @@ const ProtectedLayoutRouteChildren: ProtectedLayoutRouteChildren = {
   ProtectedLayoutBorrowingsIndexRoute: ProtectedLayoutBorrowingsIndexRoute,
   ProtectedLayoutCategoriesIndexRoute: ProtectedLayoutCategoriesIndexRoute,
   ProtectedLayoutDashboardIndexRoute: ProtectedLayoutDashboardIndexRoute,
+  ProtectedLayoutDepartmentIndexRoute: ProtectedLayoutDepartmentIndexRoute,
+  ProtectedLayoutGroupIndexRoute: ProtectedLayoutGroupIndexRoute,
   ProtectedLayoutProfileIndexRoute: ProtectedLayoutProfileIndexRoute,
+  ProtectedLayoutShkollaIndexRoute: ProtectedLayoutShkollaIndexRoute,
   ProtectedLayoutUsersIndexRoute: ProtectedLayoutUsersIndexRoute,
   ProtectedLayoutBooksIdIndexRoute: ProtectedLayoutBooksIdIndexRoute,
   ProtectedLayoutBooksAddIndexRoute: ProtectedLayoutBooksAddIndexRoute,
