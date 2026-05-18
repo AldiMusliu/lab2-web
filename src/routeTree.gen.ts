@@ -23,6 +23,7 @@ import { Route as ProtectedLayoutUsersIndexRouteImport } from './routes/_protect
 import { Route as ProtectedLayoutShkollaIndexRouteImport } from './routes/_protectedLayout/shkolla/index'
 import { Route as ProtectedLayoutProfileIndexRouteImport } from './routes/_protectedLayout/profile/index'
 import { Route as ProtectedLayoutGroupIndexRouteImport } from './routes/_protectedLayout/group/index'
+import { Route as ProtectedLayoutFriendIndexRouteImport } from './routes/_protectedLayout/friend/index'
 import { Route as ProtectedLayoutDepartmentIndexRouteImport } from './routes/_protectedLayout/department/index'
 import { Route as ProtectedLayoutDashboardIndexRouteImport } from './routes/_protectedLayout/dashboard/index'
 import { Route as ProtectedLayoutCategoriesIndexRouteImport } from './routes/_protectedLayout/categories/index'
@@ -107,6 +108,12 @@ const ProtectedLayoutGroupIndexRoute =
     path: '/group/',
     getParentRoute: () => ProtectedLayoutRoute,
   } as any)
+const ProtectedLayoutFriendIndexRoute =
+  ProtectedLayoutFriendIndexRouteImport.update({
+    id: '/friend/',
+    path: '/friend/',
+    getParentRoute: () => ProtectedLayoutRoute,
+  } as any)
 const ProtectedLayoutDepartmentIndexRoute =
   ProtectedLayoutDepartmentIndexRouteImport.update({
     id: '/department/',
@@ -165,6 +172,7 @@ export interface FileRoutesByFullPath {
   '/categories/': typeof ProtectedLayoutCategoriesIndexRoute
   '/dashboard/': typeof ProtectedLayoutDashboardIndexRoute
   '/department/': typeof ProtectedLayoutDepartmentIndexRoute
+  '/friend/': typeof ProtectedLayoutFriendIndexRoute
   '/group/': typeof ProtectedLayoutGroupIndexRoute
   '/profile/': typeof ProtectedLayoutProfileIndexRoute
   '/shkolla/': typeof ProtectedLayoutShkollaIndexRoute
@@ -186,6 +194,7 @@ export interface FileRoutesByTo {
   '/categories': typeof ProtectedLayoutCategoriesIndexRoute
   '/dashboard': typeof ProtectedLayoutDashboardIndexRoute
   '/department': typeof ProtectedLayoutDepartmentIndexRoute
+  '/friend': typeof ProtectedLayoutFriendIndexRoute
   '/group': typeof ProtectedLayoutGroupIndexRoute
   '/profile': typeof ProtectedLayoutProfileIndexRoute
   '/shkolla': typeof ProtectedLayoutShkollaIndexRoute
@@ -211,6 +220,7 @@ export interface FileRoutesById {
   '/_protectedLayout/categories/': typeof ProtectedLayoutCategoriesIndexRoute
   '/_protectedLayout/dashboard/': typeof ProtectedLayoutDashboardIndexRoute
   '/_protectedLayout/department/': typeof ProtectedLayoutDepartmentIndexRoute
+  '/_protectedLayout/friend/': typeof ProtectedLayoutFriendIndexRoute
   '/_protectedLayout/group/': typeof ProtectedLayoutGroupIndexRoute
   '/_protectedLayout/profile/': typeof ProtectedLayoutProfileIndexRoute
   '/_protectedLayout/shkolla/': typeof ProtectedLayoutShkollaIndexRoute
@@ -234,6 +244,7 @@ export interface FileRouteTypes {
     | '/categories/'
     | '/dashboard/'
     | '/department/'
+    | '/friend/'
     | '/group/'
     | '/profile/'
     | '/shkolla/'
@@ -255,6 +266,7 @@ export interface FileRouteTypes {
     | '/categories'
     | '/dashboard'
     | '/department'
+    | '/friend'
     | '/group'
     | '/profile'
     | '/shkolla'
@@ -279,6 +291,7 @@ export interface FileRouteTypes {
     | '/_protectedLayout/categories/'
     | '/_protectedLayout/dashboard/'
     | '/_protectedLayout/department/'
+    | '/_protectedLayout/friend/'
     | '/_protectedLayout/group/'
     | '/_protectedLayout/profile/'
     | '/_protectedLayout/shkolla/'
@@ -398,6 +411,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedLayoutGroupIndexRouteImport
       parentRoute: typeof ProtectedLayoutRoute
     }
+    '/_protectedLayout/friend/': {
+      id: '/_protectedLayout/friend/'
+      path: '/friend'
+      fullPath: '/friend/'
+      preLoaderRoute: typeof ProtectedLayoutFriendIndexRouteImport
+      parentRoute: typeof ProtectedLayoutRoute
+    }
     '/_protectedLayout/department/': {
       id: '/_protectedLayout/department/'
       path: '/department'
@@ -477,6 +497,7 @@ interface ProtectedLayoutRouteChildren {
   ProtectedLayoutCategoriesIndexRoute: typeof ProtectedLayoutCategoriesIndexRoute
   ProtectedLayoutDashboardIndexRoute: typeof ProtectedLayoutDashboardIndexRoute
   ProtectedLayoutDepartmentIndexRoute: typeof ProtectedLayoutDepartmentIndexRoute
+  ProtectedLayoutFriendIndexRoute: typeof ProtectedLayoutFriendIndexRoute
   ProtectedLayoutGroupIndexRoute: typeof ProtectedLayoutGroupIndexRoute
   ProtectedLayoutProfileIndexRoute: typeof ProtectedLayoutProfileIndexRoute
   ProtectedLayoutShkollaIndexRoute: typeof ProtectedLayoutShkollaIndexRoute
@@ -491,6 +512,7 @@ const ProtectedLayoutRouteChildren: ProtectedLayoutRouteChildren = {
   ProtectedLayoutCategoriesIndexRoute: ProtectedLayoutCategoriesIndexRoute,
   ProtectedLayoutDashboardIndexRoute: ProtectedLayoutDashboardIndexRoute,
   ProtectedLayoutDepartmentIndexRoute: ProtectedLayoutDepartmentIndexRoute,
+  ProtectedLayoutFriendIndexRoute: ProtectedLayoutFriendIndexRoute,
   ProtectedLayoutGroupIndexRoute: ProtectedLayoutGroupIndexRoute,
   ProtectedLayoutProfileIndexRoute: ProtectedLayoutProfileIndexRoute,
   ProtectedLayoutShkollaIndexRoute: ProtectedLayoutShkollaIndexRoute,
