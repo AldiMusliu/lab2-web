@@ -49,8 +49,18 @@ type ShkollaFormValues = z.infer<typeof shkollaSchema>
 import withActionsColumn from '@/lib/table-utils'
 
 const baseColumns = [
-  // show a simple 1-based row number instead of the UUID hash
-  { id: 'index', header: 'ID', cell: (info: any) => String(info.row.index + 1) },
+  // numeric 1-based row index for easy scanning
+  { id: 'index', header: 'No.', cell: (info: any) => String(info.row.index + 1) },
+  // show the UUID (truncated) with full value on hover
+  {
+    id: 'shkolla_id',
+    header: 'ID',
+    cell: (info: any) => (
+      <span title={info.row.original.shkolla_id}>
+        {String(info.row.original.shkolla_id ?? '').slice(0, 8)}
+      </span>
+    ),
+  },
   { accessorKey: 'shkolla_name', header: 'Emri i Shkolles ' },
   { accessorKey: 'description', header: 'Pershkrimi' },
 ] as const

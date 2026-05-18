@@ -49,8 +49,18 @@ type GroupFormValues = z.infer<typeof groupSchema>
 import withActionsColumn from '@/lib/table-utils'
 
 const baseColumns = [
-  // show a simple 1-based row number instead of the UUID hash
-  { id: 'index', header: 'ID', cell: (info: any) => String(info.row.index + 1) },
+  // numeric 1-based row index for easy scanning
+  { id: 'index', header: 'No.', cell: (info: any) => String(info.row.index + 1) },
+  // show the UUID (truncated) with full value on hover
+  {
+    id: 'group_id',
+    header: 'ID',
+    cell: (info: any) => (
+      <span title={info.row.original.group_id}>
+        {String(info.row.original.group_id ?? '').slice(0, 8)}
+      </span>
+    ),
+  },
   { accessorKey: 'group_name', header: 'Emri i Grupit ' },
   { accessorKey: 'description', header: 'Pershkrimi' },
 ] as const
